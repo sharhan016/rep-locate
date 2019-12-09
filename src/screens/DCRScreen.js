@@ -37,7 +37,6 @@ class DCRScreen extends Component {
     }
 
     getData(){
-        Geocoder.init("AIzaSyCgXoHLYMyUQu55vQ9rw4WPJGZfqoQBmvE");
 
         //Geocoder.getFromLatLng(41.89, 12.49)
         Geocoder.from(41.89, 12.49)
@@ -50,7 +49,7 @@ class DCRScreen extends Component {
 
     componentDidMount = () => {
         var that =this;
-        //Geocoder.init("AIzaSyCgXoHLYMyUQu55vQ9rw4WPJGZfqoQBmvE");
+ 
           async function requestLocationPermission() {
             try {
               const granted = await PermissionsAndroid.request(
