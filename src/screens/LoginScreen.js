@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, Dimensions } from 'react-native';
 import colors from "../config/colors";
 import FormTextInput from '../components/FormTextInput';
+import RadioForm from 'react-native-simple-radio-button';
+
+var radio_props = [
+    { label: 'Representative    ', value: 0 },
+    { label: 'Manager', value: 1 }
+];
+const screenWidth = Math.round(Dimensions.get('window').width) - 10;
 
 class LoginScreen extends Component {
+    
     static navigationOptions = {
         header: null
     }
     state = { 
         email: '',
         password: '',
+        value: ''
      }
     handleClick = () => {
         console.log('clicked register')
@@ -26,6 +35,7 @@ class LoginScreen extends Component {
         // handle post request here
         this.props.navigation.navigate('Dashboard')
     }
+
     render() {
         return (
 
@@ -49,16 +59,39 @@ class LoginScreen extends Component {
           value={this.state.password}
         />
         <View style={styles.padding}></View>
-
+            <View style={styles.radioField}>
+        <RadioForm
+                    radio_props={radio_props}
+                    initial={0}
+                    formHorizontal={true}
+                    animation={false}
+                    buttonColor={colors.MISCHKA}
+                    selectedButtonColor= {colors.GREENISH}
+                    onPress={(value) => { 
+                        if(value == 1) {
+                        this.setState({ 
+                            value: value,
+                         }) } else {
+                             this.setState({
+                                 value: value,
+                             })
+                         }
+                    
+                    }}
+                />
+                </View>
+                <View style={styles.padding}></View>
         <View>
                 <Button onPress={this.submitButton} title='Submit' />
         </View> 
         <View style={styles.padding}></View>
         <TouchableOpacity onPress={this.handleClick} >
-        <Text>New user? Register here</Text>
+        <Text style={{fontSize: 16, textDecorationLine:'underline'}}>New user? Register here</Text>
         </TouchableOpacity>
 
-                <Text>{this.state.email}</Text>
+         <Text>{this.state.email}</Text>
+
+        
 
       </View>
 
@@ -76,7 +109,12 @@ const styles = StyleSheet.create({
         //backgroundColor:'#E7E2C5'
     },
     text: {fontSize: 25},
-    padding: { padding: 10 }
+    padding: { padding: 10 },
+    radioField: {flexDirection:'row',
+    alignItems: 'center',
+     justifyContent: 'center',
+     width: screenWidth
+    }
 });
 
 export default LoginScreen;

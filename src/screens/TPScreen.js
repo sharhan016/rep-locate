@@ -11,18 +11,45 @@ class TPScreen extends Component {
         this.state = {
             selectedStartDate: null,
             isAlertVisible: false,
-            post: ''
+            post: '',
+            data: []
         };
         this.onDateChange = this.onDateChange.bind(this);
-        this.storeItem = this.storeItem.bind(this);
-        this.getMyValue = this.getMyValue.bind(this);
+        //this.storeItem = this.storeItem.bind(this);
+        //this.getMyValue = this.getMyValue.bind(this);
     }
     onDateChange(date) {
         this.setState({ selectedStartDate: date })
     }
 
+    getDataFromStorage = async () =>{
+        let keys = ['01','02','03','04','05','06','07','08','09','10'];
+        //if (this.state.data.length > 1)
+        //this.setState({data: []});
+        AsyncStorage.multiGet(keys,(err,stores) => {
+            stores.map((result,i,store) => {
+                let key = store[i][0];
+                let value = store[i][1];
+                let multiget = result;
+                //console.log('result ',result);
+                //console.log('key, value ',key,value);
+                //let data = [];
+                this.state.data.push(multiget);
+            })
+        })
+        console.log('length of data ',this.state.data.length);
+        console.log(this.state.data);
+    }
+    storeItem = async (key, item) => {
+        try{
+          var jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
+          return jsonOfItem;
+        }
+        catch(error){
+          console.log('Storing error '+ error)
+        }
+    }
 
-    
 
     submit(inputText) {
         const { selectedStartDate } = this.state;
@@ -40,36 +67,21 @@ class TPScreen extends Component {
         //console.log('StoreData ' +storeData);
         this.setState({ isAlertVisible: false, })
     }
-    /*
-            getMyValue = async () => {
-              //  let i;
-               // for(i=00; i < 30; i++){
-            try {
-              var value = await AsyncStorage.getItem('key');
-              console.log(value);
-              return value;
-            } catch(e) {
-                console.log('Storing error '+ e)
-            }
-          
-            //console.log('Done. ' + getMyValue);
-          
-          } 
-    */
 
-    getMyValue = async () => {
-        //for (let i=0; i < 9; i++){
-        try {
-            //var value = await AsyncStorage.getItem('0'+i.toString);
-            var value = await AsyncStorage.getItem('01');
-            console.log(value);
-        } catch (error) {
-            console.log(error);
-        }
-    //}
-        //return value;
 
-    }
+    // getMyValue = async () => {
+    //     //for (let i=0; i < 9; i++){
+    //     try {
+    //         //var value = await AsyncStorage.getItem('0'+i.toString);
+    //         var value = await AsyncStorage.getItem('01');
+    //         console.log(value);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // //}
+    //     //return value;
+
+    // }
 
 
     render() {
@@ -97,7 +109,7 @@ class TPScreen extends Component {
                 <View style={{ height: 30 }} ></View>
 
                 <Button title="Retrieve"
-                    onPress={() => this.getMyValue()}
+                    onPress={() => this.getDataFromStorage()}
                 />
                 {/* <View style={{ height: 30 }} ></View>
                 <Button title="test"

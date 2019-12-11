@@ -53,9 +53,9 @@ class RegisterScreen extends Component {
         <View>
                 <Button onPress={() => { console.log('Button clicked');  }} title='Submit' />
         </View> 
-        <View style={styles.padding}></View>
+        <View style={{height: 20}}></View>
         <TouchableOpacity onPress={this.handleClick} >
-        <Text>Already registered? Login here</Text>
+        <Text style={{fontSize: 16, textDecorationLine:'underline'}}>Already registered? Login here</Text>
         </TouchableOpacity>
 
 
@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.ALMOND,
 
-    }
+    },
+
 });
 
 export default RegisterScreen;

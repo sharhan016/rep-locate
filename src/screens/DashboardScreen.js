@@ -1,44 +1,79 @@
 import React, { Component } from 'react';
-import { View, Text, Button,StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import Button from '../components/Button';
 import colors from "../config/colors";
 
+
 class DashboardScreen extends Component {
-    state = {  }
-    goToDCR = () => {
+    state = {}
+    goToDoctor = () => {
+        this.props.navigation.push('DCR', {
+            id: '01',
+        });
+    }
+
+    goToChemist = () => {
         this.props.navigation.navigate('DCR', {
-            otherParam: 'DCR',
-          });
+            id: '02',
+        });
     }
-    goToTP = () => {
-        this.props.navigation.navigate('TourPlan', {
-            otherParam: 'DCR',
-          });
+
+    goToStockist = () => {
+        this.props.navigation.navigate('DCR', {
+            id: '03',
+        });
     }
+
     render() {
         return (
             <View style={styles.container}>
-                <Text>
-                    Welcome to Dashboard Seperate
-                </Text>
+                <Button style={styles.btnStyle} label='Doctor' onPress={this.goToDoctor} />
                 <View style={{ height: 30 }} ></View>
-                <Button title='Submit DCR' onPress={this.goToDCR} />
+                <Button style={styles.btnStyle} label='Chemist' onPress={this.goToChemist} />
                 <View style={{ height: 30 }} ></View>
-                <Button title='Submit TP' onPress={this.goToTP} />
+                <Button style={styles.btnStyle} label='Stockist' onPress={this.goToStockist} />
+                <View style={{ height: 30 }} ></View>
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container : {
+    container: {
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
         backgroundColor: colors.ALMOND
         //backgroundColor:'#E7E2C5'
     },
-    text: {fontSize: 25},
-    padding: { padding: 10 }
+    text: { fontSize: 25 },
+    padding: { padding: 10 },
+    btnStyle: { width: "80%" }
 });
 
 export default DashboardScreen;
+
+/*
+
+
+  <View style={{ height: 30 }} ></View>
+                <Button title='Submit DCR' onPress={this.goToDCR} />
+                <View style={{ height: 30 }} ></View>
+                <Button title='Submit TP' onPress={this.goToTP} />
+                <View style={{ height: 30 }} ></View>
+                <Button style={{width: "100%"}} title='    Mails    ' onPress={this.goToMail}></Button>
+                <View style={{ height: 50 }} ></View>
+
+
+
+
+    }
+    goToTP = () => {
+        this.props.navigation.navigate('TourPlan', {
+            otherParam: 'DCR',
+          });
+    }
+    goToMail = () => {
+        this.props.navigation.navigate('Mail');
+    }
+*/

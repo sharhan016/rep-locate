@@ -76,7 +76,7 @@ class DCRScreen extends Component {
        submitButton = () => {
            if(this.state.granted == true){
                this.setState({fetching: true});
-               this.callLocation(this);
+               this.getLatLng(this);
            }
            //if(this.state.fetching)
        }
@@ -86,7 +86,7 @@ class DCRScreen extends Component {
             this.getData();
        }
 
-       callLocation(that){
+       getLatLng(that){
         //alert("callLocation Called");
         Geolocation.getCurrentPosition(
              (position) => {
@@ -98,13 +98,8 @@ class DCRScreen extends Component {
              (error) => alert(error.message),
              { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
           );
+          console.log(this.state.currentLatitude , this.state.currentLongitude)
 
-        //   Geocoder.from(41.89, 12.49)
-		// .then(json => {
-        // 		var addressComponent = json.results[0].address_components[0];
-		// 	console.log(addressComponent);
-		// })
-		// .catch(error => console.warn(error));
        }
 
 
@@ -184,9 +179,10 @@ class DCRScreen extends Component {
                     <Button title='Submit' onPress={this.submitButton}/>
                 </View>
                 
-                <View style={{padding: 20,margin: 10}}>
-                    <Button title='Temp' onPress={this.tmpbtn}/>
-                </View>
+                <Text style={{fontSize: 20}} >
+                    itemId: {this.props.navigation.getParam('id', 'No-ID')}
+          {/*itemId: {JSON.stringify(navigation.getParam('itemId', 'NO-ID'))} */}
+        </Text>
 
             </View>
 
