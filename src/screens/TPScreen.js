@@ -81,13 +81,18 @@ class TPScreen extends Component {
             text: belt
         }
         console.log('GlobalState', this.props.state);
-        this.props.dispatch({ type: 'ADD_EVENT', belt });
-        this.setState({belt:'',selectedStartDate: null});
-        // date in day wise eg: 02
-        // && holiday == false
-        //this.storeItem(date, belt);
+        this.props.dispatch({ type: 'ADD_EVENT', text });
+        this.clear();
+        
  
+    }
 
+    clear = () => {
+        this.setState({
+            belt: '',
+            selectedStartDate: null
+        });
+        console.log('belt and date ',this.state.belt)
     }
 
     // storeItem = async (key, item) => {

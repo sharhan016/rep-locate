@@ -1,14 +1,14 @@
-const INITIAL_STATE = {
-    id: 0,
-    date: '02',
-    event: 'tly',
-    holiday: false,
+// const INITIAL_STATE = {
+//     id: 0,
+//     date: '02',
+//     event: 'tly',
+//     holiday: false,
     
-  };
+//   };
 
 import { addEvent } from '../actions/index';
 
-const events = (state= INITIAL_STATE, action) => {
+const events = (state= [], action) => {
    
     switch(action.type){
         

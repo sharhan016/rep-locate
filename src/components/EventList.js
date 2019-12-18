@@ -40,17 +40,3 @@ const styles = StyleSheet.create({
     }
 });
 
-
-
-
-//import EventList from '../components/EventList'
-
-
-
-
-
-{/* <View >
-        {events.map( event => {
-            <Text> {event.event} </Text>
-        })}
-    </View> */}
