@@ -163,3 +163,28 @@ export default class Home extends Component {
     );
   }
 }
+
+
+/*
+
+
+const listData = [ ];
+let keys = await AsyncStorage.getAllKeys();
+keys.forEach(async function(inKey) {
+  const person = await AsyncStorage.getItem(inKey);
+  person.key = inKey;
+  console.log(new Date().getTime(), "person", person);
+  listData.push(person);
+  console.log(new Date().getTime(), "pushed");
+});
+console.log(new Date().getTime(), listData);
+this.setState({ data : listData });
+
+
+
+ keys.forEach(async function(inKey) {
+    const person = await AsyncStorage.getItem(inKey);
+    listData.push(JSON.parse(person));
+  });
+
+*/

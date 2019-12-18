@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, TextInput, TextInputProps } from "react-native";
+import { StyleSheet, TextInput, TextInputProps,Dimensions } from "react-native";
 import colors from "../config/colors";
 
 
-
+const ScreenWidth = Dimensions.get('screen').width - 50;
 class FormTextInput extends Component {
   render() {
     const { style, ...otherProps } = this.props;
@@ -22,13 +22,13 @@ const styles = StyleSheet.create({
     height: 50,
     borderColor: colors.BLACK,
     //borderColor: colors.SILVER,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderRadius: 5,
-    width: "80%",
-    borderTopWidth:  StyleSheet.hairlineWidth,
-    borderLeftWidth: StyleSheet.hairlineWidth,
-    borderRightWidth: StyleSheet.hairlineWidth,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    width: ScreenWidth,
+    // borderTopWidth:  StyleSheet.hairlineWidth,
+    // borderLeftWidth: StyleSheet.hairlineWidth,
+    // borderRightWidth: StyleSheet.hairlineWidth,
+    //borderBottomWidth: StyleSheet.hairlineWidth,
     marginBottom: 20
   }
 });

@@ -12,6 +12,9 @@ var radio_props = [
 ];
 
 class DCRScreen extends Component {
+    static navigationOptions = {
+        title: 'DCR',
+      };
     constructor(props) {
         super(props);
         this.state = {

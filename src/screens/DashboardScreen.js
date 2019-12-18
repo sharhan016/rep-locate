@@ -1,11 +1,28 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { StatusBar } from 'react-native'
 import Button from '../components/Button';
+
 import colors from "../config/colors";
 
 
 class DashboardScreen extends Component {
     state = {}
+    static navigationOptions = {
+        title: 'Dashboard',
+      };
+    // static navigationOptions = {
+    //     title: 'Home',
+    //     headerTintColor: '#ffffff',
+    //     headerStyle: {
+    //       backgroundColor: '#2F95D6',
+    //       borderBottomColor: '#ffffff',
+    //       borderBottomWidth: 3,
+    //     },
+    //     headerTitleStyle: {
+    //       fontSize: 18,
+    //     },
+    //};
     goToDoctor = () => {
         this.props.navigation.push('DCR', {
             id: '01',
@@ -26,7 +43,9 @@ class DashboardScreen extends Component {
 
     render() {
         return (
+            
             <View style={styles.container}>
+                <StatusBar barStyle = "light-content" hidden = {false} backgroundColor = "#324192"/>
                 <Button style={styles.btnStyle} label='Doctor' onPress={this.goToDoctor} />
                 <View style={{ height: 30 }} ></View>
                 <Button style={styles.btnStyle} label='Chemist' onPress={this.goToChemist} />
@@ -43,7 +62,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        backgroundColor: colors.ALMOND
+        backgroundColor: colors.WHITE
         //backgroundColor:'#E7E2C5'
     },
     text: { fontSize: 25 },

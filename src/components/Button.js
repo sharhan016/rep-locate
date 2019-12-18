@@ -9,7 +9,7 @@ class Button extends Component {
     const { style, label, onPress } = this.props;
     return (
       <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
-        <Text style={styles.text}>{label}</Text>
+        <Text style={[styles.text,style]}>{label}</Text>
       </TouchableOpacity>
     );
   }
@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
   text: {
     color: colors.WHITE,
     textAlign: "center",
-    height: 20
+    height: 20,
+   
   }
 });
 
