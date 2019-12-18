@@ -1,25 +1,36 @@
 import React from "react";
-import { 
-    View,
-    Text,
-    StyleSheet,
-    Button
-} from "react-native";
+import { View,Text,StyleSheet,Button} from "react-native";
+import {connect} from 'react-redux';
 import DisplayEvents from '../containers/DisplayEvents';
-
+import store from '../store/index';
 
 const EventList = ({ events }) => (
    
-        <View><Text>{events}</Text>
+        <View>
+         
+        {/* {events.map( event => {
+            <Text> {event.event} </Text>
+        })} */}
+    
         <Button 
         title='retrieve'
-        onPress={() => {console.log(events.event)}}
+        onPress={() => {
+            //console.log('props ',this.props)
+            console.log('store ',store.getState())
+        }}
         />
-
-</View>
+         </View>
 
     )
-export default EventList;
+    const mapStateToProps = state => ({
+        events: state.events
+    })
+    
+    const mapDispatchToProps = dispatch => ({
+        dispatch
+    })
+
+export default connect(mapStateToProps,mapDispatchToProps)(EventList)
 
 const styles = StyleSheet.create({
     container: {
@@ -28,6 +39,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 });
+
+
+
+
+//import EventList from '../components/EventList'
+
+
+
 
 
 {/* <View >

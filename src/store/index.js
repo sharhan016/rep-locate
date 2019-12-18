@@ -3,5 +3,7 @@ import { createStore } from 'redux'
 import rootReducer from '../reducers/index';
 //import events from '../reducers/events';
 
-export default store = createStore(rootReducer);
+const store = createStore(rootReducer);
+console.log('store ',store.getState())
+export default store;
 //export default store = createStore(events);

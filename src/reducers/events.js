@@ -1,18 +1,22 @@
-// const INITIAL_STATE = {
-//     id: 0,
-//     date: '02',
-//     event: 'tly',
-//     holiday: false,
+const INITIAL_STATE = {
+    id: 0,
+    date: '02',
+    event: 'tly',
+    holiday: false,
     
-//   };
+  };
 
+import { addEvent } from '../actions/index';
 
-const events = (state=[], action) => {
+const events = (state= INITIAL_STATE, action) => {
+   
     switch(action.type){
-        case 'ADD_EVENT':
+        
+        case addEvent:
             return[
-                ...state,{
-                    id: 0,
+                {...state},
+                {
+                    id: action.id,
                     date: action.day,
                     event:action.text,
                     holiday: false
