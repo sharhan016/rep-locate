@@ -31,10 +31,10 @@ class DashboardScreen extends Component {
     }
 
     goToChemist = () => {
-        // this.props.navigation.navigate('DCR', {
-        //     id: '02',
-        // });
-        this.props.navigation.navigate('TP');
+        this.props.navigation.navigate('DCR', {
+            id: '02',
+        });
+
     }
 
     goToStockist = () => {

@@ -30,7 +30,8 @@ class Navigator extends Component {
 }
 const DashStack = createStackNavigator({
     Dashboard: DashboardScreen,
-    DCR: DCRScreen,
+    DCR: DcrPage,
+    //DCR: DCRScreen,
     TP: TPScreen,
     Report: DcrPage
   

@@ -12,7 +12,9 @@ var radio_props = [
 ];
 
 class DcrPage extends Component {
-    
+    static navigationOptions = {
+        title: 'DCR',
+      };
     constructor(props) {
         super(props);
         this.state = {
@@ -48,20 +50,6 @@ class DcrPage extends Component {
         return (
             
             <View style={styles.container}>
-                <Container> 
-                <Header>
-                    <Left>
-                        <Button transparent>
-                            <Icon name='menu' />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title>DCR</Title>
-                    </Body>
-                    <Right>
-          
-          </Right>
-                </Header>
                 <View style={{ paddingVertical: 15 }}></View>
                 <View style={styles.formContainer} >
                 <Form formElements={formElements} />
@@ -99,7 +87,7 @@ class DcrPage extends Component {
                 <Text>Submit</Text>
                 </Button>
                 </View>
-                </Container>
+    
             </View>
         );
     }

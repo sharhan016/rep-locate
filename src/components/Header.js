@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, Content } from 'native-base';
 
 
-export const HeaderComponent =  () => {
+export const HeaderComponent =  ( ) => {
     return(
         <Container>
                     <Header>
@@ -12,7 +12,7 @@ export const HeaderComponent =  () => {
                             </Button>
                         </Left>
                         <Body>
-                            <Title>Header Title</Title>
+                            <Title> {this.props.title} </Title>
                         </Body>
                         <Right>
                         </Right>

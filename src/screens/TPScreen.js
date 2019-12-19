@@ -151,7 +151,7 @@ class TPScreen extends Component {
                 <View style={{paddingVertical: 50}}></View>
 
                 {/*     Insert belt here         */}
-                <EventList />
+                {/* <EventList /> */}
 
                 {/* <DisplayEvents /> */}
 
