@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { StatusBar } from 'react-native'
+import { StatusBar } from 'react-native';
+import TPScreen from './TPScreen' ;
 import Button from '../components/Button';
 
 import colors from "../config/colors";
@@ -30,9 +31,10 @@ class DashboardScreen extends Component {
     }
 
     goToChemist = () => {
-        this.props.navigation.navigate('DCR', {
-            id: '02',
-        });
+        // this.props.navigation.navigate('DCR', {
+        //     id: '02',
+        // });
+        this.props.navigation.navigate('TP');
     }
 
     goToStockist = () => {

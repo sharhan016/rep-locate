@@ -12,6 +12,7 @@ import DCRScreen from './screens/DCRScreen';
 import TPScreen from './screens/TPScreen';
 import MailScreen from './screens/MailScreen';
 import AuthScreen from './screens/AuthScreen';
+import EventList from '../src/components/EventList';
 //import TpPage from './screens/TpPage';
 import DcrPage from './screens/DcrPage';
 //import AlertCheck from './screens/res';
@@ -30,6 +31,7 @@ class Navigator extends Component {
 const DashStack = createStackNavigator({
     Dashboard: DashboardScreen,
     DCR: DCRScreen,
+    TP: TPScreen,
     Report: DcrPage
   
   },{
@@ -51,6 +53,7 @@ const DashStack = createStackNavigator({
     Home: { screen: DashStack},
     TourPlan: { screen: TPScreen},
     Mail: { screen: MailScreen},
+    Events: { screen: EventList }
     //Tour: { screen: TpPage },
     //Test: { screen: AlertCheck },
     //Report: { screen: DcrPage},

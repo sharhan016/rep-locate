@@ -10,6 +10,7 @@ import CheckBox from '@react-native-community/checkbox';
 import RNPickerSelect from 'react-native-picker-select';
 import { DisplayEvents } from "../containers/DisplayEvents";
 import EventList from '../components/EventList';
+import { addEvent } from '../actions';
 import {connect} from 'react-redux';
 
 const screenHeight = Dimensions.get('screen').height / 3;
@@ -80,10 +81,15 @@ class TPScreen extends Component {
             day: date,
             text: belt
         }
-        console.log('GlobalState', this.props.state);
-        this.props.dispatch({ type: 'ADD_EVENT', text });
-        this.clear();
-        
+        const action = {
+            type: 'ADD_EVENT',
+            payload: text
+        };
+        this.props.dispatch(action)
+        //this.props.dispatch({ type: 'ADD_EVENT', text });
+        // this.props.dispatch(addEvent,text)
+        this.clear()
+    
  
     }
 
@@ -92,7 +98,7 @@ class TPScreen extends Component {
             belt: '',
             selectedStartDate: null
         });
-        console.log('belt and date ',this.state.belt)
+        console.log('belt and date ',this.state.belt,this.selectedStartDate)
     }
 
     // storeItem = async (key, item) => {

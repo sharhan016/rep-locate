@@ -7,18 +7,21 @@
 //   };
 
 import { addEvent } from '../actions/index';
+import { ADD_EVENT } from '../actions/actionTypes'
 
 const events = (state= [], action) => {
-   
+   console.log('I am here ', action.type)
+   let id = 0
     switch(action.type){
         
-        case addEvent:
+        case ADD_EVENT:
+            console.log('inside switch ', action.payload)
             return[
-                {...state},
+                ...state,
                 {
-                    id: action.id,
-                    date: action.day,
-                    event:action.text,
+                    id: action.payload.day,
+                    date: action.payload.day,
+                    event:action.payload.text,
                     holiday: false
                 }
             ]
