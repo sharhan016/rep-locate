@@ -60,7 +60,7 @@ export default class Home extends Component {
         .catch(error => {
           console.error(error);
         });
-  
+      }
        // TODO: Json File data  
         // if(word){
         //   var len = word.data.length;
@@ -75,7 +75,7 @@ export default class Home extends Component {
         //     categoryList: temp  
         //   });
         // }        
-    }
+    
 
 
   

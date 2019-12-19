@@ -26,7 +26,6 @@ class EventList extends Component {
       }
     render() {
         const data = this.props.events.sort(this.compare);
-        console.log('Sorted Data is ', data)
         return(
             <View style={styles.container}>
             <Container>
@@ -72,7 +71,7 @@ export default connect(mapStateToProps,mapDispatchToProps)(EventList)
 
 const styles = StyleSheet.create({
     container: {
-        flex: 2,
+        flex: 1,
     },
     inView: {
         alignItems: 'center',
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         marginTop:10,
         padding:10,
-        flex: 8,
+        flex: 9,
         //backgroundColor: 'grey'
         //paddingTop: 15,
 

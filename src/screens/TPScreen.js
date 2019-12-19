@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View,  Modal, TouchableOpacity, Alert, StyleSheet, Dimensions } from 'react-native';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, } from 'native-base';
-import { insertNewEventList } from '../../databases/allSchemas';
 import colors from "../config/colors";
 import CalendarPicker from 'react-native-calendar-picker';
 import { FloatingAction } from "react-native-floating-action";

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { StatusBar } from 'react-native';
-import TPScreen from './TPScreen' ;
+
 import Button from '../components/Button';
 
 import colors from "../config/colors";
@@ -52,7 +52,7 @@ class DashboardScreen extends Component {
                 <View style={{ height: 30 }} ></View>
                 <Button style={styles.btnStyle} label='Chemist' onPress={this.goToChemist} />
                 <View style={{ height: 30 }} ></View>
-                <Button style={styles.btnStyle} label='Stockist' onPress={this.goToStockist} />
+                {/* <Button style={styles.btnStyle} label='Stockist' onPress={this.goToStockist} /> */}
                 <View style={{ height: 30 }} ></View>
             </View>
         );

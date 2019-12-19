@@ -4,6 +4,8 @@ import { Form, FormPicker } from "@99xt/first-born";
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, } from 'native-base';
 import RadioForm from 'react-native-simple-radio-button';
 import colors from "../config/colors";
+import * as api from '../config/api';
+const axios = require('axios');
 
 
 var radio_props = [
@@ -28,10 +30,102 @@ class DcrPage extends Component {
             }],
             value: '',
             isAccompanied: false,
-            pickerValue: ''
+            pickerValue: '',
+            categoryList:[],
+            subCategoryList:[]
         };
+        console.log('Here in Constructor')
+        //this.getData = this.getData.bind(this);
+
     }
-    handleValueChange = (value) => {
+    componentDidMount(){
+        console.log('I am in didMount')
+        this.getData();
+      }
+    // getData(){
+    //     var temp = [];
+    //     fetch(BELT_API, {
+    //         method: "Post",
+    //         headers: {
+    //             Accept: "application/json",
+    //             "Content-Type": "application/json"
+    //         }
+    //     }).then( (response) => {
+    //         console.log('response.json() =',response.json())
+    //         //temp = response.json()
+    //     })
+    //     .catch(error => {
+    //         console.log(error)
+    //     })
+       
+    // }
+    getData = async () => {
+        var temp = [];
+        try {
+        const res = await axios.post(api.BELT_API,{
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        }
+        });
+        console.log('axio data ',res.data.BeltList)
+        let responseJSON = res.data.BeltList;
+        var len = responseJSON.length;
+          if (len > 0) {
+            for (let i = 0; i < len; i++) {
+              var data = responseJSON[i];
+              var joined = { label: data.BeltName,value: data.BeltID};
+              temp.push(joined);
+            }
+          }
+          console.log('catelgory List Data=',JSON.stringify(temp));
+          this.setState({
+            categoryList: temp
+          });
+       }catch(e){
+       console.log(e)
+       }
+    }
+
+
+    handleValueChange = async (value) => {
+        var docs = [];
+        console.log('value before axios ',value)
+        const obj = { BeltID: value };
+        const res = await axios.post(api.DOCTOR_API, obj)
+          .then(function (response) {
+            console.log('This is the response ',response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          console.log(res)
+        
+        // try {
+        // const res = await axios.post(BELT_API,{
+        //     BeltID: value,
+        // // headers: {
+        // //     Accept: "application/json",
+        // //     "Content-Type": "application/json"
+        // // }
+        // });
+        //console.log('SubData ',res.data.DoctorList)
+        // let responseJSON = res.data.BeltList;
+        // var len = responseJSON.length;
+        //   if (len > 0) {
+        //     for (let i = 0; i < len; i++) {
+        //       var data = responseJSON[i];
+        //       var joined = { label: data.BeltName,value: data.BeltID};
+        //       temp.push(joined);
+        //     }
+        //   }
+        //   console.log('catelgory List Data=',JSON.stringify(temp));
+        //   this.setState({
+        //     categoryList: temp
+        //   });
+    //    }catch(e){
+    //    console.log(e)
+    //    }
         console.log(value)
     }
     handleTextChange = (value) => {
@@ -42,7 +136,7 @@ class DcrPage extends Component {
     }
     render() {
         formElements = [
-            { label: "Choose Belt", type: "picker", onValueChange: (value) => this.handleValueChange(value), pickerData: this.state.pickerData },
+            { label: "Choose Belt", type: "picker", onValueChange: (value) => this.handleValueChange(value), pickerData: this.state.categoryList },
             { label: "Select", type: "picker", onValueChange: (value) => this.handleValueChange(value), pickerData: this.state.pickerData },
             { label: "Feedback", type: "textarea", onChangeText: (value) => this.handleTextChange(value) },
         ];
