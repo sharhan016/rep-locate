@@ -10,16 +10,22 @@ import { addEvent } from '../actions/index';
 import { ADD_EVENT } from '../actions/actionTypes'
 
 const events = (state= [], action) => {
-   console.log('I am here ', action.type)
-   let id = 0
+   console.log('I am here state length = ', state.length)
+   let id=0
+   if(state.length === null | 0 ){
+       id=0
+   } else {
+    id = state.length
+   }
     switch(action.type){
         
         case ADD_EVENT:
-            console.log('inside switch ', action.payload)
+            console.log('inside switch id = ', id )
+            //const length = state.events.length
             return[
                 ...state,
                 {
-                    id: action.payload.day,
+                    id: id++,
                     date: action.payload.day,
                     event:action.payload.text,
                     holiday: false
