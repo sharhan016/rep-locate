@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import {  View, Text, StyleSheet} from "react-native";
+import {  View, Text, StyleSheet, TouchableOpacity} from "react-native";
 import 'react-native-gesture-handler';
 import { createStackNavigator } from 'react-navigation-stack';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator, NavigationAction } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LoginScreen from './screens/LoginScreen';
@@ -28,6 +28,10 @@ class Navigator extends Component {
         );
     }
 }
+iconOpener = () => {
+  console.log('Nan ethi')
+}
+//const BurgerIcon = <Ionicons style= {{paddingLeft:10}} name= "md-menu" size={30} color={colors.WHITE} /> ;
 const DashStack = createStackNavigator({
     Dashboard: DashboardScreen,
     DCR: DcrPage,
@@ -39,7 +43,13 @@ const DashStack = createStackNavigator({
     defaultNavigationOptions: ({navigation}) => {
       let IconComponent = Ionicons;
       return{
-        headerLeft: ( <IconComponent style= {{paddingLeft:10}} name= "md-menu" size={30} color={colors.WHITE} /> ),
+        headerLeft: ( 
+        <TouchableOpacity onPress={()=> {
+          navigation.openDrawer();
+          //console.log('Entha cheyya nan etheetta ',navigation)
+        }}> 
+        <IconComponent style= {{paddingLeft:15}} name= "md-menu" size={30} color={colors.WHITE} />
+        </TouchableOpacity> ),
         headerStyle: { backgroundColor: colors.HEADER_BLUE },
         headerTitleStyle: { color: colors.WHITE },
       } } }

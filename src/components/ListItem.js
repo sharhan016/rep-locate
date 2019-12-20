@@ -5,7 +5,6 @@ class ListItem extends Component {
      
 
     render() {
-        {console.log('props in list', this.props.events)}
         return(
             
             <View style={styles.container} >

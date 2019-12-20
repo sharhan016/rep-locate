@@ -11,6 +11,8 @@ import { DisplayEvents } from "../containers/DisplayEvents";
 import EventList from '../components/EventList';
 import { addEvent } from '../actions';
 import {connect} from 'react-redux';
+import * as api from '../config/api';
+const axios = require('axios');
 
 const screenHeight = Dimensions.get('screen').height / 3;
 const screenWidth = Dimensions.get('screen').width - 25;
@@ -31,11 +33,41 @@ class TPScreen extends Component {
             },
             visible: false,
             post: '',
-            data: []
+            data: [],
+            categoryList:[],
         };
+        this.getData();
         this.onDateChange = this.onDateChange.bind(this);
         //this.storeItem = this.storeItem.bind(this);
         //this.getMyValue = this.getMyValue.bind(this);
+    }
+    getData = async () => {
+        console.log('inside getdata')
+        var temp = [];
+        try {
+        const res = await axios.post(api.BELT_API,{
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        }
+        });
+        console.log('axio data inside getData ',res.data.BeltList)
+        let responseJSON = res.data.BeltList;
+        var len = responseJSON.length;
+          if (len > 0) {
+            for (let i = 0; i < len; i++) {
+              var data = responseJSON[i];
+              var joined = { label: data.BeltName,value: data.BeltName,id: data.BeltID};
+              temp.push(joined);
+            }
+          }
+          //console.log('catelgory List Data=',JSON.stringify(temp));
+          this.setState({
+            categoryList: temp
+          });
+       }catch(e){
+       console.log(e)
+       }
     }
     onDateChange(date) {
         this.setState({ 
@@ -97,7 +129,7 @@ class TPScreen extends Component {
             belt: '',
             selectedStartDate: null
         });
-        console.log('belt and date ',this.state.belt,this.selectedStartDate)
+        //console.log('belt and date ',this.state.belt,this.selectedStartDate)
     }
 
     // storeItem = async (key, item) => {
@@ -178,11 +210,7 @@ class TPScreen extends Component {
                                 onValueChange={value => {
                                     this.setState({ belt: value })
                                 }}
-                                items={[
-                                    { label: 'Calicut', value: 'calicut' },
-                                    { label: 'Koyilandi', value: 'koyilandi' },
-                                    { label: 'Thalassery', value: 'thalassery' },
-                                ]}
+                                items={this.state.categoryList}
                             />
                             <View style={{paddingVertical:15}}></View>
                             <View style={styles.checkBox}>
@@ -209,8 +237,8 @@ class TPScreen extends Component {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => {
-                                    console.log('Picker value ', this.state.belt)
-                                    console.log('Holiday value ', this.state.holiday)
+                                   // console.log('Picker value ', this.state.belt)
+                                   // console.log('Holiday value ', this.state.holiday)
                                     this.saveEvent();
                                     this.setModalVisible(!this.state.modalVisible);
                                 }}>

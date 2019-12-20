@@ -2,20 +2,32 @@ import React, { Component } from 'react';
 import { View, StyleSheet,FlatList} from "react-native";
 import {connect} from 'react-redux';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, Content } from 'native-base';
-
+import { ListItem } from 'react-native-elements';
 import DisplayEvents from '../containers/DisplayEvents';
 import store from '../store/index';
-import ListItem from './ListItem';
+import UserAvatar from 'react-native-user-avatar';
+//import ListItem from './ListItem';
 //import Header from './Header';
+
 
 class EventList extends Component {
     renderItem( event ) {
-        return <ListItem events={event} />
+        //console.log('EVENT',event)
+        return <ListItem
+        roundAvatar
+        title={event.item.event}
+        subtitle={'January  ' + event.item.date}
+        leftAvatar={<UserAvatar size="50" name={event.item.date} color="#000" />}
+        bottomDivider
+        />
+        // return <ListItem events={event} />
+    }
+    renderAvatar( event ) {
+        return <UserAvatar size="50" name="Jane Doe" color="#000" />
     }
     compare = (a, b) => {
         const bandA = a.date;
         const bandB = b.date;
-        console.log('bandA and bandB ',bandA,bandB)
         let comparison = 0;
         if (bandA > bandB) {
           comparison = 1;
@@ -47,11 +59,11 @@ class EventList extends Component {
             <FlatList 
             data={data}
             renderItem={this.renderItem}
-            keyExtractor={event => event.id}
+            keyExtractor={event => event.id.toString()}
             />
-            <Button disabled>
-                <Text>Submit</Text>
-            </Button>
+            {/* <Button disabled>
+                <Text style={{textAlign: 'center'}}>Submit</Text>
+            </Button> */}
             </View>
             </View>
         );
@@ -72,14 +84,17 @@ export default connect(mapStateToProps,mapDispatchToProps)(EventList)
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'transparent'
     },
     inView: {
-        alignItems: 'center',
-        marginLeft: 10,
-        marginRight: 5,
+        alignItems: 'stretch',
+        marginLeft: 5,
+        marginRight: 2,
         marginBottom: 20,
         marginTop:10,
-        padding:10,
+        //padding:5,
+        paddingLeft: 5,
+        paddingRight: 5,
         flex: 9,
         //backgroundColor: 'grey'
         //paddingTop: 15,

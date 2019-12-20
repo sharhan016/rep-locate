@@ -34,13 +34,14 @@ class DcrPage extends Component {
             categoryList:[],
             subCategoryList:[]
         };
+        this.getData();
         console.log('Here in Constructor')
         //this.getData = this.getData.bind(this);
 
     }
     componentDidMount(){
         console.log('I am in didMount')
-        this.getData();
+        //this.getData();
       }
     // getData(){
     //     var temp = [];
@@ -60,6 +61,7 @@ class DcrPage extends Component {
        
     // }
     getData = async () => {
+        console.log('inside getdata')
         var temp = [];
         try {
         const res = await axios.post(api.BELT_API,{
@@ -68,7 +70,7 @@ class DcrPage extends Component {
             "Content-Type": "application/json"
         }
         });
-        console.log('axio data ',res.data.BeltList)
+        console.log('axio data inside getData ',res.data.BeltList)
         let responseJSON = res.data.BeltList;
         var len = responseJSON.length;
           if (len > 0) {
@@ -78,7 +80,7 @@ class DcrPage extends Component {
               temp.push(joined);
             }
           }
-          console.log('catelgory List Data=',JSON.stringify(temp));
+          //console.log('catelgory List Data=',JSON.stringify(temp));
           this.setState({
             categoryList: temp
           });
@@ -91,41 +93,56 @@ class DcrPage extends Component {
     handleValueChange = async (value) => {
         var docs = [];
         console.log('value before axios ',value)
-        const obj = { BeltID: value };
-        const res = await axios.post(api.DOCTOR_API, obj)
+        const obj = { 
+            BeltID: value
+         };
+         try {
+            const res = await axios.post(api.DOCTOR_API, { obj });
+            console.log('data inside subCategory',res.data.DoctorList)
+            let response = res.data.DoctorList;
+            var len = response.length;
+              if (len > 0) {
+                for (let i = 0; i < len; i++) {
+                  var data = response[i];
+                  var join = { label: data.DoctorName,value: data.DoctorID};
+                  console.log(join)
+                  docs.push(join);
+                }
+              }
+              console.log('Subcatelgory List Data=',JSON.stringify(docs));
+              this.setState({
+                subCategoryList: docs
+              });
+           }catch(e){
+           console.log(e)
+           }
+         /*
+        const res = await axios.post(api.DOCTOR_API, { obj })
           .then(function (response) {
-            console.log('This is the response ',response.data);
+            //console.log('This is the post response ',response.data.DoctorList);
+            let doctorResponse = response.data.DoctorList;
+            var len = doctorResponse.length;
+            console.log('length of doctor list ',len)
+            if (len > 0) {
+                for (let i = 0; i < len; i++) {
+                  var data = doctorResponse[i];
+                  var doctor = { label: data.DoctorName,value: data.DoctorID};
+                  console.log('variable doctor is ',doctor)
+                  docs.push(doctor);
+                }
+                this.setState({
+                    subCategoryList: docs,
+                  });
+              }
+              
+              console.log('This is the sub category ',subCategoryList)
           })
           .catch(function (error) {
             console.log(error);
           });
-          console.log(res)
-        
-        // try {
-        // const res = await axios.post(BELT_API,{
-        //     BeltID: value,
-        // // headers: {
-        // //     Accept: "application/json",
-        // //     "Content-Type": "application/json"
-        // // }
-        // });
-        //console.log('SubData ',res.data.DoctorList)
-        // let responseJSON = res.data.BeltList;
-        // var len = responseJSON.length;
-        //   if (len > 0) {
-        //     for (let i = 0; i < len; i++) {
-        //       var data = responseJSON[i];
-        //       var joined = { label: data.BeltName,value: data.BeltID};
-        //       temp.push(joined);
-        //     }
-        //   }
-        //   console.log('catelgory List Data=',JSON.stringify(temp));
-        //   this.setState({
-        //     categoryList: temp
-        //   });
-    //    }catch(e){
-    //    console.log(e)
-    //    }
+
+        */
+   
         console.log(value)
     }
     handleTextChange = (value) => {
@@ -137,10 +154,10 @@ class DcrPage extends Component {
     render() {
         formElements = [
             { label: "Choose Belt", type: "picker", onValueChange: (value) => this.handleValueChange(value), pickerData: this.state.categoryList },
-            { label: "Select", type: "picker", onValueChange: (value) => this.handleValueChange(value), pickerData: this.state.pickerData },
+            { label: "Choose Doctor", type: "picker", onValueChange: (value) => this.handleValueChange(value), pickerData: this.state.subCategoryList },
             { label: "Feedback", type: "textarea", onChangeText: (value) => this.handleTextChange(value) },
         ];
-        const pickManager = <FormPicker style={{width: "100%"}} onValueChange={this.handleValueChange} selectedValue={this.state.pickerValue} label="Managers" data={this.state.pickerData} />
+        const pickManager = <FormPicker style={{ width: "100%" }} onValueChange={this.handleValueChange} selectedValue={this.state.pickerValue} label="Managers" data={this.state.pickerData} />
         return (
             
             <View style={styles.container}>
