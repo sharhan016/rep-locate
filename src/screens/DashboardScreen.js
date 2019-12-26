@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,Dimensions, TouchableHighlight,Image } from 'react-native';
 import { StatusBar } from 'react-native';
 
 import Button from '../components/Button';
 
 import colors from "../config/colors";
 
+const width = Dimensions.get('screen').width - 50;
 
 class DashboardScreen extends Component {
     state = {}
@@ -47,10 +48,26 @@ class DashboardScreen extends Component {
         return (
             
             <View style={styles.container}>
-                <StatusBar barStyle = "light-content" hidden = {false} backgroundColor = "#324192"/>
-                <Button style={styles.btnStyle} label='Doctor' onPress={this.goToDoctor} />
+                <StatusBar barStyle = "light-content" hidden = {false} backgroundColor={colors.STATUS_BAR_GRN}/>
+                {/* <Button style={styles.btnStyle} label='Doctor' onPress={this.goToDoctor} /> */}
+                <TouchableHighlight onPress={this.goToDoctor}>
+                <View style={styles.btnContainer}>
+                <Image 
+                style={styles.image}
+                source={require('../assets/doctor-logo.jpg')}
+                />
+                </View>
+                </TouchableHighlight>
                 <View style={{ height: 30 }} ></View>
-                <Button style={styles.btnStyle} label='Chemist' onPress={this.goToChemist} />
+                {/* <Button style={styles.btnStyle} label='Chemist' onPress={this.goToChemist} /> */}
+                <TouchableHighlight onPress={this.goToChemist}>
+                <View style={styles.btnContainer}>
+                <Image 
+                style={styles.image}
+                source={require('../assets/doctor-logo.jpg')}
+                />
+                </View>
+                </TouchableHighlight>
                 <View style={{ height: 30 }} ></View>
                 {/* <Button style={styles.btnStyle} label='Stockist' onPress={this.goToStockist} /> */}
                 <View style={{ height: 30 }} ></View>
@@ -64,8 +81,27 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        backgroundColor: colors.WHITE
+        backgroundColor: colors.BG_LT_GREEN
         //backgroundColor:'#E7E2C5'
+    },
+    btnContainer:{
+        height: 200,
+        width: width,
+        //alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.DASH_BTN,
+        borderRadius: 14
+
+    },
+    image: {
+        width: width,
+        height: 150,
+        resizeMode: 'stretch'
+    },
+    fontStyle: {
+        fontSize: 20,
+        fontWeight: "500",
+        fontStyle: 'italic'
     },
     text: { fontSize: 25 },
     padding: { padding: 10 },

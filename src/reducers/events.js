@@ -26,9 +26,9 @@ const events = (state = [], action) => {
             }
             for (let i = 0; i < newArr.length; i++) {
                 var data = newArr[i];
-                console.log('this is the day in data ', data)
+                console.log('day key in data ', data)
                 if (data.date === action.payload.day) {
-                    console.log('Same Date Detected')
+                    console.log('Same Date Detected');
                     data.event = action.payload.event;
                     return [
                         ...state
@@ -62,8 +62,9 @@ const events = (state = [], action) => {
         case 'ADD_LEAVE':
             return [
                 ...state, {
-                    id: action.id,
-                    date: action.day,
+                    id: id++,
+                    date: action.payload.day,
+                    event: action.payload.text,
                     holiday: true
                 }
             ]

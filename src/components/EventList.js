@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet,FlatList} from "react-native";
+import { View, StyleSheet,FlatList, Text} from "react-native";
 import {connect} from 'react-redux';
-import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, Content } from 'native-base';
+//import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, Content } from 'native-base';
+import Header from '../components/Header';
 import { ListItem } from 'react-native-elements';
 import DisplayEvents from '../containers/DisplayEvents';
 import store from '../store/index';
@@ -40,20 +41,9 @@ class EventList extends Component {
         const data = this.props.events.sort(this.compare);
         return(
             <View style={styles.container}>
-            <Container>
-                    <Header>
-                        <Left>
-                            <Button transparent>
-                                <Icon name='menu' />
-                            </Button>
-                        </Left>
-                        <Body>
-                            <Title> EventList </Title>
-                        </Body>
-                        <Right>
-                        </Right>
-                    </Header>
-                </Container>
+            <Header 
+            heading='Belt List'
+            onPress={() => this.props.navigation.openDrawer() } />
                 <Text style={{marginLeft:10,fontSize: 18}}>Belt wise report</Text>
             <View style={styles.inView}>
             <FlatList 

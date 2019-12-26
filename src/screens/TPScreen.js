@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { View,  Modal, TouchableOpacity, Alert, StyleSheet, Dimensions } from 'react-native';
-import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, } from 'native-base';
+import { View,  Modal, TouchableOpacity, Alert, StyleSheet, Dimensions,StatusBar,Text } from 'react-native';
+//import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, } from 'native-base';
+import Header from '../components/Header';
 import colors from "../config/colors";
 import CalendarPicker from 'react-native-calendar-picker';
+import moment from 'moment';
 import { FloatingAction } from "react-native-floating-action";
 import AsyncStorage from '@react-native-community/async-storage';
 import CheckBox from '@react-native-community/checkbox';
 import RNPickerSelect from 'react-native-picker-select';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { DisplayEvents } from "../containers/DisplayEvents";
 import EventList from '../components/EventList';
 import { addEvent } from '../actions';
@@ -51,7 +54,7 @@ class TPScreen extends Component {
             "Content-Type": "application/json"
         }
         });
-        console.log('axio data inside getData ',res.data.BeltList)
+        //console.log('axio data inside getData ',res.data.BeltList)
         let responseJSON = res.data.BeltList;
         var len = responseJSON.length;
           if (len > 0) {
@@ -102,6 +105,23 @@ class TPScreen extends Component {
     }
         this.submit();
     }
+    saveLeave() {
+        const { selectedStartDate, belt, holiday } = this.state;
+        const date = selectedStartDate.format('DD');
+        const text = {
+            day: date,
+            text: 'Holiday'
+        }
+        const action = {
+            type: 'ADD_LEAVE',
+            payload: text
+        };
+        this.props.dispatch(action);
+        this.setState({
+            holiday: false,
+            selectedStartDate: null,
+        });
+    }
 
     submit() {
         const { selectedStartDate, belt } = this.state;
@@ -148,31 +168,60 @@ class TPScreen extends Component {
 
 
     render() {
-        //const { selectedStartDate } = this.state;
-        //const startDate = selectedStartDate ? selectedStartDate.toString().slice(0, 16) : '';
+            let today = moment();
+            let day = today.clone();
+            let selectedDates = ['2019-12-26T06:41:26.445Z', '2019-12-27T06:41:26.445Z'];
+            console.log('dates ', day)
+            let customDateStyles = [];
+            for (var i=0; i < selectedDates.length;i++){
+                customDateStyles.push({
+                    date: customDateStyles[i],
+                    style: {backgroundColor: '#1c4f3f'},
+                    textStyle: { color: 'black' }
+                })
+            }
+          /*
+            2019-12-23T06:41:26.445Z
+            let today = moment();
+            let day = today.clone().startOf('month');
+            let customDatesStyles = [];
+            while(day.add(1, 'day').isSame(today, 'month')) {
+            customDatesStyles.push({
+                date: day.clone(),
+                // Random colors
+                style: {backgroundColor: '#'+('#00000'+(Math.random()*(1<<24)|0).toString(16)).slice(-6)},
+                textStyle: {color: 'black'}, // sets the font color
+                containerStyle: [], // extra styling for day container
+            });
+            }
+            
+            render() {
+            return (
+                <CalendarPicker
+                todayTextStyle={{fontWeight: 'bold'}}
+                todayBackgroundColor={'transparent'}
+                customDatesStyles={customDatesStyles}
+                minDate={today}
+                />
+            );
+            }
+
+
+          */
         return (
             
             <View style={styles.mainContainer}>
-                {/*     Header Starts Here         */}
-               <Container> 
-                <Header>
-                    <Left>
-                        <Button transparent>
-                            <Icon name='menu' />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title>Tour Plan</Title>
-                    </Body>
-                    <Right>
-            <Button hasText transparent>
-              <Text>Submit</Text>
-            </Button>
-          </Right>
-                </Header>
-                {/*     Header Ends Here         */}
+        
+                <StatusBar barStyle = "light-content" hidden = {false} backgroundColor={colors.STATUS_BAR_GRN}/>
+                <Header 
+                heading='Tour Plan'
+                onPress={() => this.props.navigation.openDrawer() } />
+              
 
                 <CalendarPicker
+                    //minDate={today}
+                    //customDatesStyles={customDateStyles}
+                    startFromMonday={true}
                     onDateChange={this.onDateChange}
                 />
                 <View style={styles.infoBox}>
@@ -181,13 +230,6 @@ class TPScreen extends Component {
 
                 <View style={{paddingVertical: 50}}></View>
 
-                {/*     Insert belt here         */}
-                {/* <EventList /> */}
-
-                {/* <DisplayEvents /> */}
-
-                {/*              */}
-             
     
                 <Modal
                     animationType="fade"
@@ -208,7 +250,12 @@ class TPScreen extends Component {
                                 placeholder={this.state.placeholder}
                                 placeholderTextColor={colors.BLACK}
                                 onValueChange={value => {
-                                    this.setState({ belt: value })
+                                    this.setState({
+                                        belt: value
+                                    })
+                                    console.log('value of belt ',this.state.belt)
+                                    // this.setModalVisible(!this.state.modalVisible);
+                                    // this.submit();
                                 }}
                                 items={this.state.categoryList}
                             />
@@ -220,9 +267,10 @@ class TPScreen extends Component {
                                     value={this.state.holiday}
                                     disabled={false}
                                     onValueChange={value => {
-                                        this.setState({
-                                            holiday: value
-                                        })
+                                        
+                                       
+                                        this.saveLeave();
+                                        this.setModalVisible(!this.state.modalVisible);
                                     }}
                                 />
                             </View>
@@ -254,7 +302,7 @@ class TPScreen extends Component {
 
                 <View style={{ height: 30 }} ></View>
 
-</Container>
+{/* </Container> */}
             </View>
             
         );
@@ -283,7 +331,7 @@ const styles = StyleSheet.create({
         marginTop: screenHeight,
         padding: 2,
         margin: 10,
-        backgroundColor: colors.SKY_BLUE,
+        backgroundColor: colors.ORANGE_TINT,
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
         height: 200,
@@ -305,7 +353,7 @@ const styles = StyleSheet.create({
     bottomBtn: {
         flexDirection: 'row',
         paddingBottom: 4,
-        backgroundColor: colors.SKY_BLUE,
+        backgroundColor: colors.ORANGE_TINT,
         width: screenWidth,
         alignItems: 'flex-end',
         justifyContent: 'space-around',
@@ -326,7 +374,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 2,
         justifyContent: 'center',
-        backgroundColor: colors.SKY_BLUE,
+        backgroundColor: colors.ORANGE_TINT,
         width: screenWidth,
         paddingBottom: 10,
         borderRadius: 3

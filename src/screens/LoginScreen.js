@@ -37,6 +37,7 @@ class LoginScreen extends Component {
         this.props.navigation.navigate('Dashboard')
     }
     getEmail = (mail) => {
+        console.log(mail)
         this.setState({ email: mail })
     }
     getPassword = (pass) => {
@@ -45,6 +46,8 @@ class LoginScreen extends Component {
     submitButton = () => {
         console.log('Submit clicked')
         // handle post request here
+        const { email, password, value } = this.state;
+
         this.props.navigation.navigate('Dashboard')
     }
 
