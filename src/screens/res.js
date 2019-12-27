@@ -1,199 +1,138 @@
-import React, { Component } from 'react';
-import Realm from 'realm';
-import { Modal, Text, TouchableOpacity, View, Alert, StyleSheet, Dimensions } from 'react-native';
-import colors from "../config/colors";
-import { CustomPicker } from 'react-native-custom-picker'
-import CheckBox from '@react-native-community/checkbox';
-import RNPickerSelect from 'react-native-picker-select';
+class Login extends Component {
 
-const screenHeight = Dimensions.get('screen').height / 3;
-const screenWidth = Dimensions.get('screen').width - 25;
-//const Realm = require('realm');
-const EventSchema = {
-  name: 'events',
-  properties: {
-    id:  'int',
-    event: 'string',
-    date: 'string',
-  }
-};
-class AlertCheck extends Component {
-  
-  constructor(props){
+  static navigationOptions = ({ navigation }) => ({
+    "title": "Login"
+  });
+
+  constructor(props) {
+
     super(props);
-    this.state ={
-      placeholder: {
-        label: 'Choose Belt',
-        value: null,
-        color: '#9EA0A4',
-      },
-      modalVisible: false,
-    holiday: false,
-    belt: '',
+    this.state = {}
 
-    };
-    Realm.open({schema: [EventSchema]}).then( realm => {
-      realm.write( () => {
-        const anEvent = realm.create('events', {
-          id: 1,
-          event: 'Civic',
-          date: '21',
-        });
+  }
+
+
+  // onLoginPressed will trigger the authentication workflow with the remote server.
+
+  onLoginPressed() {
+
+    const { email, password } = this.state;
+
+    if (this.state.isEmailValid && this.state.isPasswordValid) {
+
+      axios.post(api.LOGIN_URL, {
+        username: email,
+        password: password,
+        type: value
+      }).then(response => {
+
+        const navigationParams = {
+          baseUrl: response.data.url,
+          token: response.data.token,
+          username: email
+        }
+
+        //this.props.dispatch(loginSuccess(navigationParams));
+
+        // Adding retrieved values to AsyncStorage
+        AsyncStorage.multiSet(
+          [
+            [IS_USER_LOGGED_IN, "YES"],
+            [USER, email],
+            [TOKEN, response.data.token],
+            [BASE_URL, response.data.url]
+          ],
+          () => {
+            this.props.navigation.navigate("WebApp", navigationParams);
+          });
+
+      }).catch(error => {
+
+        console.error(error);
+        ToastAndroid.show("Authentication Failed", ToastAndroid.SHORT);
+
       });
-    })
-  }
-  
 
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
+    }
+
   }
 
+  // Updating the state key email
+  onEmailTextChanged(text) {
+    this.setState({ "email": text });
+  }
+
+  // Updating the state key password
+  onPasswordTextChanged(text) {
+    this.setState({ "password": text });
+  }
+
+  onEmailTextBlurred() {
+
+    var text = this.state.email;
+    console.warn(text);
+
+    if (text == undefined || text.trim().length == 0) {
+      this.setState({ "isEmailValid": false });
+      this.setState({ "emailErrorMessage": "Email cannot be empty" });
+    }
+    else {
+      var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      var isEmailValid = regex.test(text);
+      if (!isEmailValid) {
+        this.setState({ "isEmailValid": false });
+        this.setState({ "emailErrorMessage": "Email is incorrect." });
+      }
+      else {
+        this.setState({ "isEmailValid": true });
+      }
+    }
+
+  }
+
+  onPasswordTextBlurred() {
+
+    var text = this.state.password;
+
+    if (text == undefined || text.trim().length == 0) {
+      this.setState({ "isPasswordValid": false });
+      this.setState({ "passwordErrorMessage": "Password cannot be empty" });
+    }
+    else {
+      this.setState({ "isPasswordValid": true });
+    }
+
+  }
+
+  // rendering the LoginForm (presentational component) corresponding to this container component
   render() {
-    const cars = realm.objects('events');
-    console.log(cars.length);
     return (
-      <View style={styles.mainContainer}>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-            this.setModalVisible(!this.state.modalVisible);
-          }}>
-          <View style={styles.container}>
-            {/* <View> */}
-            <View style={styles.header}>
-              <Text style={styles.textStyle}>Choose your Belt</Text>
-            </View>
-            <View style={styles.middleContainer}>
-              <RNPickerSelect
-                style={styles.pickerContainer}
-                placeholder={this.state.placeholder}
-                placeholderTextColor={colors.BLACK}
-                onValueChange={value => {
-                  this.setState({ belt: value })
-                }}
-                items={[
-                  { label: 'Football', value: 'football' },
-                  { label: 'Baseball', value: 'baseball' },
-                  { label: 'Hockey', value: 'hockey' },
-                ]}
-              />
-              <View style={styles.checkBox}>
-                <Text>Personal Leave</Text>
-                <CheckBox
-                  value={this.state.holiday}
-                  disabled={false}
-                  onValueChange={value => {
-                    this.setState({
-                      holiday: value
-                    })
-                  }}
-                />
-              </View>
-            </View>
-
-            <View style={styles.bottomBtn}>
-              <TouchableOpacity
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                }}>
-                <Text>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  console.log('Picker value ', this.state.belt)
-                  console.log('Holiday value ', this.state.holiday)
-                  this.setModalVisible(!this.state.modalVisible);
-                }}>
-                <Text>Submit</Text>
-              </TouchableOpacity>
-
-              {/* </View> */}
-            </View>
-          </View>
-        </Modal>
-
-        <TouchableOpacity
-          onPress={() => {
-            this.setModalVisible(true);
-          }}>
-          <Text>Set Belt Location</Text>
-        </TouchableOpacity>
-      </View>
-    );
+      <LoginForm
+        onLoginPressed={() => this.onLoginPressed()}
+        onEmailTextChanged={(text) => this.onEmailTextChanged(text)}
+        onPasswordTextChanged={(text) => this.onPasswordTextChanged(text)}
+        onEmailTextBlurred={() => this.onEmailTextBlurred()}
+        onPasswordTextBlurred={() => this.onPasswordTextBlurred()}
+      />
+    )
   }
+
 }
-const styles = StyleSheet.create({
-  container: {
-    marginTop: screenHeight,
-    padding: 2,
-    margin: 10,
-    backgroundColor: colors.SILVER,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    height: 200,
-    // borderColor: colors.BLACK,
-    borderWidth: 1,
-    borderRadius: 7
-  },
-  textStyle: {
-    fontSize: 18,
-    fontWeight: '400'
-  },
-  mainContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    backgroundColor: colors.ALMOND
-  },
-  bottomBtn: {
-    flexDirection: 'row',
-    paddingBottom: 4,
-    backgroundColor: colors.SILVER,
-    width: screenWidth,
-    alignItems: 'flex-end',
-    justifyContent: 'space-around',
-    height: 30,
-    borderRadius: 3
 
-  },
-  middleContainer: {
-    height: 120,
-    backgroundColor: colors.WHITE,
-    padding: 1,
-    flex: 2,
-    width: screenWidth,
-    //alignItems: 'center',
-    //justifyContent: 'center'
-  },
-  header: {
-    alignItems: 'center',
-    padding: 2,
-    justifyContent: 'center',
-    backgroundColor: colors.SILVER,
-    width: screenWidth,
-    paddingBottom: 10,
-    borderRadius: 3
-  },
-  checkBox: {
-    width: screenWidth,
-    flexDirection: "row",
-    //backgroundColor: colors.SILVER,
-    justifyContent: 'space-evenly'
+const mapStateToProps = (state) => {
 
-  },
-  pickerContainer: {
-    fontSize: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: 'purple',
-    borderRadius: 8,
-    color: 'black',
-    paddingRight: 30,
-  }
-});
+  return state;
 
-export default AlertCheck;
+}
+
+
+const mapDispatchToProps = (dispatch) => {
+
+  const boundActionCreators = bindActionCreators(loginSuccess, dispatch);
+  return { ...boundActionCreators, dispatch };
+
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -12,6 +12,7 @@ const colors = {
     HEADER_GREEN: '#15b07e',
     STATUS_BAR_GRN: '#0a825b',
     DASH_BTN: "#1cc8ca"  ,
+    DRW_ITEMS: '#c5ebb8',
     DRW_TINT: '#056406',  // tint color inside draweritems
     BG_LT_GREEN:  '#f2ef9b',
     ORANGE_TINT: '#c78c0c',

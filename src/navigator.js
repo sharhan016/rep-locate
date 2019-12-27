@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import {  View, Text, StyleSheet, TouchableOpacity} from "react-native";
+import {  View, Text, StyleSheet, TouchableOpacity, Dimensions} from "react-native";
 import 'react-native-gesture-handler';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer, createSwitchNavigator, NavigationAction } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import DashboardScreen from './screens/DashboardScreen';
@@ -14,13 +15,19 @@ import MailScreen from './screens/MailScreen';
 import AuthScreen from './screens/AuthScreen';
 import EventList from '../src/components/EventList';
 //import TpPage from './screens/TpPage';
+import DashboardPage from '../src/screens/DashboardPage';
 import DcrPage from './screens/DcrPage';
-//import AlertCheck from './screens/res';
-//import Events from './screens/Events';
+import LoginPage from './screens/LoginPage';
+import RegisterPage from './screens/RegisterPage';
+import SideBar from './components/SideBar';
 import colors from './config/colors';
 
 class Navigator extends Component {
+  state = {
+    userType: 1
+  }
     render() {
+      console.log('inside navigator ', this.props.userToken)
         return (
             <View style={styles.container}>
                 <Text>Navigator</Text>
@@ -36,8 +43,8 @@ const DashStack = createStackNavigator({
     Dashboard: DashboardScreen,
     DCR: DcrPage,
     //DCR: DCRScreen,
-    TP: TPScreen,
-    Report: DcrPage
+    //TP: TPScreen,
+    //Report: DcrPage
   
   },{
     defaultNavigationOptions: ({navigation}) => {
@@ -50,21 +57,49 @@ const DashStack = createStackNavigator({
         }}> 
         <IconComponent style= {{paddingLeft:15}} name= "md-menu" size={30} color={colors.WHITE} />
         </TouchableOpacity> ),
-        headerStyle: { backgroundColor: colors.HEADER_BLUE },
+        headerStyle: { backgroundColor: colors.HEADER_GREEN },
         headerTitleStyle: { color: colors.WHITE },
       } } }
   );
   
   const LoginStack = createStackNavigator({
-    SignIn: LoginScreen ,
-    SignUp: RegisterScreen
+    //SignIn: LoginScreen ,
+    SignIn: LoginPage,
+    SignUp: RegisterPage
+    //SignUp: RegisterScreen
   });
   
   const AppDrawer = createDrawerNavigator({
-    Home: { screen: DashStack},
-    TourPlan: { screen: TPScreen},
-    Mail: { screen: MailScreen},
-    Events: { screen: EventList }
+    Home: { 
+      screen: DashStack,
+      navigationOptions: {
+        title: 'Home',
+        drawerIcon: ({tintColor}) => <Feather name="home" size= {18} color={tintColor} />
+      } },
+    TourPlan: {
+       screen: TPScreen,
+       navigationOptions: {
+        title: 'Tour Plan',
+        drawerIcon: ({tintColor}) => <Feather name="calendar" size= {18} color={tintColor} />
+      } },
+    Mail: { 
+      screen: MailScreen,
+      navigationOptions: {
+       title: 'Check Mail',
+       drawerIcon: ({tintColor}) => <Feather name="mail" size= {18} color={tintColor} />
+     }},
+    Events: {
+       screen: EventList ,
+       navigationOptions: {
+        title: 'Belt List',
+        drawerIcon: ({tintColor}) => <Feather name="list" size= {18} color={tintColor} />
+      }},
+    Logout: { 
+      screen: DashboardPage,
+      navigationOptions: {
+       title: 'Sign Out',
+       drawerIcon: ({tintColor}) => <Feather name="log-out" size= {18} color={tintColor} />
+     } }
     //Tour: { screen: TpPage },
     //Test: { screen: AlertCheck },
     //Report: { screen: DcrPage},
@@ -72,13 +107,30 @@ const DashStack = createStackNavigator({
     //EventList: { screen: EventList}
   }
   ,{
+    contentComponent: props => <SideBar {...props} />,
+    drawerWidth: Dimensions.get('window').width * 0.7,
+    hideStatusBar: false,
+    contentOptions: {
+      activeBackgroundColor: 'rgb(197,235, 184)',
+      activeTintColor: colors.DRW_TINT,
+      itemsContainerStyle: {
+        marginTop: 4,
+        marginHorizontal: 8
+      },
+      itemStyle: {
+        borderRadius: 4
+      }       // RGB(197, 235, 184)
+    },
     initialRouteName: 'Home',
     headerMode: 'screen'
   }
   );
+
+  const managerDrawer = createDrawerNavigator({
+    Home: DashStack
+  });
   
   const AppSwitchScreens = createSwitchNavigator({
-  
     Auth: AuthScreen,
     Login: LoginStack,
     Dashboard: AppDrawer
