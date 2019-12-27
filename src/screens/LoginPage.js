@@ -1,18 +1,15 @@
 import React, { Component } from "react";
-import { View,Text,StyleSheet, ImageBackground,Image, TextInput, Dimensions, TouchableOpacity, Keyboard, Animated} from "react-native";
-//import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-//import Icon from 'react-native-vector-icons/Ionicons';
+import { View,Text,StyleSheet, TextInput, Dimensions, TouchableOpacity, Keyboard, Animated,ToastAndroid} from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import RadioForm from 'react-native-simple-radio-button';
 import axios from "axios";
 import * as api from '../config/api';
 import colors from '../config/colors';
-import bgImage from '../assets/image-bg.jpg';
-import logo from '../assets/logo.png';
 import logo3 from '../assets/logo3.png';
-import { Header } from 'react-navigation-stack';
-//import { ScrollView } from "react-native-gesture-handler";
+
+
 
 var radio_props = [
     { label: 'Representative      ', value: 0 },
@@ -116,11 +113,28 @@ class LoginPage extends Component {
                 value: val // 1 -> manager
               })
               .then(function (response) {
-                console.log(response.data);
+                const navigationParams = {
+                    token: response.data.token,
+                    username: userId
+                  }
+                console.log('NavigationParams inside submit ',navigationParams);
+
+                AsyncStorage.multiSet(
+                    [
+                      [isUserLoggedIn, true],
+                      [USER, userId],
+                      [TOKEN, response.data.token]
+                    ],
+                    () => {
+                      this.props.navigation.navigate("Dshboard", navigationParams);
+                    });
+
               })
-              .catch(function (error) {
-                console.log(error);
-              });
+              .catch(error => {
+                ToastAndroid.show("Login Failed", ToastAndroid.SHORT);
+                console.log(error)
+              }
+              );
 
         }
         else{

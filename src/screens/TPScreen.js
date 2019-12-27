@@ -44,8 +44,11 @@ class TPScreen extends Component {
         //this.storeItem = this.storeItem.bind(this);
         //this.getMyValue = this.getMyValue.bind(this);
     }
+    componentWillUnmount(){
+        this.setModalVisible(!this.state.modalVisible);
+    }
     getData = async () => {
-        console.log('inside getdata')
+        //console.log('inside getdata')
         var temp = [];
         try {
         const res = await axios.post(api.BELT_API,{
@@ -54,7 +57,7 @@ class TPScreen extends Component {
             "Content-Type": "application/json"
         }
         });
-        //console.log('axio data inside getData ',res.data.BeltList)
+        console.log('axio data inside getData ',res.data.BeltList)
         let responseJSON = res.data.BeltList;
         var len = responseJSON.length;
           if (len > 0) {
@@ -171,7 +174,7 @@ class TPScreen extends Component {
             let today = moment();
             let day = today.clone();
             let selectedDates = ['2019-12-26T06:41:26.445Z', '2019-12-27T06:41:26.445Z'];
-            console.log('dates ', day)
+            //console.log('dates ', day)
             let customDateStyles = [];
             for (var i=0; i < selectedDates.length;i++){
                 customDateStyles.push({
@@ -253,7 +256,7 @@ class TPScreen extends Component {
                                     this.setState({
                                         belt: value
                                     })
-                                    console.log('value of belt ',this.state.belt)
+                                    //console.log('value of belt ',this.state.belt)
                                     // this.setModalVisible(!this.state.modalVisible);
                                     // this.submit();
                                 }}

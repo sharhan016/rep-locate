@@ -6,10 +6,10 @@ import RadioForm from 'react-native-simple-radio-button';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 
-var radio_props = [
-    { label: 'Alone  ', value: 0 },
-    { label: 'Accompanied By', value: 1 }
-];
+// var radio_props = [
+//     { label: 'Alone  ', value: 0 },
+//     { label: 'Accompanied By', value: 1 }
+// ];
 
 class DCRScreen extends Component {
     // static navigationOptions = {
@@ -19,18 +19,18 @@ class DCRScreen extends Component {
         super(props);
         this.state = {
             isAccompanied: false,
-            categoryData: [{
-                id: 1,
-                location: 'calicut',
-            }, {
-                id: 2,
-                location: 'thalassery',
-            }, {
-                id: 3,
-                location: 'kozhikode',
-            }],
-            value: '',
-            text: '',
+            // categoryData: [{
+            //     id: 1,
+            //     location: 'calicut',
+            // }, {
+            //     id: 2,
+            //     location: 'thalassery',
+            // }, {
+            //     id: 3,
+            //     location: 'kozhikode',
+            // }],
+            // value: '',
+            // text: '',
             granted: false,
             fetching: false,
             currentLongitude: '',
@@ -49,6 +49,12 @@ class DCRScreen extends Component {
     })
     .catch(error => console.warn(error));
     }
+
+
+    // need componentDidMount
+    // submitButton
+    // getLatLng
+
 
     componentDidMount = () => {
         var that =this;

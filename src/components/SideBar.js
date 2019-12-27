@@ -19,12 +19,14 @@ class SideBar extends Component {
         this._getData();
     }
     _getData = async () => {
-        const userValue = await AsyncStorage.getItem('userValue');
+        //const userValue = await AsyncStorage.getItem('userValue');
+        const userValue = 0;
         if(userValue == 0){
         this.setState({value: 0})
         }else{
             this.setState({value: 1});
         }
+
     
     }
 

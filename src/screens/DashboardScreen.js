@@ -49,7 +49,6 @@ class DashboardScreen extends Component {
             
             <View style={styles.container}>
                 <StatusBar barStyle = "light-content" hidden = {false} backgroundColor={colors.STATUS_BAR_GRN}/>
-                {/* <Button style={styles.btnStyle} label='Doctor' onPress={this.goToDoctor} /> */}
                 <TouchableHighlight onPress={this.goToDoctor}>
                 <View style={styles.btnContainer}>
                 <Image 
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        backgroundColor: colors.BG_LT_GREEN
+        backgroundColor: colors.BG_LOGIN
         //backgroundColor:'#E7E2C5'
     },
     btnContainer:{

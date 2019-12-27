@@ -3,16 +3,18 @@ import { ADD_EVENT } from '../actions/actionTypes'
 
 const events = (state = [], action) => {
     let id = 0
-    if (state.length === null | 0) {
+    if (state.length === null || 0) {
         id = 0
     } else {
         id = state.length
     }
+
+
+
     switch (action.type) {
 
         case ADD_EVENT:
             var newArr = [...state];
-            console.log('length of new array ', newArr.length)
             if (newArr.length == 0) {
                 return [
                     ...state,
@@ -23,15 +25,30 @@ const events = (state = [], action) => {
                         holiday: false
                     }
                 ]
-            }
-            for (let i = 0; i < newArr.length; i++) {
-                var data = newArr[i];
-                console.log('day key in data ', data)
-                if (data.date === action.payload.day) {
-                    console.log('Same Date Detected');
-                    data.event = action.payload.event;
+            }else{
+                
+            newArr.forEach( event => {
+                if(event.date === action.payload.day){
+                    console.log('Same Date Detected e and a ',event.date,action.payload.day)
+                    event.event = action.payload.text
                     return [
-                        ...state
+                        newArr
+                     ]
+                }   
+                console.log(newArr)
+                
+            })
+            
+        }
+            /*
+            for (let i = 1; i < newArr.length; i++) {
+                console.log('payload day ', action.payload.day)
+                console.log('new Arrays date ',newArr[i].date)
+                if (action.payload.day == newArr[i].date ) {
+                    console.log('Same Date Detected',action.payload.text);
+                    newArr[i].event = action.payload.text;
+                    return [
+                        ...newArr
                     ]
 
                 } else {
@@ -48,6 +65,8 @@ const events = (state = [], action) => {
                 }
 
             }
+
+            */
 
         // return[
         //     ...state,

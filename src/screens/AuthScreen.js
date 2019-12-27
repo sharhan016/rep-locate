@@ -12,7 +12,7 @@ class AuthScreen extends Component {
     this._checkAuthenticationStatus();
   }
   _checkAuthenticationStatus = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
+    const userToken = await AsyncStorage.getItem('isUserLoggedIn');
     console.log('inside welcome screen',userToken);
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
