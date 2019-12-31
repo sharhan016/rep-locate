@@ -61,7 +61,7 @@ class SideBar extends Component {
                     style={styles.imageBG}
                 >
                     <Image source={require('../assets/inner-bg.jpg')} style={styles.profile} />
-        <Text style={styles.name}>{this.state.name}</Text>
+                    <Text style={styles.name}>{this.state.name}</Text>
                     <Text style={styles.designation}>{this.state.designation}</Text>
                 </ImageBackground>
                 
