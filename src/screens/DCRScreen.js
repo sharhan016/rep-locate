@@ -6,31 +6,21 @@ import RadioForm from 'react-native-simple-radio-button';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 
-// var radio_props = [
-//     { label: 'Alone  ', value: 0 },
-//     { label: 'Accompanied By', value: 1 }
-// ];
+
+///
+
+//  CURRENTLY NOT USING
+
+///
+
 
 class DCRScreen extends Component {
-    // static navigationOptions = {
-    //     title: 'DCR',
-    //   };
+
     constructor(props) {
         super(props);
         this.state = {
             isAccompanied: false,
-            // categoryData: [{
-            //     id: 1,
-            //     location: 'calicut',
-            // }, {
-            //     id: 2,
-            //     location: 'thalassery',
-            // }, {
-            //     id: 3,
-            //     location: 'kozhikode',
-            // }],
-            // value: '',
-            // text: '',
+
             granted: false,
             fetching: false,
             currentLongitude: '',
@@ -39,16 +29,16 @@ class DCRScreen extends Component {
         
     }
 
-    getData(){
+    // getData(){
 
-        //Geocoder.getFromLatLng(41.89, 12.49)
-        Geocoder.from(41.89, 12.49)
-        .then(json => {
-            var addressComponent = json.results[0].address_components[0];
-        console.log(addressComponent);
-    })
-    .catch(error => console.warn(error));
-    }
+    //     //Geocoder.getFromLatLng(41.89, 12.49)
+    //     Geocoder.from(41.89, 12.49)
+    //     .then(json => {
+    //         var addressComponent = json.results[0].address_components[0];
+    //     console.log(addressComponent);
+    // })
+    // .catch(error => console.warn(error));
+    // }
 
 
     // need componentDidMount
@@ -108,7 +98,6 @@ class DCRScreen extends Component {
              { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
           );
           console.log(this.state.currentLatitude , this.state.currentLongitude)
-
        }
 
 
@@ -189,7 +178,7 @@ class DCRScreen extends Component {
                 </View>
                 
                 <Text style={{fontSize: 20}} >
-                    itemId: {this.props.navigation.getParam('id', 'No-ID')}
+                    itemId: {this.props.navigation.getParam('navigationParams', 'No-ID')}
           {/*itemId: {JSON.stringify(navigation.getParam('itemId', 'NO-ID'))} */}
         </Text>
 

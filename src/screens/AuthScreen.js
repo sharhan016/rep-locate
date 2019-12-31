@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, ActivityIndicator, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import * as api from '../config/api';
 
 
 class AuthScreen extends Component {
@@ -12,7 +13,7 @@ class AuthScreen extends Component {
     this._checkAuthenticationStatus();
   }
   _checkAuthenticationStatus = async () => {
-    const userToken = await AsyncStorage.getItem('isUserLoggedIn');
+    const userToken = await AsyncStorage.getItem(api.LOGGED_IN);
     console.log('inside welcome screen',userToken);
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.

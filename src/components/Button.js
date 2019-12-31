@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableHighlight } from "react-native";
 import colors from "../config/colors";
 
 
@@ -8,9 +8,9 @@ class Button extends Component {
   render() {
     const { style, label, onPress } = this.props;
     return (
-      <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
+      <TouchableHighlight style={[styles.container, style]} onPress={onPress}>
         <Text style={[styles.text,style]}>{label}</Text>
-      </TouchableOpacity>
+      </TouchableHighlight>
     );
   }
 }

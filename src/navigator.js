@@ -18,7 +18,12 @@ import EventList from '../src/components/EventList';
 import DashboardPage from '../src/screens/DashboardPage';
 import DcrPage from './screens/DcrPage';
 import LoginPage from './screens/LoginPage';
+import LogOut from './screens/LogOut';
 import RegisterPage from './screens/RegisterPage';
+import DcrListView from './screens/DcrListView';
+import ManagerTP from './screens/ManagerTP';
+import RepList from './screens/RepList';
+import ReportView from './components/ReportView';
 import SideBar from './components/SideBar';
 import colors from './config/colors';
 
@@ -27,7 +32,7 @@ class Navigator extends Component {
     userType: 1
   }
     render() {
-      console.log('inside navigator ', this.props.userToken)
+      //console.log('inside navigator ', this.props.userToken)
         return (
             <View style={styles.container}>
                 <Text>Navigator</Text>
@@ -42,6 +47,10 @@ iconOpener = () => {
 const DashStack = createStackNavigator({
     Dashboard: DashboardScreen,
     DCR: DcrPage,
+    DcrList: DcrListView,
+    MgrTp: ManagerTP,
+    RepList: RepList,
+    Report: ReportView
     //DCR: DCRScreen,
     //TP: TPScreen,
     //Report: DcrPage
@@ -95,7 +104,7 @@ const DashStack = createStackNavigator({
         drawerIcon: ({tintColor}) => <Feather name="list" size= {18} color={tintColor} />
       }},
     Logout: { 
-      screen: DashboardPage,
+      screen: LogOut,
       navigationOptions: {
        title: 'Sign Out',
        drawerIcon: ({tintColor}) => <Feather name="log-out" size= {18} color={tintColor} />

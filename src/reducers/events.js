@@ -1,5 +1,5 @@
 import { addEvent } from '../actions/index';
-import { ADD_EVENT } from '../actions/actionTypes'
+import { ADD_EVENT, ADD_LEAVE } from '../actions/actionTypes'
 
 const events = (state = [], action) => {
     let id = 0
@@ -78,7 +78,7 @@ const events = (state = [], action) => {
         //     }
         // ]
 
-        case 'ADD_LEAVE':
+        case ADD_LEAVE:
             return [
                 ...state, {
                     id: id++,

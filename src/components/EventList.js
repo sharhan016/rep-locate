@@ -13,7 +13,6 @@ import UserAvatar from 'react-native-user-avatar';
 
 class EventList extends Component {
     renderItem(event) {
-        //console.log('EVENT',event)
         return <ListItem
             roundAvatar
             title={event.item.event}
@@ -21,11 +20,8 @@ class EventList extends Component {
             leftAvatar={<UserAvatar size="50" name={event.item.date} color="#000" />}
             bottomDivider
         />
-        // return <ListItem events={event} />
     }
-    renderAvatar(event) {
-        return <UserAvatar size="50" name="Jane Doe" color="#000" />
-    }
+
     compare = (a, b) => {
         const bandA = a.date;
         const bandB = b.date;
@@ -58,14 +54,13 @@ class EventList extends Component {
                 t.date === thing.date && t.event === thing.event
             ))
         )
-        console.log(datas)
 
         return (
             <View style={styles.container}>
                 <Header
                     heading='Belt List'
                     onPress={() => this.props.navigation.openDrawer()} />
-                <Text style={{ marginLeft: 10, fontSize: 18 }}>Belt wise report</Text>
+                <Text style={{ marginLeft: 10, fontSize: 18, marginTop: 10 }}>Belt wise report</Text>
                 <View style={styles.inView}>
                     <FlatList
                         data={datas}

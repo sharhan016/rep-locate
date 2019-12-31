@@ -5,29 +5,37 @@ import { DrawerNavigatorItems } from 'react-navigation-drawer';
 import { NavigationActions,withNavigation } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
+import * as api from '../config/api';
 import colors from "../config/colors";
 import DrawerItems from './DrawerItems.js';
 import AsyncStorage from '@react-native-community/async-storage';
 
 
 //const SideBar = props => {
-class SideBar extends Component {
-    state ={
-        value: 0
-    }
-    componentDidMount() {
-        this._getData();
-    }
-    _getData = async () => {
-        //const userValue = await AsyncStorage.getItem('userValue');
-        const userValue = 0;
-        if(userValue == 0){
-        this.setState({value: 0})
-        }else{
-            this.setState({value: 1});
+class SideBar extends Component { 
+    constructor(){
+        super();
+        this.state={
+            value: '0',
+            name: '',
+            designation: ''
         }
-
+       // this.getToken();
+    }
     
+    componentDidMount() {
+        this.getToken();
+    }
+    getToken = async () => {
+        try {
+            const userType = await AsyncStorage.getItem(api.USER_TYPE)
+            const userName = await AsyncStorage.getItem(api.USER_NAME)
+            const userDesignation = await AsyncStorage.getItem(api.USER_DESIGNATION)
+            console.log('Usertype & name & designation value inside sidebar ',userType, userName, userDesignation)
+            this.setState({value: userType, name: userName, designation: userDesignation });
+        } catch (error) {
+            console.log(error)
+        }
     }
 
    
@@ -42,10 +50,9 @@ class SideBar extends Component {
               <DrawerItems iconName='file' text='DCR Report' route='DCR' /> 
               <DrawerItems iconName='list' text='Rep List' route='DCR' /> 
               <DrawerItems iconName='calendar' text='View TP' route='DCR' /> 
+              <DrawerItems iconName='log-out' text='Log Out' route= {null} />
              </View>;
              
-    
-        console.log('reached  Class SideBar')
         return (
 
             <ScrollView style={styles.container}>
@@ -54,12 +61,12 @@ class SideBar extends Component {
                     style={styles.imageBG}
                 >
                     <Image source={require('../assets/inner-bg.jpg')} style={styles.profile} />
-                    <Text style={styles.name}>John Doe</Text>
-                    <Text style={styles.designation}>Medical Representative</Text>
+        <Text style={styles.name}>{this.state.name}</Text>
+                    <Text style={styles.designation}>{this.state.designation}</Text>
                 </ImageBackground>
                 
-
-                {this.state.value == 0 ? repitems : managerItems}
+ 
+                {this.state.value == '0' ? repitems : managerItems}
 
                 {/* <TouchableOpacity style={styles.itemsContainer}
     //onPress={ () => nav.navigate('DCR') }

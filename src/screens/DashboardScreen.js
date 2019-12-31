@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet,Dimensions, TouchableHighlight,Image } from 'react-native';
 import { StatusBar } from 'react-native';
-
-import Button from '../components/Button';
+import AsyncStorage from '@react-native-community/async-storage';
+import * as api from '../config/api';
+import RepDisplay from './RepDisplay';
+import ManagerScreen from './ManagerScreen';
 
 import colors from "../config/colors";
 
 const width = Dimensions.get('screen').width - 50;
-
+const ZERO = "0";
 class DashboardScreen extends Component {
-    state = {}
+    state = {
+        tokenId: '',
+        userType: 0
+    }
     static navigationOptions = {
         title: 'Dashboard',
       };
@@ -43,33 +48,33 @@ class DashboardScreen extends Component {
             id: '03',
         });
     }
+    componentDidMount(){
+        this.getToken();
+    }
+
+    getToken = async () => {
+        try {
+            let token = await AsyncStorage.getItem(api.TOKEN);
+            let userType = await AsyncStorage.getItem(api.USER_TYPE)
+            this.setState({tokenId: token, userType: userType});
+            console.log("token inside dashboard and userType ",token, userType)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     render() {
+        const RepView = <RepDisplay navigation={this.props.navigation} />
+        const ManagerView = <ManagerScreen token={this.state.tokenId} navigation={this.props.navigation}/>
         return (
             
             <View style={styles.container}>
                 <StatusBar barStyle = "light-content" hidden = {false} backgroundColor={colors.STATUS_BAR_GRN}/>
-                <TouchableHighlight onPress={this.goToDoctor}>
-                <View style={styles.btnContainer}>
-                <Image 
-                style={styles.image}
-                source={require('../assets/doctor-logo.jpg')}
-                />
-                </View>
-                </TouchableHighlight>
-                <View style={{ height: 30 }} ></View>
-                {/* <Button style={styles.btnStyle} label='Chemist' onPress={this.goToChemist} /> */}
-                <TouchableHighlight onPress={this.goToChemist}>
-                <View style={styles.btnContainer}>
-                <Image 
-                style={styles.image}
-                source={require('../assets/doctor-logo.jpg')}
-                />
-                </View>
-                </TouchableHighlight>
-                <View style={{ height: 30 }} ></View>
-                {/* <Button style={styles.btnStyle} label='Stockist' onPress={this.goToStockist} /> */}
-                <View style={{ height: 30 }} ></View>
+                
+                
+
+        {this.state.userType === ZERO ? RepView : ManagerView }
+                
             </View>
         );
     }
@@ -78,7 +83,8 @@ class DashboardScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
-        alignItems: 'center',
+        padding: 10,
+        //alignItems: 'center',
         flex: 1,
         backgroundColor: colors.BG_LOGIN
         //backgroundColor:'#E7E2C5'

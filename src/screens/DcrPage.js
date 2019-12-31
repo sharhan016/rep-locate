@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet,ScrollView } from 'react-native';
+import { View, StyleSheet,ScrollView ,PermissionsAndroid,ToastAndroid } from 'react-native';
 import { Form, FormPicker } from "@99xt/first-born";
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, } from 'native-base';
+import Geolocation from '@react-native-community/geolocation';
 import RadioForm from 'react-native-simple-radio-button';
 import colors from "../config/colors";
 import * as api from '../config/api';
@@ -29,23 +30,76 @@ class DcrPage extends Component {
                 value: 'tly'
             }],
             value: '',
+            beltId: '',
+            doctorId: null,
+            chemistId: null,
+            feedback: '',
+            managerId: null,
             height: 400,
             isAccompanied: false,
             pickerValue: '',
             completeList: [],
             categoryList:[],
-            subCategoryList:[]
+            subCategoryList:[],
+            granted: false,
+            fetching: false,
+            currentLongitude: '',
+            currentLatitude: '',
+            //// temp values:
+            rep: 1, 
+            userType: 'R',
+            expense: '150',
+            location: '',
+            isManagerApproved: '0'
         };
-        //this.getData();
+        this.getData();
         console.log('Here in Constructor')
         
         //this.getData = this.getData.bind(this);
 
     }
-    componentDidMount(){
-        console.log('I am in didMount')
-        this.getData();
+
+    requestLocationPermission = async () => {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,{
+              'title': 'Location Access Required',
+              'message': 'This App needs to Access your location'
+            }
+          )
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            //To Check, If Permission is granted
+            //that.callLocation(that);
+            this.setState({granted: true});
+          } else {
+            alert("Permission Denied");
+          }
+        } catch (err) {
+          alert("err",err);
+          console.warn(err)
+        }
       }
+
+      getLatLng(that){
+        ToastAndroid.show("Getting Location", ToastAndroid.SHORT);
+        Geolocation.getCurrentPosition(
+             (position) => {
+                const currentLongitude = JSON.stringify(position.coords.longitude);
+                const currentLatitude = JSON.stringify(position.coords.latitude);
+                that.setState({ currentLongitude:currentLongitude });
+                that.setState({ currentLatitude:currentLatitude , fetching: false});
+             },
+             (error) => alert(error.message),
+             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+          );
+          console.log(this.state.currentLatitude , this.state.currentLongitude)
+       }
+
+    componentDidMount () { 
+          
+          this.requestLocationPermission();
+          this.getData();
+       }
 
     getData = async () => {
         console.log('inside getdata')
@@ -108,81 +162,46 @@ class DcrPage extends Component {
   
 
 
-    handleValueChange = (value) => {
+    handleBeltChange = (value) => {
         var docs = [];
         console.log('value before axios ',value)
         const obj = { 
             BeltID: value
          };
          this.getSubdata(value);
-        //  if(!this.state.subCategoryList.length){
-        //     console.log('no data ',this.state.subCategoryList)
-        //     this.getSubdata(value);
-        //  }else{
-        //      //this.setState({ subCategoryList: docs });
-        //      //console.log('Subcategry inside else ',this.state.subCategoryList)
-        //      //this.getSubdata(obj);
-        //      let doctors = this.state.completeList;
-        //      var length = doctors.length;
-        //      if(length > 0){
-        //         //  for(var i=0; i < length; i++ ){
-        //         //      var doctor = doctors[i];
-        //         //      //console.log('doctor[i] ',doctor[i])
-        //         //      //doctor.DoctorBelt === value ? docs.push(doctor) : [];
-        //         //      console.log('doc inside for loop ',docs)
-        //         //  }
-        //         //  this.setState({
-        //         //      subCategoryList: docs
-        //         //  })
-        //          console.log('inside else of handleValue ', this.state.subCategoryList)
-        //      }
-        //  }
-        
-         /*
-        const res = await axios.post(api.DOCTOR_API, { obj })
-          .then(function (response) {
-            //console.log('This is the post response ',response.data.DoctorList);
-            let doctorResponse = response.data.DoctorList;
-            var len = doctorResponse.length;
-            console.log('length of doctor list ',len)
-            if (len > 0) {
-                for (let i = 0; i < len; i++) {
-                  var data = doctorResponse[i];
-                  var doctor = { label: data.DoctorName,value: data.DoctorID};
-                  console.log('variable doctor is ',doctor)
-                  docs.push(doctor);
-                }
-                this.setState({
-                    subCategoryList: docs,
-                  });
-              }
-              
-              console.log('This is the sub category ',subCategoryList)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-
-        */
-   
-        console.log(value)
+         this.setState({beltId: value});
     }
+
     handleSubChange = (value) => {
         console.log('inside picker sub change',value)
+        this.setState({doctorId: value});
     }
+
     handleTextChange = (value) => {
-        console.log(value)
+        this.setState({feedback: value});
     }
+
     handleButtonClick = (value) => {
         console.log(value)
     }
+
+    handleValueChange = (value) => {
+     console.log('alone or accompanied ',value)   
+    }
+
+    postMethod = () => {
+        const { rep, beltId, doctorId, chemistId, isAccompanied, managerId, feedback, userType, expense , location, isManagerApproved  } = this.state;
+        console.log(rep, beltId, doctorId, chemistId, isAccompanied, managerId, feedback, userType, expense , location, isManagerApproved);
+    }
+
     render() {
+        const pickManager = <FormPicker style={{ marginTop:20, width: "100%" }} onValueChange={this.handleValueChange} selectedValue={this.state.pickerValue} label="Managers" data={this.state.pickerData} />
+
         formElements = [
-            { label: "Choose Belt", type: "picker", onValueChange: (value) => this.handleValueChange(value), pickerData: this.state.categoryList },
-            { label: "Choose Doctor", type: "picker", onValueChange: (value) => this.handleSubChange(value), pickerData: this.state.subCategoryList },
+            { label: "Choose Belt", type: "picker", onValueChange: (value) => this.handleBeltChange(value), pickerData: this.state.categoryList },
+            { label: "Choose "+ this.props.navigation.getParam('name','wait'), type: "picker", onValueChange: (value) => this.handleSubChange(value), pickerData: this.state.subCategoryList },
             { label: "Feedback", type: "textarea", onChangeText: (value) => this.handleTextChange(value) },
         ];
-        const pickManager = <FormPicker style={{ marginTop:20, width: "100%" }} onValueChange={this.handleValueChange} selectedValue={this.state.pickerValue} label="Managers" data={this.state.pickerData} />
         return (
             <KeyboardAwareScrollView>
             <View style={styles.container}>

@@ -8,12 +8,23 @@ import {
 import { NavigationActions, withNavigation } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import colors from "../config/colors";
+import * as api from '../config/api';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 
 
 class DrawerItems extends Component {
-    navigateToScreen = (route) => {
+    navigateToScreen = async (route) => {
+        if(!route){
+            const keys = [api.LOGGED_IN, api.TOKEN, api.USER_TYPE]
+            try {
+                await AsyncStorage.multiRemove(keys)
+            } catch (error) {
+                console.log('error in removeItem',error)
+            }
+            return this.props.navigation.navigate('SignIn');
+        }
         const navigate = NavigationActions.navigate({
           routeName: route
         });

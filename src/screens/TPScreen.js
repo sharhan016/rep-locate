@@ -13,6 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { DisplayEvents } from "../containers/DisplayEvents";
 import EventList from '../components/EventList';
 import { addEvent } from '../actions';
+import { ADD_EVENT, ADD_LEAVE } from '../actions/actionTypes';
 import {connect} from 'react-redux';
 import * as api from '../config/api';
 const axios = require('axios');
@@ -116,7 +117,7 @@ class TPScreen extends Component {
             text: 'Holiday'
         }
         const action = {
-            type: 'ADD_LEAVE',
+            type: ADD_LEAVE,
             payload: text
         };
         this.props.dispatch(action);
@@ -136,7 +137,7 @@ class TPScreen extends Component {
             text: belt
         }
         const action = {
-            type: 'ADD_EVENT',
+            type: ADD_EVENT,
             payload: text
         };
         this.props.dispatch(action)
@@ -157,13 +158,13 @@ class TPScreen extends Component {
 
     // storeItem = async (key, item) => {
 
-    //     try {
-    //         var jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
-    //         return jsonOfItem;
-    //     }
-    //     catch (error) {
-    //         console.log('Storing error ' + error)
-    //     }
+        // try {
+        //     var jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
+        //     return jsonOfItem;
+        // }
+        // catch (error) {
+        //     console.log('Storing error ' + error)
+        // }
     
     // }
 

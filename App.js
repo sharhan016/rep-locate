@@ -8,20 +8,20 @@ import AsyncStorage from '@react-native-community/async-storage';
 class App extends Component {
 
   state = {  }
-  componentDidMount() {
-    this._checkAuthenticationStatus();
-  }
-  _checkAuthenticationStatus = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
-    this.setState({ userToken: userToken});
-   // console.log('inside App screen',userToken);
+  // componentDidMount() {
+  //   this._checkAuthenticationStatus();
+  // }
+  // _checkAuthenticationStatus = async () => {
+  //   const userToken = await AsyncStorage.getItem('userToken');
+  //   this.setState({ userToken: userToken});
+  //   console.log('inside App.js screen',userToken);
 
-    //this.props.navigation.navigate(userToken ? 'Dashboard' : 'Login');
-  };
+  //   //this.props.navigation.navigate(userToken ? 'Dashboard' : 'Login');
+  // };
   render() {
     return (
       <Provider store={store}>
-      <Navigator userToken={this.state.userToken} />
+      <Navigator />
       </Provider>
     );
   }
