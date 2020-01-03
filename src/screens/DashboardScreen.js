@@ -64,7 +64,7 @@ class DashboardScreen extends Component {
     }
 
     render() {
-        const RepView = <RepDisplay navigation={this.props.navigation} />
+        const RepView = <RepDisplay token={this.state.tokenId} navigation={this.props.navigation} />
         const ManagerView = <ManagerScreen token={this.state.tokenId} navigation={this.props.navigation}/>
         return (
             
@@ -82,35 +82,32 @@ class DashboardScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center',
         padding: 10,
-        //alignItems: 'center',
+        backgroundColor: colors.BG_LOGIN,
         flex: 1,
-        backgroundColor: colors.BG_LOGIN
-        //backgroundColor:'#E7E2C5'
     },
-    btnContainer:{
-        height: 200,
-        width: width,
-        //alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: colors.DASH_BTN,
-        borderRadius: 14
+    // btnContainer:{
+    //     height: 200,
+    //     width: width,
+    //     //alignItems: 'center',
+    //     justifyContent: 'center',
+    //     backgroundColor: colors.DASH_BTN,
+    //     borderRadius: 14
 
-    },
-    image: {
-        width: width,
-        height: 150,
-        resizeMode: 'stretch'
-    },
-    fontStyle: {
-        fontSize: 20,
-        fontWeight: "500",
-        fontStyle: 'italic'
-    },
-    text: { fontSize: 25 },
-    padding: { padding: 10 },
-    btnStyle: { width: "80%" }
+    // },
+    // image: {
+    //     width: width,
+    //     height: 150,
+    //     resizeMode: 'stretch'
+    // },
+    // fontStyle: {
+    //     fontSize: 20,
+    //     fontWeight: "500",
+    //     fontStyle: 'italic'
+    // },
+    // text: { fontSize: 25 },
+    // padding: { padding: 10 },
+    // btnStyle: { width: "80%" }
 });
 
 export default DashboardScreen;

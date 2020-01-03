@@ -6,10 +6,10 @@ import colors from "../config/colors";
 
 class Button extends Component {
   render() {
-    const { style, label, onPress } = this.props;
+    const { style, label, onPress, textStyle } = this.props;
     return (
       <TouchableHighlight style={[styles.container, style]} onPress={onPress}>
-        <Text style={[styles.text,style]}>{label}</Text>
+        <Text style={[styles.text,textStyle]}>{label}</Text>
       </TouchableHighlight>
     );
   }
@@ -20,19 +20,19 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    //backgroundColor: 'white',
     backgroundColor: colors.DODGER_BLUE,
     marginBottom: 12,
     paddingVertical: 12,
     borderRadius: 4,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(255,255,255,0.7)"
+    borderColor: "rgba(255,255,255,0.7)",
+    elevation: 1,
   },
   text: {
     color: colors.WHITE,
     textAlign: "center",
-    height: 20,
-   
+    height: 23,
+    fontSize: 15
   }
 });
 

@@ -10,23 +10,28 @@ const width = Dimensions.get('screen').width - 50;
 
 class RepDisplay extends Component {
 
+   
+
     goToDoctor = () => {
         this.props.navigation.navigate('DCR', {
             name: 'Doctor',
+            type: "D",
+            token: this.props.navigation.getParam('token')
         });
     }
     goToChemist = () => {
         this.props.navigation.navigate('DCR', {
             name: 'Chemist',
+            type: "C",
+            token: this.props.navigation.getParam('token')
         });
     }
     componentDidMount(){
-        console.log('inside repDisplay ',this.props.navigation)
     }
 
     render() {
         return (
-            <View>
+            <View style={styles.container}>
             <TouchableHighlight style={styles.btnContainer} onPress={this.goToDoctor}>
                 <Image 
                 style={styles.image}
@@ -51,25 +56,28 @@ export default RepDisplay;
 
 const styles = StyleSheet.create({
     container: {
+        height: 500,
+        marginTop: 80,       
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1,
+        //flex: 1,
         backgroundColor: colors.BG_LOGIN
         //backgroundColor:'#E7E2C5'
     },
     btnContainer:{
         height: 200,
-        width: width,
-        //alignItems: 'center',
-        justifyContent: 'center',
+        width: width, 
+        borderRadius: 15,
         backgroundColor: colors.DASH_BTN,
-        borderRadius: 14
+        // borderTopStartRadius: 14,
+        // borderBottomEndRadius: 14
 
     },
     image: {
         width: width,
         height: 150,
-        resizeMode: 'stretch'
+        resizeMode: 'stretch',
+        borderRadius: 20
     },
     fontStyle: {
         fontSize: 20,

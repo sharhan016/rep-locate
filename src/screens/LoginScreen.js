@@ -10,6 +10,12 @@ var radio_props = [
     { label: 'Representative      ', value: 0 },
     { label: 'Manager', value: 1 }
 ];
+
+//
+//
+//  CURRENTLY NOT USING
+//
+//
 const screenWidth = Math.round(Dimensions.get('window').width) - 10;
 
 class LoginScreen extends Component {

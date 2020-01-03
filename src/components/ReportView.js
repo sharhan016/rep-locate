@@ -43,6 +43,7 @@ class ReportView extends Component {
             if (res.status == 200)
                 this.setState({ progressVisible: false, dialogVisible: true })
         })
+        console.log('ReportStat:::',reportStat)
             .catch(error => {
                 this.setState({ progressVisible: false })
                 console.log('error occured during approval of DCR ', error)

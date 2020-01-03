@@ -123,10 +123,10 @@ class LoginPage extends Component {
                 }
                 console.log('NavigationParams inside submit ', navigationParams);
                 let tok = response.data.APIToken;
-                let tokenData = tok.toString();
+                let tokendata = tok.toString();
                 let use = userData["UserType"]
                 let userType = use.toString();
-                this.storeToken(tokenData,userType,navigationParams);
+                this.storeToken(tokendata,userType,navigationParams);
                 /*
               AsyncStorage.multiSet(
                   [

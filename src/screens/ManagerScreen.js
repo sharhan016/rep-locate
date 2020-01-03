@@ -29,22 +29,25 @@ class ManagerScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
+
                 <View style={styles.buttonContainer}>
+                    
                 <TouchableWithoutFeedback  onPress={this.showDCR}>
-                    <Text style={{textAlign: 'center'}}>Approve Pending DCR</Text>
+                    <Text style={styles.textStyle}>Approve Pending DCR</Text>
                 </TouchableWithoutFeedback >
+
                 </View>
                 <View style={{paddingVertical: 20}}></View>
                 <View style={styles.buttonContainer}>
                 <TouchableWithoutFeedback onPress={this.showRep} >
-                    <Text>Show Reps</Text>
+                    <Text style={styles.textStyle}>Show Reps</Text>
                 </TouchableWithoutFeedback>
                 </View>
                 <View style={{paddingVertical: 20}}></View>
 
                 <View style={styles.buttonContainer}>
                 <TouchableWithoutFeedback onPress={this.showTP} >
-                    <Text>View TP</Text>
+                    <Text style={styles.textStyle}>View TP</Text>
                 </TouchableWithoutFeedback>
                 </View>
             </View>
@@ -55,17 +58,24 @@ export default ManagerScreen;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.BG_LOGIN
-        //flex: 1
+        height: 600,
+        marginTop: 70,
+        padding:10,
+        //flex: 1,
+        backgroundColor: colors.BG_LOGIN,
     },
     buttonContainer: {
         height: 150,
-        backgroundColor: colors.BG_LT_GREEN,
+        backgroundColor: colors.GREY_ICON,
+        borderRadius: 15,
         alignItems: 'center',
         justifyContent: 'center'
     },
     alignJustify: {
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    textStyle: {
+        fontSize: 18
     }
 });
