@@ -3,12 +3,16 @@ export const DOCTOR_API = "http://supertaxi.xyz/medrep/API_BulkData/GetDoctorLis
 export const CHEMIST_API = "http://supertaxi.xyz/medrep/API_BulkData/GetChemistList";
 export const MANAGER_API = "http://supertaxi.xyz/medrep/API_BulkData/GetManagerList";
 export const SUBMIT_DCR_API = "http://supertaxi.xyz/medrep/API_MedAdmin/DcrSubmit";
+export const SUBMIT_TP= "http://supertaxi.xyz/medrep/API_MedAdmin/DoTPSubmit";
+
 export const USER_LOGIN = "http://supertaxi.xyz/medrep/API_BulkData/DoUserLogin";
+export const USER_REGITER = "http://supertaxi.xyz/medrep/API_BulkData/DoUserSignUp";
 export const USER_LOGOUT = "http://supertaxi.xyz/medrep/API_MedAdmin/Logout";
 
 
 export const PENDING_DCR = "http://supertaxi.xyz/medrep/API_MedAdmin/GetPendingDcrForApproval";
 export const APPROVE_DCR = "http://supertaxi.xyz/medrep/API_MedAdmin/ManagePendingDcr";
+export const LIST_REP= "http://supertaxi.xyz/medrep/API_MedAdmin/GetRepsUnderManager";
 
 
 export const LOGGED_IN = "isUserLoggedIn";

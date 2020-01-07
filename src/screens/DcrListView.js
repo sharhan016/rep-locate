@@ -1,15 +1,17 @@
 import React, { Component } from "react";
-import { View,Text,StyleSheet,ActivityIndicator,FlatList, TouchableOpacity} from "react-native";
+import { View,Text,StyleSheet,ActivityIndicator,FlatList, TouchableOpacity, ImageBackground} from "react-native";
 import DCRList from '../components/DCRList';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ListItem } from 'react-native-elements';
+import Header from '../components/HeaderBack'
 import UserAvatar from 'react-native-user-avatar';
 import * as api from '../config/api';
 import Axios from "axios";
+import colors from "../config/colors";
 
 class DCRListView extends Component {
     static navigationOptions = {
-        title: 'DCR'
+        header: null
     }
     state = { 
         loading: true,
@@ -51,10 +53,16 @@ class DCRListView extends Component {
     ///>
     const List = <DCRList data={data} tokenID={this.state.token} nav={this.props.navigation} />
         return (
-            <View style={styles.container}>
+            <ImageBackground
+                    source={require('../assets/healthcare.jpg')}
+                    style={styles.backgroundContainer}
+                >
+                <View style={styles.container}>
+                <Header heading='DCR' onPress={() => this.props.navigation.goBack()} />
                 {this.state.loading ? Indicator : List}
+                </View>
                 {/* {List} */}
-            </View>
+            </ImageBackground>
         );
     }
 }
@@ -63,7 +71,8 @@ export default DCRListView;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 10
+        backgroundColor: colors.BG_LOGIN,
+        //padding: 5
         //alignItems: 'center',
         //justifyContent: 'center'
     },
@@ -72,6 +81,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 80
-     }
+     },
+     backgroundContainer: {
+        width: '100%',
+        height: '100%',
+        //backgroundColor: colors.BG_LOGIN,
+
+    },
 });
 

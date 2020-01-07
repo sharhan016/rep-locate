@@ -103,22 +103,6 @@ class DCRScreen extends Component {
 
 
     render() {
-        let data = [{
-            value: 'Banana',
-        }, {
-            value: 'Mango',
-        }, {
-            value: 'Pear',
-        }];
-
-        let mgr = [{
-            value: 'Suresh',
-        }, {
-            value: 'Ramesh',
-        }, {
-            value: 'Ratheesh',
-        }];
-
         const pickManager = <Dropdown label='Choose' data={mgr}/>;
 
         return (
@@ -220,3 +204,33 @@ export default DCRScreen;
 
 
 // AIzaSyCgXoHLYMyUQu55vQ9rw4WPJGZfqoQBmvE
+
+/*
+
+fetch(
+          'https://maps.googleapis.com/maps/api/geocode/json?address=' +
+            latitude +
+            ',' +
+            longitude +
+            '&key=' +
+            API_KEY,
+        )
+          .then(response => response.json())
+          .then(responseJson => {
+            // let stateName = responseJson.results[0].address_components.filter(
+            //   x =>
+            //     x.types.filter(t => t == 'administrative_area_level_1').length >
+            //     0,
+            // )[0].long_name;
+            // this.setState({stateName: stateName});
+            // console.log(this.state.stateName);
+            console.log(responseJson);
+            this.setState({
+              currentLocation:
+                responseJson.results[0].address_components[3].long_name,
+            });
+            console.log(this.state.stateName);
+          });
+
+
+*/

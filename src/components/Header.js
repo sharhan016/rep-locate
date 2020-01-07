@@ -27,17 +27,21 @@ export default Header;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.HEADER_GREEN,
+        backgroundColor: colors.CUSTOM_HEADER,
+        width: "100%",
+        //opacity: 1.9,
         //justifyContent: 'center',
         //alignItems: 'center',
         flexDirection: 'row',
         height: 60,
         paddingTop: 15,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2},
+        shadowOffset: { width: 0, height: 3},
         shadowOpacity: 0.4,
+        shadowRadius: 10,
         elevation: 2,
-        position: 'relative'
+        position: 'absolute',
+        top: 0
     },
     leftIcon: {
         justifyContent: 'flex-start'

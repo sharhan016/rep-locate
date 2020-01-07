@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
     },
     textStyle: {
-        fontSize: 16,
-        fontWeight: '500'
+        fontSize: 14,
+        fontWeight: '400'
     }
 });

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity, Keyboard, Animated, ToastAndroid, ImageBackground, StatusBar, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity, Keyboard, Animated, ToastAndroid } from "react-native";
 import AsyncStorage from '@react-native-community/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -23,7 +23,6 @@ class LoginPage extends Component {
         super();
         this.state = {
             showPass: true,
-            loading: false,
             press: false,
             username: '',
             password: '',
@@ -31,7 +30,7 @@ class LoginPage extends Component {
             isUserLoggedIn: '1',
             rep: true,
             manager: false,
-            topPadding: 80
+            topPadding: 50
         };
         this.keyboardHeight = new Animated.Value(0);
         this.imageHeight = new Animated.Value(120);
@@ -47,9 +46,9 @@ class LoginPage extends Component {
     }
 
     keyboardDidShow = (event) => {
-        let height = event.endCoordinates.height - 150;
+        let height = event.endCoordinates.height;
         console.log('inside didShow', height)
-        this.setState({ topPadding: 20 });
+        this.setState({ topPadding: 10 });
         Animated.parallel([
             Animated.timing(this.keyboardHeight, {
                 duration: event.duration,
@@ -57,13 +56,13 @@ class LoginPage extends Component {
             }),
             Animated.timing(this.imageHeight, {
                 duration: event.duration,
-                toValue: 100,
+                toValue: 115,
             }),
         ]).start();
     };
 
     keyboardDidHide = (event) => {
-        this.setState({ topPadding: 80 });
+        this.setState({ topPadding: 70 });
         Animated.parallel([
             Animated.timing(this.keyboardHeight, {
                 duration: event.duration,
@@ -71,7 +70,7 @@ class LoginPage extends Component {
             }),
             Animated.timing(this.imageHeight, {
                 duration: event.duration,
-                toValue: 120,
+                toValue: 100,
             }),
         ]).start();
     };
@@ -104,8 +103,6 @@ class LoginPage extends Component {
             //alert('Please Enter Userid');
 
         }
-        this.setState({loading: true});
-        Keyboard.dismiss();
         this.submit(username, password, rep, value);
     }
 
@@ -130,12 +127,23 @@ class LoginPage extends Component {
                 let use = userData["UserType"]
                 let userType = use.toString();
                 this.storeToken(tokendata,userType,navigationParams);
+                /*
+              AsyncStorage.multiSet(
+                  [
+                    [LOGGED_IN, this.state.isUserLoggedIn],
+                    [USER, userData["UserName"]],
+                    [USER_TYPE, userData["UserType"] ]
+                    [TOKEN, response.data.APIToken]
+                  ],
+                  () => {
+                    this.props.navigation.navigate("Dashboard", navigationParams);
+                  });
+                  */
                 
 
             })
             .catch(error => {
                 ToastAndroid.show("Login Failed", ToastAndroid.SHORT);
-                this.setState({loading: false});
                 console.log(error)
             }
             );
@@ -155,7 +163,6 @@ class LoginPage extends Component {
         } catch (error) {
             console.log(error)
         }
-        this.setState({loading: false});
         this.props.navigation.navigate("Dashboard", navData);
 
     }
@@ -173,17 +180,7 @@ class LoginPage extends Component {
         header: null
     }
     render() {
-        const Indicator = <ActivityIndicator animating = {this.state.loading} color = {colors.HEADER_BLUE} size = "large"/>
         return (
-            <ImageBackground
-                    source={require('../assets/healthcare.jpg')}
-                    style={styles.backgroundContainer}
-                >
-                    <StatusBar hidden = {true} />
-                
-                   
-                  
-                
 
             <Animated.View style={[styles.container, { paddingBottom: this.keyboardHeight }]} >
                 {/* <ScrollView> */}
@@ -192,20 +189,20 @@ class LoginPage extends Component {
                 {/* <View style={styles.logoContainer}>
                 <Image source={logo3} style={styles.logo} />
                 </View> */}
-                <Animated.Image source={logo3} style={[styles.logo, {height: this.imageHeight}]} />
+                <Animated.Image source={logo3} style={styles.logo} />
 
-                <View style={{ paddingVertical: 10 }}></View>
+                <View style={{ paddingVertical: 20 }}></View>
 
                 <View>
                     {/* <Ionicons name={'person'} size={28} color={('rgba(255, 255, 255, 0.7')}  */}
-                    <Feather name={'user'} size={24} color={'black'} style={styles.inputIcon} />
+                    <Feather name={'user'} size={28} color={'black'} style={styles.inputIcon} />
 
                     <TextInput
                         onChangeText={this.getUserId}
                         value={this.state.username}
                         style={styles.inputContainer}
-                        placeholder={'Username'}
-                        placeholderTextColor={colors.INPUT_LABEL}
+                        placeholder={'User Id'}
+                        placeholderTextColor='white'
                         underlineColorAndroid='transparent'
                         keyboardType='email-address'
                     />
@@ -215,38 +212,31 @@ class LoginPage extends Component {
 
                 <View>
                     <Feather name={'lock'}
-                        size={24} style={styles.inputIcon} />
+                        size={28} style={styles.inputIcon} />
 
                     <TextInput
                         style={styles.inputContainer}
                         onChangeText={this.getPassword}
                         value={this.state.password}
                         placeholder={'Password'}
-                        placeholderTextColor={colors.INPUT_LABEL}
-                        //placeholderTextColor='honeydew'
+                        placeholderTextColor='white'
                         underlineColorAndroid='transparent'
                         secureTextEntry={this.state.showPass}
                     />
                     <TouchableOpacity style={styles.btnEye} onPress={this.showPass.bind(this)} >
                         <Feather name={this.state.press == false ? 'eye' : 'eye-off'}
-                            size={20} color={'rgba(207, 204, 204, 0.5)'} />
+                            size={26} color={'rgba(207, 204, 204, 0.5)'} />
                     </TouchableOpacity>
                 </View>
-
-                <View style={{ paddingVertical: 5 }}></View>
 
                 <View style={styles.radioField}>
                     <RadioForm
                         radio_props={radio_props}
                         initial={0}
-                        buttonSize={8}
-                        labelColor={colors.INPUT_LABEL}
-                        buttonOuterSize={18}
-                        selectedLabelColor='#ff971db8'
                         formHorizontal={true}
                         animation={false}
-                        buttonColor={colors.INPUT_LABEL}
-                        selectedButtonColor='#ff971db8'
+                        buttonColor={colors.MISCHKA}
+                        selectedButtonColor={'#432577'}
                         onPress={(value) => {
                             if (value == 0) {
                                 this.setState({
@@ -265,28 +255,28 @@ class LoginPage extends Component {
                         }}
                     />
                 </View>
-                <View style={{ paddingVertical: 5 }}></View>
 
-                {this.state.loading ? Indicator : <TouchableOpacity
+                <TouchableOpacity
                     style={styles.btnLogin}
                     onPress={this.loginButton}
                     //onPress={ ()=> this.props.navigation.navigate('Dashboard')}
                     activeOpacity={0.5}
-                    underlayColor={colors.BLACK}>
-                <Text style={styles.text} >SIGN IN</Text>
-                </TouchableOpacity>}
+                    underlayColor={colors.BLACK}
+                >
+                    <Text style={styles.text} >Login</Text>
+                </TouchableOpacity>
 
 
 
-                <View style={{ paddingVertical: 15 }}></View>
+                <View style={{ paddingVertical: 25 }}></View>
 
                 <TouchableOpacity
                     onPress={() => this.props.navigation.navigate('SignUp')} >
-                    <Text style={{ fontSize: 14, textDecorationLine: 'underline', color: colors.INPUT_LABEL }}>New user? Register here</Text>
+                    <Text style={{ fontSize: 16, textDecorationLine: 'underline' }}>New user? Register here</Text>
                 </TouchableOpacity>
                 <View style={{ paddingVertical: 15 }}></View>
             </Animated.View>
-            </ImageBackground>
+
 
             // <ImageBackground source={bgImage} style={styles.backgroundContainer}>
             //     <View style={styles.logoContainer}>
@@ -307,9 +297,9 @@ const styles = StyleSheet.create({
         //justifyContent: 'center'
     },
     backgroundContainer: {
-        //flex: 1,
-        width: '100%',
-        height: '100%',
+        flex: 1,
+        width: null,
+        height: null,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -332,23 +322,19 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: WIDTH - 55,
-        height: 40,
-        //padding: 5,
+        height: 45,
         borderRadius: 45,
-        fontSize: 13,
+        fontSize: 17,
         backgroundColor: 'rgba(0, 0, 0, 0.35)',
-        color: colors.INPUT_LABEL,
-        //color: 'rgba(255, 255, 255, 0.7)',
+        color: 'rgba(255, 255, 255, 0.7)',
         marginHorizontal: 25,
-        paddingLeft: 45
+        paddingLeft: 60
     },
     inputIcon: {
         position: 'absolute',
-        top: 6,
+        top: 9,
         left: 37,
-        padding: 0,
-        color: colors.BT_ORANGE
-        //color: '#cfcccc'
+        color: '#cfcccc'
     },
     btnEye: {
         position: 'absolute',
@@ -356,17 +342,17 @@ const styles = StyleSheet.create({
         right: 40,
     },
     btnLogin: {
-        width: WIDTH - 95,
-        height: 40,
+        width: WIDTH - 75,
+        height: 45,
         borderRadius: 25,
-        backgroundColor: colors.BT_ORANGE,
+        backgroundColor: '#432577',
         justifyContent: 'center',
         marginTop: 20,
+
     },
     text: {
         textAlign: 'center',
-        color: colors.WHITE,
-        //color: 'rgba(255,255,255,0.7)',
+        color: 'rgba(255,255,255,0.7)',
         fontSize: 18
     },
     radioField: {
@@ -377,10 +363,5 @@ const styles = StyleSheet.create({
         width: WIDTH - 15,
         marginTop: 20,
         marginLeft: 30
-    },
-    imageBG: {
-        width: undefined,
-        padding: 16,
-        paddingTop: 48
     },
 });

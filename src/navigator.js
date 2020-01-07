@@ -7,7 +7,6 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import LoginScreen from './screens/LoginScreen';
-import RegisterScreen from './screens/RegisterScreen';
 import DashboardScreen from './screens/DashboardScreen';
 import DCRScreen from './screens/DCRScreen';
 import TPScreen from './screens/TPScreen';
@@ -15,7 +14,7 @@ import MailScreen from './screens/MailScreen';
 import AuthScreen from './screens/AuthScreen';
 import EventList from '../src/components/EventList';
 //import TpPage from './screens/TpPage';
-import DashboardPage from '../src/screens/DashboardPage';
+//import DashboardPage from '../src/screens/DashboardPage';
 import DcrPage from './screens/DcrPage';
 import LoginPage from './screens/LoginPage';
 import LogOut from './screens/LogOut';
@@ -66,7 +65,9 @@ const DashStack = createStackNavigator({
         }}> 
         <IconComponent style= {{paddingLeft:15}} name= "md-menu" size={30} color={colors.WHITE} />
         </TouchableOpacity> ),
-        headerStyle: { backgroundColor: colors.HEADER_GREEN },
+        headerStyle: { 
+          backgroundColor: colors.HEADER_GREEN,
+         },
         headerTitleStyle: { color: colors.WHITE },
       } } }
   );

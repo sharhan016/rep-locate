@@ -6,7 +6,7 @@ import Navigator from './src/navigator';
 import AsyncStorage from '@react-native-community/async-storage';
 
 class App extends Component {
-
+  
   state = {  }
   // componentDidMount() {
   //   this._checkAuthenticationStatus();
@@ -19,6 +19,7 @@ class App extends Component {
   //   //this.props.navigation.navigate(userToken ? 'Dashboard' : 'Login');
   // };
   render() {
+    console.disableYellowBox = true;
     return (
       <Provider store={store}>
       <Navigator />

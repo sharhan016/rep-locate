@@ -21,10 +21,9 @@ class LogOut extends Component {
         
     // }
       logOut = async () => {
-          const FALSE = 'false';
           const EMPTY = '';
           try{
-              await AsyncStorage.setItem(api.LOGGED_IN,FALSE)
+              await AsyncStorage.setItem(api.LOGGED_IN,EMPTY)
               await AsyncStorage.setItem(api.TOKEN,EMPTY)
               await AsyncStorage.setItem(api.USER_TYPE,EMPTY)
 

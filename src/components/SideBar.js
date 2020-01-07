@@ -56,14 +56,18 @@ class SideBar extends Component {
         return (
 
             <ScrollView style={styles.container}>
-                <ImageBackground
+                {/* <ImageBackground
                     source={require('../assets/background-green.jpg')}
                     style={styles.imageBG}
-                >
-                    <Image source={require('../assets/inner-bg.jpg')} style={styles.profile} />
+                > */}
+                <View style={{marginVertical: 20}} ></View>
+                    <View style={{paddingLeft: 10}}>
+                    <Image source={require('../assets/logo3.png')} style={styles.profile} />
+                    </View>
                     <Text style={styles.name}>{this.state.name}</Text>
                     <Text style={styles.designation}>{this.state.designation}</Text>
-                </ImageBackground>
+                    <View style={{marginVertical: 10}} ></View>
+                {/* </ImageBackground> */}
                 
  
                 {this.state.value == '0' ? repitems : managerItems}
@@ -104,30 +108,32 @@ export default withNavigation(SideBar);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.BG_LOGIN
+        backgroundColor: colors.WHITE
         // alignItems: 'center',
         // justifyContent: 'center'
     },
     imageBG: {
         width: undefined,
         padding: 16,
-        paddingTop: 48
+        paddingTop: 30
     },
     profile: {
-        width: 80,
-        height: 80,
-        borderRadius: 40
+        width: 120,
+        height: 120,
+        //borderRadius: 40
     },
     name: {
         color: colors.DRW_TINT,
         fontSize: 20,
         fontWeight: '800',
+        paddingLeft: 10,
         marginVertical: 5
     },
     designation: {
         color: colors.DRW_TINT,
         fontSize: 15,
         marginRight: 4,
+        paddingLeft: 10,
         fontWeight: '500'
     },
     itemsContainer: {

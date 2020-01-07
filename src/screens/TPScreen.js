@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,  Modal, TouchableOpacity, Alert, StyleSheet, Dimensions,StatusBar,Text } from 'react-native';
+import { View, Modal, ImageBackground, TouchableOpacity, Alert, StyleSheet, Dimensions, StatusBar, Text } from 'react-native';
 //import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, } from 'native-base';
 import Header from '../components/Header';
 import colors from "../config/colors";
@@ -14,7 +14,7 @@ import { DisplayEvents } from "../containers/DisplayEvents";
 import EventList from '../components/EventList';
 import { addEvent } from '../actions';
 import { ADD_EVENT, ADD_LEAVE } from '../actions/actionTypes';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as api from '../config/api';
 const axios = require('axios');
 
@@ -38,46 +38,46 @@ class TPScreen extends Component {
             visible: false,
             post: '',
             data: [],
-            categoryList:[],
+            categoryList: [],
         };
         this.getData();
         this.onDateChange = this.onDateChange.bind(this);
         //this.storeItem = this.storeItem.bind(this);
         //this.getMyValue = this.getMyValue.bind(this);
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.setModalVisible(!this.state.modalVisible);
     }
     getData = async () => {
         //console.log('inside getdata')
         var temp = [];
         try {
-        const res = await axios.post(api.BELT_API,{
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        }
-        });
-        console.log('axio data inside getData ',res.data.BeltList)
-        let responseJSON = res.data.BeltList;
-        var len = responseJSON.length;
-          if (len > 0) {
-            for (let i = 0; i < len; i++) {
-              var data = responseJSON[i];
-              var joined = { label: data.BeltName,value: data.BeltName,id: data.BeltID};
-              temp.push(joined);
+            const res = await axios.post(api.BELT_API, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
+            });
+            console.log('axio data inside getData ', res.data.BeltList)
+            let responseJSON = res.data.BeltList;
+            var len = responseJSON.length;
+            if (len > 0) {
+                for (let i = 0; i < len; i++) {
+                    var data = responseJSON[i];
+                    var joined = { label: data.BeltName, value: data.BeltName, id: data.BeltID };
+                    temp.push(joined);
+                }
             }
-          }
-          //console.log('catelgory List Data=',JSON.stringify(temp));
-          this.setState({
-            categoryList: temp
-          });
-       }catch(e){
-       console.log(e)
-       }
+            //console.log('catelgory List Data=',JSON.stringify(temp));
+            this.setState({
+                categoryList: temp
+            });
+        } catch (e) {
+            console.log(e)
+        }
     }
     onDateChange(date) {
-        this.setState({ 
+        this.setState({
             selectedStartDate: date,
             modalVisible: true
         })
@@ -102,11 +102,11 @@ class TPScreen extends Component {
         console.log('length of data ', this.state.data.length);
         console.log(this.state.data);
     }
-    
+
     saveEvent() {
-        if(this.state.belt === '' && !this.state.holiday){
+        if (this.state.belt === '' && !this.state.holiday) {
             Alert.alert('Please enter belt location');
-    }
+        }
         this.submit();
     }
     saveLeave() {
@@ -144,8 +144,8 @@ class TPScreen extends Component {
         //this.props.dispatch({ type: 'ADD_EVENT', text });
         // this.props.dispatch(addEvent,text)
         this.clear()
-    
- 
+
+
     }
 
     clear = () => {
@@ -158,157 +158,164 @@ class TPScreen extends Component {
 
     // storeItem = async (key, item) => {
 
-        // try {
-        //     var jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
-        //     return jsonOfItem;
-        // }
-        // catch (error) {
-        //     console.log('Storing error ' + error)
-        // }
-    
+    // try {
+    //     var jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
+    //     return jsonOfItem;
+    // }
+    // catch (error) {
+    //     console.log('Storing error ' + error)
+    // }
+
     // }
 
 
 
 
     render() {
-            let today = moment();
-            let day = today.clone();
-            let selectedDates = ['2019-12-26T06:41:26.445Z', '2019-12-27T06:41:26.445Z'];
-            //console.log('dates ', day)
-            let customDateStyles = [];
-            for (var i=0; i < selectedDates.length;i++){
-                customDateStyles.push({
-                    date: customDateStyles[i],
-                    style: {backgroundColor: '#1c4f3f'},
-                    textStyle: { color: 'black' }
-                })
-            }
-          /*
-            2019-12-23T06:41:26.445Z
-            let today = moment();
-            let day = today.clone().startOf('month');
-            let customDatesStyles = [];
-            while(day.add(1, 'day').isSame(today, 'month')) {
-            customDatesStyles.push({
-                date: day.clone(),
-                // Random colors
-                style: {backgroundColor: '#'+('#00000'+(Math.random()*(1<<24)|0).toString(16)).slice(-6)},
-                textStyle: {color: 'black'}, // sets the font color
-                containerStyle: [], // extra styling for day container
-            });
-            }
-            
-            render() {
-            return (
-                <CalendarPicker
-                todayTextStyle={{fontWeight: 'bold'}}
-                todayBackgroundColor={'transparent'}
-                customDatesStyles={customDatesStyles}
-                minDate={today}
-                />
-            );
-            }
+        let today = moment();
+        let day = today.clone();
+        let selectedDates = ['2019-12-26T06:41:26.445Z', '2019-12-27T06:41:26.445Z'];
+        //console.log('dates ', day)
+        let customDateStyles = [];
+        for (var i = 0; i < selectedDates.length; i++) {
+            customDateStyles.push({
+                date: customDateStyles[i],
+                style: { backgroundColor: '#1c4f3f' },
+                textStyle: { color: 'black' }
+            })
+        }
+        /*
+          2019-12-23T06:41:26.445Z
+          let today = moment();
+          let day = today.clone().startOf('month');
+          let customDatesStyles = [];
+          while(day.add(1, 'day').isSame(today, 'month')) {
+          customDatesStyles.push({
+              date: day.clone(),
+              // Random colors
+              style: {backgroundColor: '#'+('#00000'+(Math.random()*(1<<24)|0).toString(16)).slice(-6)},
+              textStyle: {color: 'black'}, // sets the font color
+              containerStyle: [], // extra styling for day container
+          });
+          }
+          
+          render() {
+          return (
+              <CalendarPicker
+              todayTextStyle={{fontWeight: 'bold'}}
+              todayBackgroundColor={'transparent'}
+              customDatesStyles={customDatesStyles}
+              minDate={today}
+              />
+          );
+          }
 
 
-          */
+        */
         return (
-            
-            <View style={styles.mainContainer}>
-        
-                <StatusBar barStyle = "light-content" hidden = {false} backgroundColor={colors.STATUS_BAR_GRN}/>
-                <Header 
-                heading='Tour Plan'
-                onPress={() => this.props.navigation.openDrawer() } />
-              
+            <ImageBackground
+                source={require('../assets/calender-image.jpg')}
+                style={styles.backgroundContainer}
+            >
+                <View style={styles.mainContainer}>
 
-                <CalendarPicker
-                    //minDate={today}
-                    //customDatesStyles={customDateStyles}
-                    startFromMonday={true}
-                    onDateChange={this.onDateChange}
-                />
-                <View style={styles.infoBox}>
-                <Text style={styles.infoText}>Select a date to set an event</Text>
-                </View>
+                <StatusBar barStyle="light-content" hidden={false} backgroundColor={colors.LIGHT_GRAY} />
+                    <Header
+                        heading='Tour Plan'
+                        style={{position: 'absolute', top: 0}}
+                        onPress={() => this.props.navigation.openDrawer()} />
 
-                <View style={{paddingVertical: 50}}></View>
+                    <View style={styles.infoBox}>
+                        <Text style={styles.infoText}>Select a date to set an event</Text>
+                    </View>
 
-    
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        Alert.alert('Modal has been closed.');
-                        this.setModalVisible(!this.state.modalVisible);
-                    }}>
-                    <View style={styles.container}>
-                        {/* <View> */}
-                        <View style={styles.header}>
-                            <Text style={styles.textStyle}>Choose your Belt</Text>
-                        </View>
-                        <View style={styles.middleContainer}>
-                            <RNPickerSelect
-                                style={styles.pickerContainer}
-                                placeholder={this.state.placeholder}
-                                placeholderTextColor={colors.BLACK}
-                                onValueChange={value => {
-                                    this.setState({
-                                        belt: value
-                                    })
-                                    //console.log('value of belt ',this.state.belt)
-                                    // this.setModalVisible(!this.state.modalVisible);
-                                    // this.submit();
-                                }}
-                                items={this.state.categoryList}
-                            />
-                            <View style={{paddingVertical:15}}></View>
-                            <View style={styles.checkBox}>
-                                <Text style={{fontSize:17}}>Personal Leave</Text>
-                                <View style={{paddingHorizontal:30}}></View>
-                                <CheckBox
-                                    value={this.state.holiday}
-                                    disabled={false}
+                    <View style={styles.customView}>
+                        <CalendarPicker
+                            minDate={today}
+                            //customDatesStyles={customDateStyles}
+                            startFromMonday={true}
+                            onDateChange={this.onDateChange}
+                        />
+                    </View>
+
+
+                    <View style={{ paddingVertical: 50 }}></View>
+
+
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => {
+                            Alert.alert('Modal has been closed.');
+                            this.setModalVisible(!this.state.modalVisible);
+                        }}>
+                        <View style={styles.container}>
+                            {/* <View> */}
+                            <View style={styles.header}>
+                                <Text style={styles.textStyle}>Choose your Belt</Text>
+                            </View>
+                            <View style={styles.middleContainer}>
+                                <RNPickerSelect
+                                    style={styles.pickerContainer}
+                                    placeholder={this.state.placeholder}
+                                    placeholderTextColor={colors.BLACK}
                                     onValueChange={value => {
-                                        
-                                       
-                                        this.saveLeave();
-                                        this.setModalVisible(!this.state.modalVisible);
+                                        this.setState({
+                                            belt: value
+                                        })
+                                        //console.log('value of belt ',this.state.belt)
+                                        // this.setModalVisible(!this.state.modalVisible);
+                                        // this.submit();
                                     }}
+                                    items={this.state.categoryList}
                                 />
+                                <View style={{ paddingVertical: 15 }}></View>
+                                <View style={styles.checkBox}>
+                                    <Text style={{ fontSize: 17 }}>Personal Leave</Text>
+                                    <View style={{ paddingHorizontal: 30 }}></View>
+                                    <CheckBox
+                                        value={this.state.holiday}
+                                        disabled={false}
+                                        onValueChange={value => {
+
+
+                                            this.saveLeave();
+                                            this.setModalVisible(!this.state.modalVisible);
+                                        }}
+                                    />
+                                </View>
+                            </View>
+
+                            <View style={styles.bottomBtn}>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        this.setModalVisible(!this.state.modalVisible);
+                                    }}>
+                                    <Text style={styles.textStyle}>Cancel</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        // console.log('Picker value ', this.state.belt)
+                                        // console.log('Holiday value ', this.state.holiday)
+                                        this.saveEvent();
+                                        this.setModalVisible(!this.state.modalVisible);
+                                    }}>
+                                    <Text style={styles.textStyle}>Submit</Text>
+                                </TouchableOpacity>
+
+                                {/* </View> */}
                             </View>
                         </View>
-
-                        <View style={styles.bottomBtn}>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    this.setModalVisible(!this.state.modalVisible);
-                                }}>
-                                <Text style={styles.textStyle}>Cancel</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => {
-                                   // console.log('Picker value ', this.state.belt)
-                                   // console.log('Holiday value ', this.state.holiday)
-                                    this.saveEvent();
-                                    this.setModalVisible(!this.state.modalVisible);
-                                }}>
-                                <Text style={styles.textStyle}>Submit</Text>
-                            </TouchableOpacity>
-
-                            {/* </View> */}
-                        </View>
-                    </View>
-                </Modal>
+                    </Modal>
 
 
 
-                <View style={{ height: 30 }} ></View>
+                    <View style={{ height: 30 }} ></View>
 
-{/* </Container> */}
-            </View>
-            
+
+                </View>
+            </ImageBackground>
         );
     }
 }
@@ -325,6 +332,14 @@ const styles = StyleSheet.create({
         //flex: 1,
         height: 400
     },
+    customView: {
+        backgroundColor: colors.WHITE,
+        marginTop: 15,
+        marginLeft: 10,
+        borderRadius: 10,
+        marginRight: 10,
+        marginBottom: 10
+    },
     myInput: {
         backgroundColor: 'rgb(232, 232, 232)',
         borderRadius: 30,
@@ -335,7 +350,8 @@ const styles = StyleSheet.create({
         marginTop: screenHeight,
         padding: 2,
         margin: 10,
-        backgroundColor: colors.ORANGE_TINT,
+        backgroundColor: colors.STATUS_BAR_BLUE,
+        //backgroundColor: colors.ORANGE_TINT,
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
         height: 200,
@@ -352,12 +368,19 @@ const styles = StyleSheet.create({
         //alignItems: 'center',
         //justifyContent: 'center',
         flex: 1,
-        backgroundColor: colors.WHITE
+        backgroundColor: colors.BG_LOGIN,
+        paddingTop: 50
+    },
+    backgroundContainer: {
+        //flex: 1,
+        width: '100%',
+        height: '100%',
     },
     bottomBtn: {
         flexDirection: 'row',
         paddingBottom: 4,
-        backgroundColor: colors.ORANGE_TINT,
+        backgroundColor: colors.STATUS_BAR_BLUE,
+        //backgroundColor: colors.ORANGE_TINT,
         width: screenWidth,
         alignItems: 'flex-end',
         justifyContent: 'space-around',
@@ -378,7 +401,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 2,
         justifyContent: 'center',
-        backgroundColor: colors.ORANGE_TINT,
+        backgroundColor: colors.STATUS_BAR_BLUE,
+        //backgroundColor: colors.ORANGE_TINT,
         width: screenWidth,
         paddingBottom: 10,
         borderRadius: 3
@@ -404,11 +428,13 @@ const styles = StyleSheet.create({
     },
     infoBox: {
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        flex: 1
+        marginTop: 15
+        //justifyContent: 'flex-start',
+        //flex: 1
     },
     infoText: {
-        fontSize: 18,
+        fontSize: 14,
+        color: colors.WHITE,
         fontWeight: '300'
     }
 });

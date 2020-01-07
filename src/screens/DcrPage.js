@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView, PermissionsAndroid, ToastAndroid, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ScrollView, PermissionsAndroid, ToastAndroid, ActivityIndicator, ImageBackground, Dimensions } from 'react-native';
 import { Form, FormPicker } from "@99xt/first-born";
 import { Text, } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Button from '../components/Button';
+import Header from '../components/HeaderBack';
 import Geolocation from '@react-native-community/geolocation';
 import RadioForm from 'react-native-simple-radio-button';
 import colors from "../config/colors";
@@ -16,15 +17,17 @@ var radio_props = [
     { label: 'Alone  ', value: 0 },
     { label: 'Accompanied By', value: 1 }
 ];
+const screenWidth = Dimensions.get('screen').width;
 
 class DcrPage extends Component {
     static navigationOptions = {
-        title: 'DCR',
+        header: null
     };
     constructor(props) {
         super(props);
         this.state = {
-            loading: false,
+            loading: true,
+            reportloading: true,
             pickerData: [{
                 label: 'Calicut',
                 value: 'clt'
@@ -81,7 +84,7 @@ class DcrPage extends Component {
                 //To Check, If Permission is granted
                 //that.callLocation(that);
                 this.setState({ granted: true });
-            } else {
+            } else { 
                 alert("Permission Denied");
             }
         } catch (err) {
@@ -91,7 +94,6 @@ class DcrPage extends Component {
     }
 
     getLatLng = () => {
-        this.setState({loading: true});
         ToastAndroid.show("Getting Location Please Wait..", ToastAndroid.SHORT);
         Geolocation.getCurrentPosition(
             (position) => {
@@ -101,8 +103,11 @@ class DcrPage extends Component {
                 this.setState({ currentLatitude: currentLatitude, fetching: false });
                 this.postMethod();
             },
-            (error) => alert(error.message),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+            (error) => {
+                this.setState({reportLoading: false})
+                alert(error.message)
+            },
+            { enableHighAccuracy: true, timeout: 30000}
         );
         
     }
@@ -115,6 +120,7 @@ class DcrPage extends Component {
     }
 
     getData = async () => {
+        this.setState({loading: true});
         console.log('inside getdata')
         var temp = [];
         try {
@@ -134,11 +140,13 @@ class DcrPage extends Component {
                 }
             }
             this.setState({
-                categoryList: [...this.state.list, ...temp]
+                categoryList: [...this.state.list, ...temp],
+                loading: false
             });
         } catch (e) {
             console.log(e)
         }
+        this.getSubdata();
     }
 
     getSubdata = async (obj) => {
@@ -285,6 +293,7 @@ class DcrPage extends Component {
         } else {
             return ToastAndroid.show("Choose Belt", ToastAndroid.SHORT);
         }
+        this.setState({reportLoading: true});
         this.getLatLng();
 
     }
@@ -320,13 +329,13 @@ class DcrPage extends Component {
                 console.log('response ', res)
                 if (res.status == 200)
                     ToastAndroid.show(res.data.Message, ToastAndroid.LONG);
-                    this.setState({ loading: false })
+                    this.setState({ reportLoading: false })
             }).catch(error => {
-                    this.setState({ loading: false })
+                    this.setState({ reportLoading: false })
                     ToastAndroid.show(error, ToastAndroid.SHORT);
                 })
        
-        this.setState({loading: false});
+        this.setState({reportloading: false});
         this.props.navigation.navigate('Dashboard')
     }
 
@@ -358,20 +367,38 @@ class DcrPage extends Component {
             },
         ];
         const Indicator = <ActivityIndicator animating = {this.state.loading} color = {colors.HEADER_BLUE} size = "large" style = {styles.activityIndicator}/>
+        const progress = <ActivityIndicator 
+        animating = {this.state.reportloading} 
+        style={{marginTop: 10}}
+        color = {colors.WHITE} size = "large" />
+
         return (
-            <KeyboardAwareScrollView>
-                <View style={styles.container}>
-                    {/* <View style={{ paddingVertical: 15 }}></View> */}
-                    <View style={styles.formContainer} >
-                        <Form formElements={formElements} />
+            <ImageBackground
+            source={require('../assets/report-image.jpg')}
+            style={styles.backgroundContainer}
+        >
+                <ScrollView style={styles.container}>
+                {/* <View style={styles.container}> */}
+                <Header 
+                heading='DCR'
+                onPress={() => this.props.navigation.goBack()}
+                />
+
+                        {this.state.loading ? Indicator : 
+                        <View style={styles.formContainer} > 
+                        <Form formElements={formElements} /> 
                         <View style={styles.radioContainer}>
                             <RadioForm
                                 radio_props={radio_props}
                                 initial={0}
+                                buttonSize={10}
+                                labelColor={colors.INPUT_LABEL}
+                                buttonOuterSize={18}
+                                selectedLabelColor='#ff971db8'
                                 formHorizontal={true}
                                 animation={false}
-                                buttonColor={colors.MISCHKA}
-                                selectedButtonColor={colors.GREENISH}
+                                buttonColor={colors.INPUT_LABEL}
+                                selectedButtonColor='#ff971db8'
                                 onPress={(value) => {
                                     if (value == 1) {
                                         this.setState({
@@ -391,37 +418,53 @@ class DcrPage extends Component {
                                 }}
                             />
                         </View>
-                        {/* <View style={{ paddingVertical: 10 }}></View> */}
                         <View style={{ width: "80%" }}>
                             {this.state.isAccompanied ? pickManager : null}
                         </View>
-                    </View>
-                    <View style={{ paddingVertical: 5 }}></View>
-                    <View style={styles.btnContainer}>
-                        {this.state.loading ? Indicator : <Button 
-                        style={{ width: "50%" }}
-                        onPress={this.checkEmpty} 
-                        label='Submit Report'/>}
+                        {/* <View style={{ paddingVertical: 3 }}></View> */}
+                        <View style={styles.btnContainer}>
              
                     </View>
+                    </View>}
 
-                </View>
-            </KeyboardAwareScrollView>
+                    {this.state.loading ? null : this.state.reportLoading ? progress : <View style={styles.formContainer}><Button 
+                        style={styles.btnSubmit}
+                        onPress={this.checkEmpty} 
+                        label='Submit Report'/></View> }
+                    
+                    
+                    
+
+                    
+                    </ScrollView>
+                    </ImageBackground>
         );
     }
 }
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'flex-start', 
-        paddingTop: 15
+        //justifyContent: 'center', 
+        backgroundColor: colors.BG_LOGIN,
+        flex: 1
+        //paddingTop: 15
         //flex: 2
     },
     formContainer: {
+        //flex: 1,
+        width: '95%',
         alignItems: 'center',
         padding: 10,
-        //height: 600
+        marginLeft: 10,
+        height: '70%',
+        paddingBottom: 15
         //height: !this.state.isAccompanied ? 500 : 600
     },
+    scrollView: {
+        flex: 1,
+        //width: screenWidth,
+        //backgroundColor: 'pink',
+        //marginHorizontal: 20,
+      },
     btnContainer: {
         flexDirection: 'row',
         alignItems: 'flex-end',
@@ -430,7 +473,27 @@ const styles = StyleSheet.create({
     radioContainer: {
         marginTop: 20,
         // paddingVertical: 30
-    }
+    },
+    activityIndicator: {
+        flex: 1,
+        //justifyContent: 'center',
+        alignItems: 'center',
+        height: 80,
+        marginTop: 20
+     },
+     backgroundContainer: {
+        width: '100%',
+        height: '100%',
+
+    },
+    btnSubmit: {
+        width: screenWidth - 95,
+        height: 40,
+        borderRadius: 25,
+        backgroundColor: colors.BT_ORANGE,
+        justifyContent: 'center',
+        marginTop: 20,
+    },
 });
 
 export default DcrPage;

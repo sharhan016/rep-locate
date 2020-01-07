@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { View,Text,StyleSheet, ImageBackground,Image, TextInput, Dimensions, TouchableOpacity,Keyboard, Animated} from "react-native";
+import { View,Text,StyleSheet, ImageBackground, ActivityIndicator, StatusBar,Image, ToastAndroid, TextInput, Dimensions, TouchableOpacity,Keyboard, Animated} from "react-native";
 import colors from '../config/colors';
+import * as api from '../config/api';
 import Feather from 'react-native-vector-icons/Feather';
 import RadioForm from 'react-native-simple-radio-button';
 import axios from "axios";
@@ -24,9 +25,10 @@ class RegisterPage extends Component {
                 email: '',
                 mobile: '',
                 password: '',
-                value: '',
+                value: 0,
                 rep: true,
-                manager: false
+                manager: false,
+                loading: false
         };
         this.keyboardHeight = new Animated.Value(0);
         this.imageHeight = new Animated.Value(120);
@@ -68,6 +70,10 @@ class RegisterPage extends Component {
           }),
         ]).start();
     };
+
+    //  Keyboard.dismiss();
+
+
     showPass = () => {
         if(this.state.press == false){
             this.setState({ showPass: false, press: true})
@@ -87,25 +93,89 @@ class RegisterPage extends Component {
     getPassword = (pass) => {
         this.setState({ password: pass })
     }
-    registerButton = () => {
-        const { name, email, mobile, password, rep, value } = this.state;
-        console.log('reached register button ',name)
+    
+    validate = (text) => {
+        console.log(text);
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+        if(reg.test(text) === false)
+        {
+        console.log("Email is Not Correct");
+        this.setState({email:text, valid: false})
+        return false;
+          }
+        else {
+          this.setState({email:text, valid: true})
+          console.log("Email is Correct");
+        }
+        }
+        
+
+    checkEmpty = () => {
+        const { name, mobile, password, valid } = this.state;
+        if (name.length <= 3) {
+            console.log('name not correct', name.length)
+        } else if(mobile.length != 10){
+            return ToastAndroid.show("Mobile number invalid", ToastAndroid.SHORT);
+        } else if(password <= 4){
+            return ToastAndroid.show("Password should be 4 or more characters", ToastAndroid.SHORT);
+        }else if(valid == false){
+            return ToastAndroid.show("Email is not valid", ToastAndroid.SHORT);
+        }else{
+            this.setState({loading: true});
+            Keyboard.dismiss();
+            this.registerButton();
+        }
+    }
+
+    registerButton = async () => {
+        const { name, email, mobile, password, value,  } = this.state;
+        console.log('name',name)
+        console.log('email',email)
+        console.log('mobile',mobile)
+        console.log('password',password)
+        console.log('value',value)
+        await axios.post(api.USER_REGITER, {
+            UserName: name,
+            UserEmail: email,
+            UserMobile: mobile, 
+            UserPassword: password,
+            UserType: value
+        })
+            .then(response => {
+                console.log('RESPONSE REGITERATION ',response)
+                if(response.status == 200){
+                    this.setState({loading: false});
+                    ToastAndroid.show("Registeration Successful", ToastAndroid.LONG);this.props.navigation
+                    this.props.navigation.navigate('SignIn')
+                }else{
+                    ToastAndroid.show("Sign Up Failed", ToastAndroid.SHORT);
+                    this.setState({loading: false});
+                }
+            })
+            .catch(error => {
+                ToastAndroid.show("Sign Up Failed", ToastAndroid.SHORT);
+                this.setState({loading: false});
+                console.log(error)
+            }
+            );
     }
     
     render() {
-        
+        const Indicator = <ActivityIndicator animating = {this.state.loading} color = {colors.BT_ORANGE} size = "large"/>
         return (
-            // <View style={styles.container}>
+            <ImageBackground
+            source={require('../assets/healthcare.jpg')}
+            style={styles.backgroundContainer}
+        >
+            <StatusBar hidden = {true} />
             <Animated.View style={[styles.container, {paddingBottom: this.keyboardHeight}]} >
                 <View style={{paddingVertical: 20}}></View>
-                 {/* <View style={styles.logoContainer}>
-                 <Image source={logo3} style={styles.logo} />
-                 </View> */}
+      
                 <Animated.Image source={logo3} style={[styles.logo, {height: this.imageHeight}]} />
                 <View style={{paddingVertical: 15}}></View>
 
                 <View>
-                <Feather name={'user'} size= {28} color={'black'} style={styles.inputIcon} />
+                <Feather name={'user'} size= {24} color={'black'} style={styles.inputIcon} />
                 <TextInput 
                     onChangeText={this.getName}
                     value={this.state.name}
@@ -117,10 +187,10 @@ class RegisterPage extends Component {
                 </View>
                 <View style={{paddingVertical: 10}}></View>
                 <View>
-                    <Feather name={'mail'} size= {28} color={'black'} style={styles.inputIcon} />
+                    <Feather name={'mail'} size= {24} color={'black'} style={styles.inputIcon} />
                      
                     <TextInput 
-                    onChangeText={this.getEmail}
+                    onChangeText={this.validate}
                     value={this.state.email}
                     style={styles.inputContainer}
                     placeholder={'Email Id'}
@@ -132,7 +202,7 @@ class RegisterPage extends Component {
                 <View style={{paddingVertical: 10}}></View>
 
                 <View>
-                    <Feather name={'phone'} size= {28} color={'black'} style={styles.inputIcon} />
+                    <Feather name={'phone'} size= {24} color={'black'} style={styles.inputIcon} />
                      
                     <TextInput 
                     onChangeText={this.getNumber}
@@ -147,7 +217,7 @@ class RegisterPage extends Component {
                 </View>
                 <View style={{paddingVertical: 10}}></View>
                     <View>
-                    <Feather name={'lock'} size= {28}  style={styles.inputIcon} />
+                    <Feather name={'lock'} size= {24}  style={styles.inputIcon} />
                     <TextInput 
                     style={styles.inputContainer}
                     onChangeText={this.getPassword}
@@ -159,7 +229,7 @@ class RegisterPage extends Component {
                     />
                     <TouchableOpacity style={styles.btnEye} onPress={ this.showPass.bind(this)} >
                         <Feather name={this.state.press == false ? 'eye' : 'eye-off'} 
-                        size={26} color={'rgba(207, 204, 204, 0.5)'} />
+                        size={20} color={'rgba(207, 204, 204, 0.5)'} />
                     </TouchableOpacity>
                      </View>
 
@@ -167,44 +237,48 @@ class RegisterPage extends Component {
                     <RadioForm
                         radio_props={radio_props}
                         initial={0}
+                        buttonSize={8}
+                        labelColor={colors.INPUT_LABEL}
+                        buttonOuterSize={18}
+                        selectedLabelColor='#ff971db8'
                         formHorizontal={true}
                         animation={false}
-                        buttonColor={colors.MISCHKA}
-                        selectedButtonColor={'#432577'}
+                        buttonColor={colors.INPUT_LABEL}
+                        selectedButtonColor='#ff971db8'
                         onPress={(value) => {
                             if (value == 0) {
                                 this.setState({
-                                    value: value,
+                                    value: 0,
                                     rep: true
                                 })
-                               // console.log('rep value changed to true ', this.state.rep,this.state.value)
                             } else {
                                 this.setState({
-                                    value: value,
+                                    value: 1,
                                     rep: false
                                 })
-                                //console.log('rep value changed to false ', this.state.rep, this.state.value)
                             }
-
                         }}
                     />
                 </View>
 
-                <TouchableOpacity
-                 style={styles.btnLogin}
-                  onPress={this.registerButton} >
-                    <Text style={styles.text} >Register</Text>
-                </TouchableOpacity>
+                {this.state.loading ? Indicator : <TouchableOpacity
+                    style={styles.btnLogin}
+                    onPress={this.checkEmpty}
+                    activeOpacity={0.5}
+                    underlayColor={colors.BLACK}>
+                <Text style={styles.text} >Register</Text>
+                </TouchableOpacity>}
 
                 
 
                 <View style={{paddingVertical: 25}}></View>
 
                 <TouchableOpacity onPress={ () => this.props.navigation.navigate('SignIn')} >
-                <Text style={{fontSize: 16, textDecorationLine:'underline'}}>Already registered? Login here</Text>
+                <Text style={{fontSize: 14, textDecorationLine:'underline', color: colors.INPUT_LABEL}}>Already registered? Login here</Text>
                 </TouchableOpacity>
 
              </Animated.View>
+             </ImageBackground>
         );
     }
 }
@@ -217,6 +291,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     backgroundContainer: {
+        //flex: 1,
+        width: '100%',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    backgroundContainers: {
         flex: 1,
         width: null,
         height: null,
@@ -242,19 +323,20 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: WIDTH - 55,
-        height: 45,
+        height: 40,
         borderRadius: 45,
-        fontSize: 17,
+        fontSize: 13,
         backgroundColor: 'rgba(0, 0, 0, 0.35)',
-        color: 'rgba(255, 255, 255, 0.7)',
+        color: colors.INPUT_LABEL,
+        //color: 'rgba(255, 255, 255, 0.7)',
         marginHorizontal: 25,
-        paddingLeft:60
+        paddingLeft: 45
     },
     inputIcon: {
         position: 'absolute',
-        top: 9,
+        top: 6,
         left: 37,
-        color: '#cfcccc'
+        color: colors.BT_ORANGE
     },
     btnEye: {
         position: 'absolute',
@@ -262,17 +344,17 @@ const styles = StyleSheet.create({
         right: 40,
     },
     btnLogin: {
-        width: WIDTH - 75,
-        height: 45,
+        width: WIDTH - 95,
+        height: 40,
         borderRadius: 25,
-        backgroundColor: '#432577',
+        backgroundColor: colors.BT_ORANGE,
         justifyContent: 'center',
-        marginTop: 20,
+        marginTop: 25,
 
     },
     text: {
         textAlign: 'center',
-        color: 'rgba(255,255,255,0.7)',
+        color: colors.WHITE,
         fontSize: 18
     },
     radioField: {
