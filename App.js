@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import store from './src/store/index';
 import { Provider } from 'react-redux';
 import Navigator from './src/navigator';
-import AsyncStorage from '@react-native-community/async-storage';
+//import OfflineNotice from './src/components/OfflineNotice';
 
 class App extends Component {
   

@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     imageText:{
         fontSize: 22,
         fontWeight: 'bold',
-        //fontFamily: 'monospace'
+        fontFamily: 'Ebrima'
     },
     buttonContainer: {
         height: 200,

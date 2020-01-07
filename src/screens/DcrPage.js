@@ -9,8 +9,6 @@ import Geolocation from '@react-native-community/geolocation';
 import RadioForm from 'react-native-simple-radio-button';
 import colors from "../config/colors";
 import * as api from '../config/api';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 const axios = require('axios');
 
 var radio_props = [
@@ -301,18 +299,6 @@ class DcrPage extends Component {
     postMethod = async () => {
         const { rep, beltId, doctorId, chemistId, companion, managerId, feedback, userType, expense, isManagerApproved,currentLatitude,currentLongitude } = this.state;
         let location = currentLatitude +' '+ currentLongitude
-        // console.log('REP= ',rep) // not needed
-        // console.log('BeltID= ',beltId)
-        // console.log('DoctorID= ',doctorId)
-        // console.log('ChemistID= ',chemistId)
-        // console.log('IsAccompanied= ',companion)
-        // console.log('ManagerID= ',managerId)
-        // console.log('Feedback= ',feedback)
-        // console.log('VisitedUserType= ',this.props.navigation.getParam('type', 'D'))
-        // console.log('Expense= ',expense)
-        // console.log('Location= ',location)
-        // console.log('IsManagerApproved= ',isManagerApproved)
-        // console.log('Token= ',this.state.tokenId)
         
                 await axios.post(api.SUBMIT_DCR_API, {
                 APIToken: this.state.tokenId,

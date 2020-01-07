@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     },
     textImage: { 
         position: 'absolute', 
-        top: "50%", 
+        top: "70%", 
         left: 10, 
         right: 20, 
         bottom: 0,
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     imageText:{
         fontSize: 22,
         fontWeight: 'bold',
-        fontFamily: 'monospace'
+        fontFamily: ''
     }
 });
 

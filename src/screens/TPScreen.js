@@ -17,6 +17,7 @@ import { ADD_EVENT, ADD_LEAVE } from '../actions/actionTypes';
 import { connect } from 'react-redux';
 import * as api from '../config/api';
 const axios = require('axios');
+import { Form, FormPicker, Picker } from "@99xt/first-born";
 
 const screenHeight = Dimensions.get('screen').height / 3;
 const screenWidth = Dimensions.get('screen').width - 25;
@@ -39,6 +40,7 @@ class TPScreen extends Component {
             post: '',
             data: [],
             categoryList: [],
+            pickerValue: ''
         };
         this.getData();
         this.onDateChange = this.onDateChange.bind(this);
@@ -86,22 +88,7 @@ class TPScreen extends Component {
         this.setState({ modalVisible: visible });
     }
 
-    getDataFromStorage = async () => {
-        let keys = ['01', '02', '03'];
-        //if (this.state.data.length > 1)
-        //this.setState({data: []});
-        AsyncStorage.multiGet(keys, (err, stores) => {
-            stores.map((result, i, store) => {
-                let key = store[i][0];
-                let value = store[i][1];
-                let multiget = result;
-                //let data = [];
-                this.state.data.push(multiget);
-            })
-        })
-        console.log('length of data ', this.state.data.length);
-        console.log(this.state.data);
-    }
+    
 
     saveEvent() {
         if (this.state.belt === '' && !this.state.holiday) {
@@ -156,22 +143,11 @@ class TPScreen extends Component {
         //console.log('belt and date ',this.state.belt,this.selectedStartDate)
     }
 
-    // storeItem = async (key, item) => {
-
-    // try {
-    //     var jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
-    //     return jsonOfItem;
-    // }
-    // catch (error) {
-    //     console.log('Storing error ' + error)
-    // }
-
-    // }
-
 
 
 
     render() {
+        const { categoryList } = this.state;
         let today = moment();
         let day = today.clone();
         let selectedDates = ['2019-12-26T06:41:26.445Z', '2019-12-27T06:41:26.445Z'];
@@ -184,6 +160,23 @@ class TPScreen extends Component {
                 textStyle: { color: 'black' }
             })
         }
+        const pickBelt = <FormPicker 
+        style={styles.pickerContainer}
+        onValueChange={value => {
+            this.setState({
+                belt: value
+            })}} 
+         selectedValue={this.state.pickerValue} 
+         label=" Belt List"  
+         data={this.state.categoryList} />
+         const picker = <Picker itemStyle={{width: 50}} selectedValue={this.state.pickerValue} onValueChange={value => {
+            this.setState({
+                belt: value
+            })}}  >
+             {categoryList.map((dataElement, key) => (
+                              <Picker.Item {...dataElement} key={key} />
+                          ))}
+         </Picker>
         /*
           2019-12-23T06:41:26.445Z
           let today = moment();
@@ -219,15 +212,12 @@ class TPScreen extends Component {
             >
                 <View style={styles.mainContainer}>
 
-                <StatusBar barStyle="light-content" hidden={false} backgroundColor={colors.LIGHT_GRAY} />
+                {/* <StatusBar barStyle="light-content" hidden={false} backgroundColor={colors.LIGHT_GRAY} /> */}
                     <Header
                         heading='Tour Plan'
                         style={{position: 'absolute', top: 0}}
                         onPress={() => this.props.navigation.openDrawer()} />
 
-                    <View style={styles.infoBox}>
-                        <Text style={styles.infoText}>Select a date to set an event</Text>
-                    </View>
 
                     <View style={styles.customView}>
                         <CalendarPicker
@@ -239,7 +229,11 @@ class TPScreen extends Component {
                     </View>
 
 
-                    <View style={{ paddingVertical: 50 }}></View>
+                    <View style={{ paddingVertical: 10 }}></View>
+
+                    <View style={styles.infoBox}>
+                        <Text style={styles.infoText}>Select a date to set an event</Text>
+                    </View>
 
 
                     <Modal
@@ -256,7 +250,8 @@ class TPScreen extends Component {
                                 <Text style={styles.textStyle}>Choose your Belt</Text>
                             </View>
                             <View style={styles.middleContainer}>
-                                <RNPickerSelect
+                                {picker}
+                                {/* <RNPickerSelect
                                     style={styles.pickerContainer}
                                     placeholder={this.state.placeholder}
                                     placeholderTextColor={colors.BLACK}
@@ -269,8 +264,9 @@ class TPScreen extends Component {
                                         // this.submit();
                                     }}
                                     items={this.state.categoryList}
-                                />
-                                <View style={{ paddingVertical: 15 }}></View>
+                                /> */}
+
+                                <View style={{ marginTop: 10 }}></View>
                                 <View style={styles.checkBox}>
                                     <Text style={{ fontSize: 17 }}>Personal Leave</Text>
                                     <View style={{ paddingHorizontal: 30 }}></View>
@@ -391,8 +387,8 @@ const styles = StyleSheet.create({
     middleContainer: {
         height: 120,
         backgroundColor: colors.WHITE,
-        padding: 1,
-        flex: 2,
+        padding: .5,
+        flex: 3,
         width: screenWidth,
         //alignItems: 'center',
         //justifyContent: 'center'
@@ -419,7 +415,7 @@ const styles = StyleSheet.create({
     pickerContainer: {
         fontSize: 16,
         paddingHorizontal: 10,
-        paddingVertical: 8,
+        paddingVertical: 2,
         borderWidth: 0.5,
         borderColor: 'purple',
         borderRadius: 8,
