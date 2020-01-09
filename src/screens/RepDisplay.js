@@ -131,9 +131,10 @@ const styles = StyleSheet.create({
         //alignItems: 'center' 
     },
     imageText:{
-        fontSize: 22,
-        fontWeight: 'bold',
-        fontFamily: ''
+        fontSize: 25,
+        fontWeight: '700',
+        fontFamily: 'Foundation',
+        color: '#3d3d3d'
     }
 });
 

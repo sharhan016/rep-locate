@@ -74,6 +74,12 @@
 		<string>rubicon-icon-font.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>KulimParkBold.ttf</string>
+		<string>KulimParkRegular.ttf</string>
+		<string>UbuntuBold.ttf</string>
+		<string>UbuntuRegular.ttf</string>
+		<string>PublicSans-Italic.ttf</string>
+		<string>PublicSans.ttf</string>
 	</array>
 </dict>
 </plist>
