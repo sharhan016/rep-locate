@@ -92,7 +92,7 @@ class DcrPage extends Component {
     }
 
     getLatLng = () => {
-        ToastAndroid.show("Getting Location Please Wait..", ToastAndroid.SHORT);
+        //ToastAndroid.show("Getting Location Please Wait..", ToastAndroid.SHORT);
         Geolocation.getCurrentPosition(
             (position) => {
                 const currentLongitude = JSON.stringify(position.coords.longitude);

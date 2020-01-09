@@ -46,11 +46,11 @@ class SideBar extends Component {
        
         const repitems = <View style={styles.container}><DrawerNavigatorItems {...this.props} /></View>
         const managerItems =  <View>
-            <DrawerItems iconName='home' text='Home' route='Dashboard' />
-              <DrawerItems iconName='file' text='DCR Report' route='DCR' /> 
-              <DrawerItems iconName='list' text='Rep List' route='DCR' /> 
-              <DrawerItems iconName='calendar' text='View TP' route='DCR' /> 
-              <DrawerItems iconName='log-out' text='Log Out' route= {null} />
+            <DrawerItems iconName='home' text='Home' route={0} />
+            <DrawerItems iconName='file' text='DCR Report' route='DCR' /> 
+            <DrawerItems iconName='list' text='Rep List' route='RepList' /> 
+            <DrawerItems iconName='calendar' text='View TP' route='Events' /> 
+            <DrawerItems iconName='log-out' text='Log Out' route= {null} />
              </View>;
              
         return (

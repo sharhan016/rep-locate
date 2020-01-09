@@ -29,7 +29,8 @@ class ManagerScreen extends Component {
     }
 
     showTP = () => {
-        this.props.navigation.navigate('MgrTp');
+        this.props.navigation.navigate('TourPlan')
+        //this.props.navigation.navigate('MgrTp');
     }
 
     render() {
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     },
     textImage: { 
         position: 'absolute', 
-        top: "50%", 
+        top: "65%", 
         left: 10, 
         right: 20, 
         bottom: 0,
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
         //alignItems: 'center' 
     },
     imageText:{
-        fontSize: 24,
+        fontSize: 22,
         fontWeight: '700',
         fontFamily: 'Foundation',
         color: '#3d3d3d'

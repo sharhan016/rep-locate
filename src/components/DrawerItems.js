@@ -16,7 +16,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 class DrawerItems extends Component {
     navigateToScreen = async (route) => {
-        if(!route){
+        if(route == null){
             const keys = [api.LOGGED_IN, api.TOKEN, api.USER_TYPE]
             try {
                 await AsyncStorage.multiRemove(keys)
@@ -24,6 +24,9 @@ class DrawerItems extends Component {
                 console.log('error in removeItem',error)
             }
             return this.props.navigation.navigate('SignIn');
+        }else if(route == 0){
+            this.props.navigation.navigate('Dashboard')
+            return this.props.navigation.closeDrawer();
         }
         const navigate = NavigationActions.navigate({
           routeName: route
