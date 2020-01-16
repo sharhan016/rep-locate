@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Dimensions, TouchableHighlight, Image, ImageBackground, StatusBar } from "react-native";
 import Header from '../components/Header';
+import moment from 'moment';
+import CalendarPicker from 'react-native-calendar-picker';
 
 import colors from "../config/colors";
 
@@ -27,6 +29,11 @@ class RepDisplay extends Component {
         });
     }
     componentDidMount() {
+        let mome = '2020-01-10T18:30:00.000Z';
+        let today = moment();
+        today.format('DD')
+        //let date = mome.format('DD');
+        console.log('DATE ',today) 
     }
 
     render() {

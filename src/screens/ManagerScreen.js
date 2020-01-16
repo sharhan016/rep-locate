@@ -67,7 +67,7 @@ class ManagerScreen extends Component {
                 <TouchableWithoutFeedback  onPress={this.showTP}>
                 <ImageBackground source={require('../assets/doctor-logo.jpg')} imageStyle={{ borderRadius: 20 }} style={styles.btnContainer}>
                     <View style={styles.textImage}>
-                        <Text style={styles.imageText}>VIEW TP</Text>
+                        <Text style={styles.imageText}>SET TP</Text>
                     </View>
                 </ImageBackground>
                 </TouchableWithoutFeedback>

@@ -78,8 +78,6 @@ class DashboardScreen extends Component {
             <View style={styles.container}>
                 <StatusBar barStyle="light-content" hidden={false} backgroundColor={colors.BG_LOGIN} />
 
-
-
                 {this.state.userType === ZERO ? RepView : ManagerView}
             </View>
              </ImageBackground>  

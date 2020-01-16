@@ -22,7 +22,9 @@ const events = (state = [], action) => {
                         id: id++,
                         date: action.payload.day,
                         event: action.payload.text,
-                        holiday: false
+                        month: action.payload.month,
+                        year: action.payload.year,
+                        //holiday: false
                     }
                 ]
             }else{
@@ -35,7 +37,7 @@ const events = (state = [], action) => {
                         newArr
                      ]
                 }   
-                console.log(newArr)
+                console.log('NEWARR in else ForEach ',newArr)
                 
             })
             
@@ -79,12 +81,15 @@ const events = (state = [], action) => {
         // ]
 
         case ADD_LEAVE:
+            console.log('Reached ADD_LEAVE action.type= ',action.type )
             return [
                 ...state, {
                     id: id++,
                     date: action.payload.day,
                     event: action.payload.text,
-                    holiday: true
+                    month: action.payload.month,
+                    year: action.payload.year,
+                    //holiday: true
                 }
             ]
 

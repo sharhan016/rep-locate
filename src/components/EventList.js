@@ -9,6 +9,7 @@ import axios from "axios";
 import * as api from '../config/api';
 import UserAvatar from 'react-native-user-avatar';
 import colors from '../config/colors';
+import moment from 'moment';
 
 
 
@@ -32,6 +33,8 @@ class EventList extends Component {
         }
     }
     renderItem(event) {
+        let month = event.item.month;
+
         return <View style={styles.contain}>
             <ListItem
                 roundAvatar
@@ -40,7 +43,7 @@ class EventList extends Component {
                 subtitleStyle={{ color: 'white' }}
                 title={event.item.event}
                 //itemSeperatorComponent={this.renderSeperator()}
-                subtitle={'January  ' + event.item.date}
+                subtitle={event.item.date + ' ' + month }
                 leftAvatar={<UserAvatar size="50" name={event.item.date} color="#000" />}
                 bottomDivider
             />
@@ -78,7 +81,7 @@ class EventList extends Component {
                 t.date === thing.date && t.event === thing.event
             ))
         )
-        //console.log('This is data ',data)
+        console.log('This is data ',data)
         await axios.post(api.SUBMIT_TP, {
             APIToken: this.state.tokenId,
             TPData: data
@@ -106,12 +109,13 @@ class EventList extends Component {
 
     render() {
         const data = this.props.events.sort(this.compare);
-
+        console.log('UnOrdered Data ',data)
         let datas = data.filter((thing, index, self) =>
             index === self.findIndex((t) => (
                 t.date === thing.date && t.event === thing.event
             ))
         )
+        console.log('this is datas in render ',datas)
         const Indicator = <ActivityIndicator animating={this.state.loading} color={colors.BT_ORANGE} size="large" />
         let length = datas.length;
         const SubmitButton = <Button style={styles.buttonStyle} label='SUBMIT' onPress={this.submitTP} />
@@ -140,7 +144,7 @@ class EventList extends Component {
                     </View>
                     <View style={{ alignItems: 'center' }}>
                         {this.state.loading ? Indicator : null}
-                        {length >= 5 ? SubmitButton : null}
+                        {length >= 3 ? SubmitButton : null}
                     </View>
                 </View>
             </ImageBackground>

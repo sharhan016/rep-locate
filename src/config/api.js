@@ -4,6 +4,7 @@ export const CHEMIST_API = "http://supertaxi.xyz/medrep/API_BulkData/GetChemistL
 export const MANAGER_API = "http://supertaxi.xyz/medrep/API_BulkData/GetManagerList";
 export const SUBMIT_DCR_API = "http://supertaxi.xyz/medrep/API_MedAdmin/DcrSubmit";
 export const SUBMIT_TP= "http://supertaxi.xyz/medrep/API_MedAdmin/DoTPSubmit";
+export const VIEW_TP = " http://supertaxi.xyz/medrep/API_MedAdmin/GetTPData";
 
 export const USER_LOGIN = "http://supertaxi.xyz/medrep/API_BulkData/DoUserLogin";
 export const USER_REGITER = "http://supertaxi.xyz/medrep/API_BulkData/DoUserSignUp";

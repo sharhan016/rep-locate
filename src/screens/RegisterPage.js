@@ -181,7 +181,7 @@ class RegisterPage extends Component {
                     value={this.state.name}
                     style={styles.inputContainer}
                     placeholder={'Name'}
-                    placeholderTextColor='white'
+                    placeholderTextColor={colors.INPUT_LABEL}
                     underlineColorAndroid='transparent'
                     />
                 </View>
@@ -194,7 +194,7 @@ class RegisterPage extends Component {
                     value={this.state.email}
                     style={styles.inputContainer}
                     placeholder={'Email Id'}
-                    placeholderTextColor='white'
+                    placeholderTextColor={colors.INPUT_LABEL}
                     underlineColorAndroid='transparent'
                     keyboardType='email-address'
                     />
@@ -209,7 +209,7 @@ class RegisterPage extends Component {
                     value={this.state.mobile}
                     style={styles.inputContainer}
                     placeholder={'Mobile Number'}
-                    placeholderTextColor='white'
+                    placeholderTextColor={colors.INPUT_LABEL}
                     underlineColorAndroid='transparent'
                     keyboardType='number-pad'
                     maxLength={10}
@@ -223,7 +223,7 @@ class RegisterPage extends Component {
                     onChangeText={this.getPassword}
                     value={this.state.password}
                     placeholder={'Password'}
-                    placeholderTextColor='white'
+                    placeholderTextColor={colors.INPUT_LABEL}
                     underlineColorAndroid='transparent'
                     secureTextEntry={this.state.showPass}
                     />

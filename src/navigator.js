@@ -16,6 +16,7 @@ import EventList from '../src/components/EventList';
 //import TpPage from './screens/TpPage';
 //import DashboardPage from '../src/screens/DashboardPage';
 import DcrPage from './screens/DcrPage';
+import DisplayTP from './screens/DisplayTP';
 import LoginPage from './screens/LoginPage';
 import LogOut from './screens/LogOut';
 import RegisterPage from './screens/RegisterPage';
@@ -49,7 +50,8 @@ const DashStack = createStackNavigator({
     DcrList: DcrListView,
     MgrTp: ManagerTP,
     RepList: RepList,
-    Report: ReportView
+    Report: ReportView,
+    Display: DisplayTP
     //DCR: DCRScreen,
     //TP: TPScreen,
     //Report: DcrPage
