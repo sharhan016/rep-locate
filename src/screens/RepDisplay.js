@@ -7,6 +7,7 @@ import CalendarPicker from 'react-native-calendar-picker';
 import colors from "../config/colors";
 
 const width = Dimensions.get('screen').width - 50;
+const height = Dimensions.get('screen').height / 4;
 
 
 
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
         //backgroundColor:'#E7E2C5'
     },
     btnContainer: {
-        height: 200,
+        height: height,
         width: width,
         borderRadius: 10,
         alignItems: 'center'
@@ -138,10 +139,11 @@ const styles = StyleSheet.create({
         //alignItems: 'center' 
     },
     imageText:{
-        fontSize: 25,
+        fontSize: 35,
         fontWeight: '700',
         fontFamily: 'Foundation',
-        color: '#3d3d3d'
+        color: '#3d3d3d',
+        marginLeft: 15
     }
 });
 

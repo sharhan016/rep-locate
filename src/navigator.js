@@ -97,7 +97,7 @@ const DashStack = createStackNavigator({
     Mail: { 
       screen: MailScreen,
       navigationOptions: {
-       title: 'Check Mail',
+       title: 'Mail',
        drawerIcon: ({tintColor}) => <Feather name="mail" size= {18} color={tintColor} />
      }},
     Events: {
@@ -127,7 +127,8 @@ const DashStack = createStackNavigator({
       activeTintColor: colors.DRW_TINT,
       itemsContainerStyle: {
         marginTop: 4,
-        marginHorizontal: 8
+        marginHorizontal: 8,
+        
       },
       itemStyle: {
         borderRadius: 4

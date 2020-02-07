@@ -212,9 +212,9 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'absolute',
-        top: '50%',
-        left: '15%'
+        // position: 'absolute',
+        // top: '50%',
+        // left: '15%'
     }
 });
 

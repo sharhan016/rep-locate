@@ -27,48 +27,48 @@ const events = (state = [], action) => {
                         //holiday: false
                     }
                 ]
-            }else{
-                
-            newArr.forEach( event => {
-                if(event.date === action.payload.day){
-                    console.log('Same Date Detected e and a ',event.date,action.payload.day)
-                    event.event = action.payload.text
-                    return [
-                        newArr
-                     ]
-                }   
-                console.log('NEWARR in else ForEach ',newArr)
-                
-            })
-            
-        }
-            /*
-            for (let i = 1; i < newArr.length; i++) {
-                console.log('payload day ', action.payload.day)
-                console.log('new Arrays date ',newArr[i].date)
-                if (action.payload.day == newArr[i].date ) {
-                    console.log('Same Date Detected',action.payload.text);
-                    newArr[i].event = action.payload.text;
-                    return [
-                        ...newArr
-                    ]
+            } else {
 
-                } else {
-                    console.log('else statement')
-                    return [
-                        ...state,
-                        {
-                            id: id++,
-                            date: action.payload.day,
-                            event: action.payload.text,
-                            holiday: false
-                        }
-                    ]
-                }
+                newArr.forEach(event => {
+                    if (event.date === action.payload.day) {
+                        console.log('Same Date Detected e and a ', event.date, action.payload.day)
+                        event.event = action.payload.text
+                        return [
+                            newArr
+                        ]
+                    }
+                    console.log('NEWARR in else ForEach ', newArr)
+
+                })
 
             }
+        /*
+        for (let i = 1; i < newArr.length; i++) {
+            console.log('payload day ', action.payload.day)
+            console.log('new Arrays date ',newArr[i].date)
+            if (action.payload.day == newArr[i].date ) {
+                console.log('Same Date Detected',action.payload.text);
+                newArr[i].event = action.payload.text;
+                return [
+                    ...newArr
+                ]
 
-            */
+            } else {
+                console.log('else statement')
+                return [
+                    ...state,
+                    {
+                        id: id++,
+                        date: action.payload.day,
+                        event: action.payload.text,
+                        holiday: false
+                    }
+                ]
+            }
+
+        }
+
+        */
 
         // return[
         //     ...state,
@@ -81,7 +81,7 @@ const events = (state = [], action) => {
         // ]
 
         case ADD_LEAVE:
-            console.log('Reached ADD_LEAVE action.type= ',action.type )
+            console.log('Reached ADD_LEAVE action.type= ', action.type)
             return [
                 ...state, {
                     id: id++,

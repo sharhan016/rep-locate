@@ -12,7 +12,7 @@ import * as api from '../config/api';
 const axios = require('axios');
 
 var radio_props = [
-    { label: 'Alone  ', value: 0 },
+    { label: 'Alone                 ', value: 0 },
     { label: 'Accompanied By', value: 1 }
 ];
 const screenWidth = Dimensions.get('screen').width;
@@ -292,7 +292,7 @@ class DcrPage extends Component {
             return ToastAndroid.show("Choose Belt", ToastAndroid.SHORT);
         }
         this.setState({reportLoading: true});
-        this.getLatLng();
+        //this.getLatLng();
 
     }
 
@@ -355,7 +355,7 @@ class DcrPage extends Component {
         const Indicator = <ActivityIndicator animating = {this.state.loading} color = {colors.HEADER_BLUE} size = "large" style = {styles.activityIndicator}/>
         const progress = <ActivityIndicator 
         animating = {this.state.reportloading} 
-        style={{marginTop: 10}}
+        style={{marginTop: 50}}  
         color = {colors.WHITE} size = "large" />
 
         return (
@@ -442,6 +442,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginLeft: 10,
         height: '70%',
+        marginTop: 20,
         paddingBottom: 15
         //height: !this.state.isAccompanied ? 500 : 600
     },
@@ -461,11 +462,12 @@ const styles = StyleSheet.create({
         // paddingVertical: 30
     },
     activityIndicator: {
-        flex: 1,
+        //flex: 1,
         //justifyContent: 'center',
-        alignItems: 'center',
-        height: 80,
-        marginTop: 20
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        // height: 80,
+        // paddingTop: 40
      },
      backgroundContainer: {
         width: '100%',

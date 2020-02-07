@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import colors from '../config/colors';
 
 const width = Dimensions.get('screen').width - 50;
+const height = Dimensions.get('screen').height / 4;
 
 class ManagerScreen extends Component {
 
@@ -37,7 +38,7 @@ class ManagerScreen extends Component {
         return (
             <View style={styles.container}>
                 <Header  onPress={() => this.props.navigation.openDrawer()} /> 
-                <View style={{marginVertical: 10}}></View>
+                <View style={{height: 80}}></View>
 
                 <View style={styles.buttonContainer}>
                 <TouchableWithoutFeedback  onPress={this.showDCR}>
@@ -49,7 +50,7 @@ class ManagerScreen extends Component {
                 </TouchableWithoutFeedback>
                 </View>
 
-                <View style={{marginVertical: 20}}></View>
+                <View style={{height: 90}}></View>
 
                 <View style={styles.buttonContainer}>
                 <TouchableWithoutFeedback  onPress={this.showRep}>
@@ -61,7 +62,7 @@ class ManagerScreen extends Component {
                 </TouchableWithoutFeedback>
                 </View>
 
-                <View style={{marginVertical: 20}}></View>
+                <View style={{height: 90}}></View>
 
                 <View style={styles.buttonContainer}>
                 <TouchableWithoutFeedback  onPress={this.showTP}>
@@ -123,7 +124,8 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     btnContainer: {
-        height: 150,
+        //height: 200,
+        height: height - 100,
         width: width - 50,
         borderRadius: 10,
     },

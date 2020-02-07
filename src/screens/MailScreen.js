@@ -7,6 +7,7 @@ import { openInbox } from 'react-native-email-link';
 import colors from "../config/colors";
 
 const width = Dimensions.get('screen').width - 50;
+const height = Dimensions.get('screen').height / 4;
 
 class MailScreen extends Component {
     state = {}
@@ -80,22 +81,24 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     textImage: { 
-        position: 'absolute', 
-        top: "80%", 
-        left: 10, 
-        right: 20, 
-        bottom: 0,
-        paddingLeft: 10
-        //justifyContent: 'center', 
-        //alignItems: 'center' 
+        // position: 'absolute', 
+        // top: "60%", 
+        // left: 20, 
+        // right: 20, 
+        // bottom: 0,
+        // paddingLeft: 10,
+        flex: 1,
+        justifyContent: 'center', 
+        alignItems: 'center' 
     },
     imageText:{
-        fontSize: 22,
+        fontSize: 29,
+        paddingLeft: 15,
         fontWeight: 'bold',
         fontFamily: 'Ebrima'
     },
     buttonContainer: {
-        height: 200,
+        height: height,
         width: width,
         borderRadius: 10,
         alignItems: 'center'

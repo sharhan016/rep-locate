@@ -49,6 +49,7 @@ class SideBar extends Component {
             <DrawerItems iconName='home' text='Home' route={0} />
             <DrawerItems iconName='file' text='DCR Report' route='DCR' /> 
             <DrawerItems iconName='list' text='Rep List' route='RepList' /> 
+            <DrawerItems iconName='mail' text='Mail' route='Mail' />
             <DrawerItems iconName='calendar' text='View TP' route='Events' /> 
             <DrawerItems iconName='log-out' text='Log Out' route= {null} />
              </View>;

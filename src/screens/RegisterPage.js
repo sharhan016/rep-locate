@@ -8,7 +8,7 @@ import axios from "axios";
 import logo3 from '../assets/logo3.png';
 
 var radio_props = [
-    { label: 'Representative      ', value: 0 },
+    { label: 'Representative                                     ', value: 0 },
     { label: 'Manager', value: 1 }
 ];
 const { width: WIDTH } = Dimensions.get('window')
@@ -229,17 +229,19 @@ class RegisterPage extends Component {
                     />
                     <TouchableOpacity style={styles.btnEye} onPress={ this.showPass.bind(this)} >
                         <Feather name={this.state.press == false ? 'eye' : 'eye-off'} 
-                        size={20} color={'rgba(207, 204, 204, 0.5)'} />
+                        size={20} color={'rgba(207, 204, 204, 0.5)'} 
+                       // color={colors.BT_ORANGE}
+                        />
                     </TouchableOpacity>
                      </View>
-
+                     <View style={{paddingVertical: 10}}></View>
                      <View style={styles.radioField}>
                     <RadioForm
                         radio_props={radio_props}
                         initial={0}
-                        buttonSize={8}
+                        buttonSize={18}
                         labelColor={colors.INPUT_LABEL}
-                        buttonOuterSize={18}
+                        buttonOuterSize={28}
                         selectedLabelColor='#ff971db8'
                         formHorizontal={true}
                         animation={false}
@@ -260,7 +262,7 @@ class RegisterPage extends Component {
                         }}
                     />
                 </View>
-
+                <View style={{paddingVertical: 10}}></View>
                 {this.state.loading ? Indicator : <TouchableOpacity
                     style={styles.btnLogin}
                     onPress={this.checkEmpty}
@@ -274,7 +276,7 @@ class RegisterPage extends Component {
                 <View style={{paddingVertical: 25}}></View>
 
                 <TouchableOpacity onPress={ () => this.props.navigation.navigate('SignIn')} >
-                <Text style={{fontSize: 14, textDecorationLine:'underline', color: colors.INPUT_LABEL}}>Already registered? Login here</Text>
+                <Text style={{fontSize: 18, textDecorationLine:'underline', color: colors.INPUT_LABEL}}>Already registered? Login here</Text>
                 </TouchableOpacity>
 
              </Animated.View>
@@ -289,6 +291,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.BG_LOGIN,
         alignItems: 'center',
+        paddingTop: 50
     },
     backgroundContainer: {
         //flex: 1,
@@ -323,25 +326,25 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: WIDTH - 55,
-        height: 40,
+        height: 60,
         borderRadius: 45,
-        fontSize: 13,
+        fontSize: 15,
         backgroundColor: 'rgba(0, 0, 0, 0.35)',
         color: colors.INPUT_LABEL,
         //color: 'rgba(255, 255, 255, 0.7)',
         marginHorizontal: 25,
-        paddingLeft: 45
+        paddingLeft: 55
     },
     inputIcon: {
         position: 'absolute',
-        top: 6,
-        left: 37,
+        top: 16,
+        left: 39,
         color: colors.BT_ORANGE
     },
     btnEye: {
         position: 'absolute',
-        top: 9,
-        right: 40,
+        top: 20,
+        right: 45,
     },
     btnLogin: {
         width: WIDTH - 95,
@@ -360,10 +363,10 @@ const styles = StyleSheet.create({
     radioField: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingLeft: 40,
+        paddingLeft: 100,
         justifyContent: 'flex-start',
         width: WIDTH - 15,
         marginTop: 20,
-        marginLeft: 30
+        marginLeft: 100
     },
 });
