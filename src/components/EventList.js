@@ -130,7 +130,7 @@ class EventList extends Component {
                     <Header
                         heading='Belt List'
                         onPress={() => this.props.navigation.openDrawer()} />
-                    <Text style={{ marginLeft: 10, fontSize: 18, marginTop: 10 }}></Text>
+                    <Text style={{ marginLeft: 10, fontSize: 10, marginTop: 5 }}></Text>
 
                     {length == 0 ? TextDisplay : null}
 
@@ -144,7 +144,7 @@ class EventList extends Component {
                     </View>
                     <View style={{ alignItems: 'center' }}>
                         {this.state.loading ? Indicator : null}
-                        {length >= 3 ? SubmitButton : null}
+                        {length >= 20 ? SubmitButton : null}
                     </View>
                 </View>
             </ImageBackground>

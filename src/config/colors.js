@@ -26,4 +26,4 @@ const colors = {
     WHITISH: '#eff0f2',  //kind of white
   };
   
-  export default colors;
+  export default colors;  

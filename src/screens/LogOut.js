@@ -10,16 +10,6 @@ class LogOut extends Component {
       } 
       
 
-    // logOut = async () => {
-    //         const keys = [api.LOGGED_IN, api.TOKEN, api.USER_TYPE]
-    //         try {
-    //             await AsyncStorage.multiRemove(keys)
-    //         } catch (error) {
-    //             console.log('error in removeItem',error)
-    //         }
-    //         this.props.navigation.navigate('SignIn');
-        
-    // }
       logOut = async () => {
           const EMPTY = '';
           try{

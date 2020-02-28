@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Dimensions, TouchableHighlight, Image, ImageBackground, StatusBar } from "react-native";
 import Header from '../components/Header';
 import moment from 'moment';
-import CalendarPicker from 'react-native-calendar-picker';
-
 import colors from "../config/colors";
 
 const width = Dimensions.get('screen').width - 50;
@@ -30,21 +28,12 @@ class RepDisplay extends Component {
         });
     }
     componentDidMount() {
-        let mome = '2020-01-10T18:30:00.000Z';
         let today = moment();
         today.format('DD')
-        //let date = mome.format('DD');
-        console.log('DATE ',today) 
     }
 
     render() {
-        console.log('screen width inside rep ', width)
-        return (
-            // <ImageBackground
-            //         source={require('../assets/healthcare.jpg')}
-            //         style={styles.backgroundContainer}
-            //     >
-            
+        return (           
             <View style={styles.container}>
                 <View style={{ marginVertical: 20 }}></View>
                 <Header  onPress={() => this.props.navigation.openDrawer()} /> 
@@ -59,9 +48,7 @@ class RepDisplay extends Component {
 
                 <View style={{ marginBottom: 50}}></View>
                 <TouchableHighlight style={styles.btnContainer} onPress={this.goToChemist}>
-                    {/* <Image
-                        style={styles.image}
-                        source={require('../assets/doctor-logo.jpg')} /> */}
+    
                         <ImageBackground source={require('../assets/chemist-logo.jpg')} imageStyle={{ borderRadius: 20 }} style={styles.btnContainer}>
                     <View style={styles.textImage}>
                     <Text style={styles.imageText}>CHEMIST</Text>
@@ -85,16 +72,10 @@ export default RepDisplay;
 
 const styles = StyleSheet.create({
     container: {
-        //height: 500,
-        //marginTop: 80,       
-        //justifyContent: 'center',
-        //alignItems: 'center',
-        //flex: 1,
-        //backgroundColor: 'transparent'
+
         padding:100,
         flex: 1,
         backgroundColor: colors.BG_LOGIN,
-        //backgroundColor:'#E7E2C5'
     },
     btnContainer: {
         height: height,
@@ -104,7 +85,6 @@ const styles = StyleSheet.create({
 
     },
     backgroundContainer: {
-        //flex: 1,
         width: '100%',
         height: '100%',
         alignItems: 'center',
@@ -131,15 +111,14 @@ const styles = StyleSheet.create({
     textImage: { 
         position: 'absolute', 
         top: "70%", 
-        left: 10, 
+        left: 5, 
         right: 20, 
         bottom: 0,
         paddingLeft: 10
-        //justifyContent: 'center', 
-        //alignItems: 'center' 
+
     },
     imageText:{
-        fontSize: 35,
+        fontSize: 25,
         fontWeight: '700',
         fontFamily: 'Foundation',
         color: '#3d3d3d',

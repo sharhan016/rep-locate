@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
 import { View, Modal, ImageBackground, TouchableOpacity, Alert, StyleSheet, Dimensions, StatusBar, Text } from 'react-native';
-//import { Container, Header, Left, Body, Right, Button, Icon, Title, Text, } from 'native-base';
 import Header from '../components/Header';
 import colors from "../config/colors";
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
-import { FloatingAction } from "react-native-floating-action";
-import AsyncStorage from '@react-native-community/async-storage';
 import CheckBox from '@react-native-community/checkbox';
-import RNPickerSelect from 'react-native-picker-select';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { DisplayEvents } from "../containers/DisplayEvents";
-import EventList from '../components/EventList';
-import { addEvent } from '../actions';
 import { ADD_EVENT, ADD_LEAVE } from '../actions/actionTypes';
 import { connect } from 'react-redux';
 import * as api from '../config/api';
@@ -45,14 +37,12 @@ class TPScreen extends Component {
         };
         this.getData();
         this.onDateChange = this.onDateChange.bind(this);
-        //this.storeItem = this.storeItem.bind(this);
-        //this.getMyValue = this.getMyValue.bind(this);
+
     }
     componentWillUnmount() {
         this.setModalVisible(!this.state.modalVisible);
     }
     getData = async () => {
-        //console.log('inside getdata')
         var temp = [];
         try {
             const res = await axios.post(api.BELT_API, {
@@ -61,7 +51,6 @@ class TPScreen extends Component {
                     "Content-Type": "application/json"
                 }
             });
-            console.log('axio data inside getData ', res.data.BeltList)
             let responseJSON = res.data.BeltList;
             var len = responseJSON.length;
             if (len > 0) {
@@ -71,7 +60,6 @@ class TPScreen extends Component {
                     temp.push(joined);
                 }
             }
-            //console.log('catelgory List Data=',JSON.stringify(temp));
             this.setState({
                 categoryList: [...this.state.chooseBelt, ...temp]
             });
@@ -102,7 +90,7 @@ class TPScreen extends Component {
         const HOLIDAY = 'Holiday'
         const month = selectedStartDate.format('MMMM');
         const year = selectedStartDate.format('YYYY');
-        const date = selectedStartDate.format('DD');
+        const date = selectedStartDate.format('D');
         const text = {
             day: date,
             text: HOLIDAY,
@@ -124,7 +112,7 @@ class TPScreen extends Component {
         const { selectedStartDate, belt } = this.state;
         const month = selectedStartDate.format('MMMM');
         const year = selectedStartDate.format('YYYY');
-        const date = selectedStartDate.format('DD');
+        const date = selectedStartDate.format('D');
         const Date = selectedStartDate ? selectedStartDate.toString().slice(0, 16) : '';
         const text = {
             day: date,
@@ -132,20 +120,12 @@ class TPScreen extends Component {
             month: month,
             year: year,
         }
-        // const text = {
-        //     day: date,
-        //     text: belt,
-        //     month: month,
-        //     date: selectedStartDate
-        // }
+    
         const action = {
             type: ADD_EVENT,
             payload: text
         };
-        //console.log('PARAMETER ',text)
         this.props.dispatch(action)
-        //this.props.dispatch({ type: 'ADD_EVENT', text });
-        // this.props.dispatch(addEvent,text)
         this.clear()
 
 
@@ -156,7 +136,6 @@ class TPScreen extends Component {
             belt: '',
             selectedStartDate: null
         });
-        //console.log('belt and date ',this.state.belt,this.selectedStartDate)
     }
 
 
@@ -166,16 +145,16 @@ class TPScreen extends Component {
         const { categoryList } = this.state;
         let today = moment();
         let day = today.clone();
-        let selectedDates = ['2019-12-26T06:41:26.445Z', '2019-12-27T06:41:26.445Z'];
+        //let selectedDates = ['2019-12-26T06:41:26.445Z', '2019-12-27T06:41:26.445Z'];
         //console.log('dates ', day)
-        let customDateStyles = [];
-        for (var i = 0; i < selectedDates.length; i++) {
-            customDateStyles.push({
-                date: customDateStyles[i],
-                style: { backgroundColor: '#1c4f3f' },
-                textStyle: { color: 'black' }
-            })
-        }
+        // let customDateStyles = [];
+        // for (var i = 0; i < selectedDates.length; i++) {
+        //     customDateStyles.push({
+        //         date: customDateStyles[i],
+        //         style: { backgroundColor: '#1c4f3f' },
+        //         textStyle: { color: 'black' }
+        //     })
+        // }
         const pickBelt = <FormPicker 
         style={styles.pickerContainer}
         onValueChange={value => {
@@ -193,34 +172,7 @@ class TPScreen extends Component {
                               <Picker.Item {...dataElement} key={key} />
                           ))}
          </Picker>
-        /*
-          2019-12-23T06:41:26.445Z
-          let today = moment();
-          let day = today.clone().startOf('month');
-          let customDatesStyles = [];
-          while(day.add(1, 'day').isSame(today, 'month')) {
-          customDatesStyles.push({
-              date: day.clone(),
-              // Random colors
-              style: {backgroundColor: '#'+('#00000'+(Math.random()*(1<<24)|0).toString(16)).slice(-6)},
-              textStyle: {color: 'black'}, // sets the font color
-              containerStyle: [], // extra styling for day container
-          });
-          }
-          
-          render() {
-          return (
-              <CalendarPicker
-              todayTextStyle={{fontWeight: 'bold'}}
-              todayBackgroundColor={'transparent'}
-              customDatesStyles={customDatesStyles}
-              minDate={today}
-              />
-          );
-          }
-
-
-        */
+       
         return (
             <ImageBackground
                 source={require('../assets/calender-image.jpg')}
@@ -237,7 +189,7 @@ class TPScreen extends Component {
 
                     <View style={styles.customView}>
                         <CalendarPicker
-                            //minDate={today}
+                            minDate={today}
                             //customDatesStyles={customDateStyles}
                             startFromMonday={true}
                             onDateChange={this.onDateChange}
@@ -250,8 +202,8 @@ class TPScreen extends Component {
                     <View style={styles.infoBox}>
                         <Text style={styles.infoText}>Select a date to set an event</Text>
                         <View style={{paddingVertical: 3}}></View>
-                        <TouchableOpacity onPress={ () => this.props.navigation.navigate('Display')}>
-                        <Text style={{fontSize: 16, color: colors.BT_ORANGE, textDecorationLine: 'underline' }}>Already Submitted? Click to view</Text>
+                        <TouchableOpacity onPress={ () => this.props.navigation.navigate('Events')}>
+                        <Text style={{fontSize: 18, color: colors.BT_ORANGE, textDecorationLine: 'underline' }}>Already Submitted? Click to view</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -271,20 +223,7 @@ class TPScreen extends Component {
                             </View>
                             <View style={styles.middleContainer}>
                                 {picker}
-                                {/* <RNPickerSelect
-                                    style={styles.pickerContainer}
-                                    placeholder={this.state.placeholder}
-                                    placeholderTextColor={colors.BLACK}
-                                    onValueChange={value => {
-                                        this.setState({
-                                            belt: value
-                                        })
-                                        //console.log('value of belt ',this.state.belt)
-                                        // this.setModalVisible(!this.state.modalVisible);
-                                        // this.submit();
-                                    }}
-                                    items={this.state.categoryList}
-                                /> */}
+                            
 
                                 <View style={{ marginTop: 10 }}></View>
                                 <View style={styles.checkBox}>
@@ -312,8 +251,7 @@ class TPScreen extends Component {
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     onPress={() => {
-                                        // console.log('Picker value ', this.state.belt)
-                                        // console.log('Holiday value ', this.state.holiday)
+
                                         this.saveEvent();
                                         this.setModalVisible(!this.state.modalVisible);
                                     }}>
@@ -449,7 +387,7 @@ const styles = StyleSheet.create({
         //flex: 1
     },
     infoText: {
-        fontSize: 14,
+        fontSize: 15,
         color: colors.WHITE,
         fontWeight: '300'
     }

@@ -31,13 +31,11 @@ const events = (state = [], action) => {
 
                 newArr.forEach(event => {
                     if (event.date === action.payload.day) {
-                        console.log('Same Date Detected e and a ', event.date, action.payload.day)
                         event.event = action.payload.text
                         return [
                             newArr
                         ]
                     }
-                    console.log('NEWARR in else ForEach ', newArr)
 
                 })
 
@@ -81,7 +79,6 @@ const events = (state = [], action) => {
         // ]
 
         case ADD_LEAVE:
-            console.log('Reached ADD_LEAVE action.type= ', action.type)
             return [
                 ...state, {
                     id: id++,

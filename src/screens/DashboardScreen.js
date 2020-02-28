@@ -21,16 +21,7 @@ class DashboardScreen extends Component {
         tokenId: '',
         userType: 0
     }
-    // static navigationOptions = {
-    //     title: 'Dashboard',
-    //     headerStyle: {
-    //         position: 'absolute',
-    //         backgroundColor: colors.CUSTOM_HEADER,
-    //         zIndex: 100,
-    //         top: 50,
-            
-    //     }
-    // };
+
 
     goToDoctor = () => {
         this.props.navigation.push('DCR', {
@@ -59,7 +50,6 @@ class DashboardScreen extends Component {
             let token = await AsyncStorage.getItem(api.TOKEN);
             let userType = await AsyncStorage.getItem(api.USER_TYPE)
             this.setState({ tokenId: token, userType: userType });
-            console.log("token inside dashboard and userType ", token, userType)
         } catch (error) {
             console.log(error)
         }
@@ -87,40 +77,16 @@ class DashboardScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        //padding: 10,
         backgroundColor: colors.BG_LOGIN,
         flex: 1,
     },
     backgroundContainer: {
-        //flex: 1,
         width: '100%',
         height: '100%',
         backgroundColor: '#000000'
-        //alignItems: 'center',
-        //justifyContent: 'center'
-    },
-    // btnContainer:{
-    //     height: 200,
-    //     width: width,
-    //     //alignItems: 'center',
-    //     justifyContent: 'center',
-    //     backgroundColor: colors.DASH_BTN,
-    //     borderRadius: 14
 
-    // },
-    // image: {
-    //     width: width,
-    //     height: 150,
-    //     resizeMode: 'stretch'
-    // },
-    // fontStyle: {
-    //     fontSize: 20,
-    //     fontWeight: "500",
-    //     fontStyle: 'italic'
-    // },
-    // text: { fontSize: 25 },
-    // padding: { padding: 10 },
-    // btnStyle: { width: "80%" }
+    },
+
 });
 
 export default DashboardScreen;

@@ -12,7 +12,7 @@ import logo3 from '../assets/logo3.png';
 
 
 var radio_props = [
-    { label: 'Representative                                     ', value: 0 },
+    { label: 'Representative      ', value: 0 },
     { label: 'Manager', value: 1 }
 ];
 const { width: WIDTH } = Dimensions.get('window')
@@ -48,7 +48,6 @@ class LoginPage extends Component {
 
     keyboardDidShow = (event) => {
         let height = event.endCoordinates.height - 150;
-        console.log('inside didShow', height)
         this.setState({ topPadding: 20 });
         Animated.parallel([
             Animated.timing(this.keyboardHeight, {
@@ -93,15 +92,12 @@ class LoginPage extends Component {
     }
     loginButton = () => {
         const { username, password, rep, value } = this.state;
-        //console.log('value is ',this.state.value,'rep is', this.state.rep)
         if (this.state.username != '') {
             if (this.state.password != '') {
-                //alert('Success')
             } else {
                 alert('Please Enter password');
             }
         } else {
-            //alert('Please Enter Userid');
 
         }
         this.setState({loading: true});
@@ -124,7 +120,6 @@ class LoginPage extends Component {
                     userName: userData["UserName"],
                     designation: userData["UserDesignation"]
                 }
-                console.log('NavigationParams inside submit ', navigationParams);
                 let tok = response.data.APIToken;
                 let tokendata = tok.toString();
                 let use = userData["UserType"]
@@ -143,8 +138,10 @@ class LoginPage extends Component {
     }
 
     storeToken = async (data, type, navData) => {
-        const { userName, designation } = navData;
-        console.log('username inside storeToken ',userName)
+        let { userName, designation } = navData;
+        if(designation == null){
+            designation = ' . '
+        }
         try {
             await AsyncStorage.setItem(api.TOKEN, data)
             await AsyncStorage.setItem(api.USER_TYPE, type)
@@ -163,7 +160,6 @@ class LoginPage extends Component {
     getToken = async () => {
         try {
             let token = await AsyncStorage.getItem(api.TOKEN);
-            console.log("token inside LoginPage ",token)
         } catch (error) {
             console.log(error)
         }
@@ -186,22 +182,18 @@ class LoginPage extends Component {
                 
 
             <Animated.View style={[styles.container, { paddingBottom: this.keyboardHeight }]} >
-                {/* <ScrollView> */}
                 <View style={{ paddingVertical: this.state.topPadding }}></View>
 
-                {/* <View style={styles.logoContainer}>
-                <Image source={logo3} style={styles.logo} />
-                </View> */}
                 <Animated.Image source={logo3} style={[styles.logo, {height: this.imageHeight}]} />
 
                 <View style={{ paddingVertical: 10 }}></View>
 
                 <View>
-                    {/* <Ionicons name={'person'} size={28} color={('rgba(255, 255, 255, 0.7')}  */}
                     <Feather name={'user'} size={24} color={'black'} style={styles.inputIcon} />
 
                     <TextInput
                         onChangeText={this.getUserId}
+                        autoCapitalize={"none"}
                         value={this.state.username}
                         style={styles.inputContainer}
                         placeholder={'Username'}
@@ -219,18 +211,17 @@ class LoginPage extends Component {
 
                     <TextInput
                         style={styles.inputContainer}
+                        autoCapitalize={"none"}
                         onChangeText={this.getPassword}
                         value={this.state.password}
                         placeholder={'Password'}
                         placeholderTextColor={colors.INPUT_LABEL}
-                        //placeholderTextColor='honeydew'
                         underlineColorAndroid='transparent'
                         secureTextEntry={this.state.showPass}
                     />
                     <TouchableOpacity style={styles.btnEye} onPress={this.showPass.bind(this)} >
                         <Feather name={this.state.press == false ? 'eye' : 'eye-off'}
-                        size={24}
-                        //color={colors.BT_ORANGE}
+                        size={20}
                         color={'rgba(207, 204, 204, 0.5)'}
                          />
                     </TouchableOpacity>
@@ -242,9 +233,9 @@ class LoginPage extends Component {
                     <RadioForm
                         radio_props={radio_props}
                         initial={0}
-                        buttonSize={18}
+                        buttonSize={8}
                         labelColor={colors.INPUT_LABEL}
-                        buttonOuterSize={28}
+                        buttonOuterSize={18}
                         selectedLabelColor='#ff971db8'
                         formHorizontal={true}
                         animation={false}
@@ -256,13 +247,11 @@ class LoginPage extends Component {
                                     value: value,
                                     rep: true
                                 })
-                                // console.log('rep value changed to true ', this.state.rep,this.state.value)
                             } else {
                                 this.setState({
                                     value: value,
                                     rep: false
                                 })
-                                //console.log('rep value changed to false ', this.state.rep, this.state.value)
                             }
 
                         }}
@@ -273,7 +262,6 @@ class LoginPage extends Component {
                 {this.state.loading ? Indicator : <TouchableOpacity
                     style={styles.btnLogin}
                     onPress={this.loginButton}
-                    //onPress={ ()=> this.props.navigation.navigate('Dashboard')}
                     activeOpacity={0.5}
                     underlayColor={colors.BLACK}>
                 <Text style={styles.text} >SIGN IN</Text>
@@ -285,18 +273,12 @@ class LoginPage extends Component {
 
                 <TouchableOpacity
                     onPress={() => this.props.navigation.navigate('SignUp')} >
-                    <Text style={{ fontSize: 18, textDecorationLine: 'underline', color: colors.INPUT_LABEL }}>New user? Register here</Text>
+                    <Text style={{ fontSize: 14, textDecorationLine: 'underline', color: colors.INPUT_LABEL }}>New user? Register here</Text>
                 </TouchableOpacity>
                 <View style={{ paddingVertical: 15 }}></View>
             </Animated.View>
             </ImageBackground>
 
-            // <ImageBackground source={bgImage} style={styles.backgroundContainer}>
-            //     <View style={styles.logoContainer}>
-            //     <Image source={logo2} style={styles.logo} />
-            //     <Text style={styles.logoText}>Med Shore</Text>
-            //     </View>
-            // </ImageBackground>
         );
     }
 }
@@ -307,11 +289,9 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.BG_LOGIN,
         alignItems: 'center',
-        paddingTop: 30
-        //justifyContent: 'center'
+        //paddingTop: 30
     },
     backgroundContainer: {
-        //flex: 1,
         width: '100%',
         height: '100%',
         alignItems: 'center',
@@ -336,29 +316,25 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: WIDTH - 55,
-        height: 60,
-        //padding: 5,
+        height: 40,
         borderRadius: 45,
-        fontSize: 15,
+        fontSize: 13,
         backgroundColor: 'rgba(0, 0, 0, 0.35)',
         color: colors.INPUT_LABEL,
-        //color: 'rgba(255, 255, 255, 0.7)',
         marginHorizontal: 25,
-        paddingLeft: 55
+        paddingLeft: 45
     },
     inputIcon: {
         position: 'absolute',
-        top: 16,
-        left: 39,
+        top: 6,
+        left: 37,
         padding: 0,
         color: colors.BT_ORANGE
-        //color: '#cfcccc'
     },
     btnEye: {
         position: 'absolute',
-        top: 16,
+        top: 9,
         right: 40,
-        color: colors.BT_ORANGE
     },
     btnLogin: {
         width: WIDTH - 95,
@@ -377,11 +353,11 @@ const styles = StyleSheet.create({
     radioField: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingLeft: 100,
+        paddingLeft: 40,
         justifyContent: 'flex-start',
         width: WIDTH - 15,
         marginTop: 20,
-        marginLeft: 100
+        marginLeft: 30
     },
     imageBG: {
         width: undefined,

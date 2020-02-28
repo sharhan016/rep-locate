@@ -39,7 +39,7 @@ class RepList extends Component {
             titleStyle={{ color: 'white' }}
             subtitleStyle={{ color: 'white' }}
             roundAvatar
-            title={' ' + event.item.RepName}
+            title={ event.item.RepName}
             subtitle={event.item.RepEmail}
             leftAvatar={<UserAvatar size="50" name={event.item.RepName} color="#000" />}
         />

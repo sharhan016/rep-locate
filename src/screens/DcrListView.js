@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View,Text,StyleSheet,ActivityIndicator,FlatList, TouchableOpacity, ImageBackground} from "react-native";
+import { View,Text,StyleSheet,ActivityIndicator,Dimensions,FlatList, TouchableOpacity, ImageBackground} from "react-native";
 import DCRList from '../components/DCRList';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ListItem } from 'react-native-elements';
@@ -9,6 +9,9 @@ import * as api from '../config/api';
 import Axios from "axios";
 import colors from "../config/colors";
 
+Axios.defaults.timeout = 10000
+const screenHeight = Dimensions.get('screen').height / 1.5 + 100;
+
 class DCRListView extends Component {
     static navigationOptions = {
         header: null
@@ -16,7 +19,8 @@ class DCRListView extends Component {
     state = { 
         loading: true,
         data : [],
-        token: ''
+        token: '',
+        showEmpty: false
      }
     componentDidMount(){
         this.getData();
@@ -24,11 +28,21 @@ class DCRListView extends Component {
     }
     getData = async () => {
         let token = await AsyncStorage.getItem(api.TOKEN);
-        const response = await Axios.post(api.PENDING_DCR,{
-            APIToken: token
-        });
-        this.setState({loading: false, data: response.data.PendingDcr, token: token});
-        console.log(response.data)
+        try {
+            await Axios.post(api.PENDING_DCR,{ APIToken: token })
+            .then( res => {
+                let response = res.data.PendingDcr
+                console.log('response',response)
+                this.setState({loading: false, data: response, token: token})
+            })
+        } catch (error) {
+            this.setState({loading: false, showEmpty: true, data: null, token: token})
+            console.log('error occurred',error)
+        }
+        // const response = await Axios.post(api.PENDING_DCR,{
+        //     APIToken: token
+        // });
+       // this.setState({loading: false, data: response.data.PendingDcr, token: token});
     }
     renderItem(event) { 
         console.log(event.item)
@@ -43,6 +57,7 @@ class DCRListView extends Component {
          </TouchableOpacity>
      }
     render() {
+        const EmptyText = <View style={styles.emptyContainer}><Text style={styles.textStyle}>NO PENDING REPORTS</Text></View>
         const Indicator = <ActivityIndicator animating = {this.state.loading} color = '#bc2b78' size = "large" style = {styles.activityIndicator}/>
         const data = this.state.data;
         // const List = <FlatList
@@ -58,8 +73,9 @@ class DCRListView extends Component {
                     style={styles.backgroundContainer}
                 >
                 <View style={styles.container}>
-                <Header heading='DCR' onPress={() => this.props.navigation.goBack()} />
+                <Header heading='Pending DCR' onPress={() => this.props.navigation.goBack()} />
                 {this.state.loading ? Indicator : List}
+                {this.state.showEmpty ? EmptyText : null}
                 </View>
                 {/* {List} */}
             </ImageBackground>
@@ -86,7 +102,15 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         //backgroundColor: colors.BG_LOGIN,
-
     },
+    textStyle: {
+        fontSize: 22,
+        color: colors.WHITE
+    },
+    emptyContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: screenHeight
+    }
 });
 

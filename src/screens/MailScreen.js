@@ -12,7 +12,7 @@ const height = Dimensions.get('screen').height / 4;
 class MailScreen extends Component {
     state = {}
     compose = () => {
-        Linking.openURL('mailto:sharhan.sathar@gmail.com?subject=Leave Application&body=');
+        Linking.openURL('mailto:medshorehealthcare@gmail.com?subject=Leave Application&body=');
     }
     render() {
         return (
@@ -49,7 +49,6 @@ class MailScreen extends Component {
                          
                           <View style={{paddingVertical: 40}}></View>
                         </View>
-
                         </View>
             </ImageBackground>
         );

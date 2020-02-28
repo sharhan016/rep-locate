@@ -12,7 +12,7 @@ const Header = (props) => {
         <View style={container}>
             <View style={leftIcon}>
             <TouchableOpacity onPress={props.onPress}>
-            <Ionicons style= {{paddingLeft:15}} name= "md-menu" size={40} color={colors.WHITE} />
+            <Ionicons style= {{paddingLeft:15}} name= "md-menu" size={30} color={colors.WHITE} />
             </TouchableOpacity>
             </View>
             <View style={{paddingHorizontal: 15}}></View>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         //justifyContent: 'center',
         //alignItems: 'center',
         flexDirection: 'row',
-        height: 70,
+        height: 60,
         paddingTop: 15,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 3},
@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     textStyle: {
-        fontSize: 28,
-        paddingBottom: 10,
+        fontSize: 20,
+        paddingBottom: 20,
         color: colors.WHITE,
         fontWeight: '600'
     },

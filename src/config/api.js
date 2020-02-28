@@ -1,19 +1,19 @@
-export const BELT_API = "http://supertaxi.xyz/medrep/API_BulkData/GetBeltList";
-export const DOCTOR_API = "http://supertaxi.xyz/medrep/API_BulkData/GetDoctorList ";
-export const CHEMIST_API = "http://supertaxi.xyz/medrep/API_BulkData/GetChemistList";
-export const MANAGER_API = "http://supertaxi.xyz/medrep/API_BulkData/GetManagerList";
-export const SUBMIT_DCR_API = "http://supertaxi.xyz/medrep/API_MedAdmin/DcrSubmit";
-export const SUBMIT_TP= "http://supertaxi.xyz/medrep/API_MedAdmin/DoTPSubmit";
-export const VIEW_TP = " http://supertaxi.xyz/medrep/API_MedAdmin/GetTPData";
+export const BELT_API = "http://3.86.240.142/API_BulkData/GetBeltList";
+export const DOCTOR_API = "http://3.86.240.142/API_BulkData/GetDoctorList ";
+export const CHEMIST_API = "http://3.86.240.142/API_BulkData/GetChemistList";
+export const MANAGER_API = "http://3.86.240.142/API_BulkData/GetManagerList";
+export const SUBMIT_DCR_API = "http://3.86.240.142/API_MedAdmin/DcrSubmit";
+export const SUBMIT_TP= "http://3.86.240.142/API_MedAdmin/DoTPSubmit";
+export const VIEW_TP = " http://3.86.240.142/API_MedAdmin/GetTPData";
 
-export const USER_LOGIN = "http://supertaxi.xyz/medrep/API_BulkData/DoUserLogin";
-export const USER_REGITER = "http://supertaxi.xyz/medrep/API_BulkData/DoUserSignUp";
-export const USER_LOGOUT = "http://supertaxi.xyz/medrep/API_MedAdmin/Logout";
+export const USER_LOGIN = "http://3.86.240.142/API_BulkData/DoUserLogin";
+export const USER_REGITER = "http://3.86.240.142/API_BulkData/DoUserSignUp";
+export const USER_LOGOUT = "http://3.86.240.142/API_MedAdmin/Logout";
 
 
-export const PENDING_DCR = "http://supertaxi.xyz/medrep/API_MedAdmin/GetPendingDcrForApproval";
-export const APPROVE_DCR = "http://supertaxi.xyz/medrep/API_MedAdmin/ManagePendingDcr";
-export const LIST_REP= "http://supertaxi.xyz/medrep/API_MedAdmin/GetRepsUnderManager";
+export const PENDING_DCR = "http://3.86.240.142/API_MedAdmin/GetPendingDcrForApproval";
+export const APPROVE_DCR = "http://3.86.240.142/API_MedAdmin/ManagePendingDcr";
+export const LIST_REP= "http://3.86.240.142/API_MedAdmin/GetRepsUnderManager";
 
 
 export const LOGGED_IN = "isUserLoggedIn";

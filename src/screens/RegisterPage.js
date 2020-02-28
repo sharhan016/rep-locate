@@ -8,7 +8,7 @@ import axios from "axios";
 import logo3 from '../assets/logo3.png';
 
 var radio_props = [
-    { label: 'Representative                                     ', value: 0 },
+    { label: 'Representative      ', value: 0 },
     { label: 'Manager', value: 1 }
 ];
 const { width: WIDTH } = Dimensions.get('window')
@@ -99,13 +99,11 @@ class RegisterPage extends Component {
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
         if(reg.test(text) === false)
         {
-        console.log("Email is Not Correct");
         this.setState({email:text, valid: false})
         return false;
           }
         else {
           this.setState({email:text, valid: true})
-          console.log("Email is Correct");
         }
         }
         
@@ -142,7 +140,6 @@ class RegisterPage extends Component {
             UserType: value
         })
             .then(response => {
-                console.log('RESPONSE REGITERATION ',response)
                 if(response.status == 200){
                     this.setState({loading: false});
                     ToastAndroid.show("Registeration Successful", ToastAndroid.LONG);this.props.navigation
@@ -191,6 +188,7 @@ class RegisterPage extends Component {
                      
                     <TextInput 
                     onChangeText={this.validate}
+                    autoCapitalize={"none"}
                     value={this.state.email}
                     style={styles.inputContainer}
                     placeholder={'Email Id'}
@@ -220,6 +218,7 @@ class RegisterPage extends Component {
                     <Feather name={'lock'} size= {24}  style={styles.inputIcon} />
                     <TextInput 
                     style={styles.inputContainer}
+                    autoCapitalize={"none"}
                     onChangeText={this.getPassword}
                     value={this.state.password}
                     placeholder={'Password'}
@@ -230,7 +229,6 @@ class RegisterPage extends Component {
                     <TouchableOpacity style={styles.btnEye} onPress={ this.showPass.bind(this)} >
                         <Feather name={this.state.press == false ? 'eye' : 'eye-off'} 
                         size={20} color={'rgba(207, 204, 204, 0.5)'} 
-                       // color={colors.BT_ORANGE}
                         />
                     </TouchableOpacity>
                      </View>
@@ -239,9 +237,9 @@ class RegisterPage extends Component {
                     <RadioForm
                         radio_props={radio_props}
                         initial={0}
-                        buttonSize={18}
+                        buttonSize={8}
                         labelColor={colors.INPUT_LABEL}
-                        buttonOuterSize={28}
+                        buttonOuterSize={18}
                         selectedLabelColor='#ff971db8'
                         formHorizontal={true}
                         animation={false}
@@ -276,7 +274,7 @@ class RegisterPage extends Component {
                 <View style={{paddingVertical: 25}}></View>
 
                 <TouchableOpacity onPress={ () => this.props.navigation.navigate('SignIn')} >
-                <Text style={{fontSize: 18, textDecorationLine:'underline', color: colors.INPUT_LABEL}}>Already registered? Login here</Text>
+                <Text style={{fontSize: 14, textDecorationLine:'underline', color: colors.INPUT_LABEL}}>Already registered? Login here</Text>
                 </TouchableOpacity>
 
              </Animated.View>
@@ -291,10 +289,9 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.BG_LOGIN,
         alignItems: 'center',
-        paddingTop: 50
+        //paddingTop: 50
     },
     backgroundContainer: {
-        //flex: 1,
         width: '100%',
         height: '100%',
         alignItems: 'center',
@@ -309,7 +306,6 @@ const styles = StyleSheet.create({
     },
     logo: {
         width: 120,
-        //height: 120,
 
     },
     logoContainer:{
@@ -326,25 +322,24 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: WIDTH - 55,
-        height: 60,
+        height: 40,
         borderRadius: 45,
-        fontSize: 15,
+        fontSize: 13,
         backgroundColor: 'rgba(0, 0, 0, 0.35)',
         color: colors.INPUT_LABEL,
-        //color: 'rgba(255, 255, 255, 0.7)',
         marginHorizontal: 25,
-        paddingLeft: 55
+        paddingLeft: 45
     },
     inputIcon: {
         position: 'absolute',
-        top: 16,
-        left: 39,
+        top: 6,
+        left: 37,
         color: colors.BT_ORANGE
     },
     btnEye: {
         position: 'absolute',
-        top: 20,
-        right: 45,
+        top: 9,
+        right: 40,
     },
     btnLogin: {
         width: WIDTH - 95,
@@ -353,7 +348,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.BT_ORANGE,
         justifyContent: 'center',
         marginTop: 25,
-
     },
     text: {
         textAlign: 'center',
@@ -363,10 +357,10 @@ const styles = StyleSheet.create({
     radioField: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingLeft: 100,
+        paddingLeft: 40,
         justifyContent: 'flex-start',
         width: WIDTH - 15,
         marginTop: 20,
-        marginLeft: 100
+        marginLeft: 30
     },
 });

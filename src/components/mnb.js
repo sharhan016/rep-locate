@@ -1,3 +1,29 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@sharhan016 
+sharhan016
+/
+rep-locate
+1
+00
+ Code Issues 0 Pull requests 0 Actions Projects 0 Wiki Security Insights Settings
+rep-locate/src/screens/DcrPage.js
+@sharhan016 sharhan016 fonts
+b35b85d on Jan 7
+We found a potential security vulnerability in one of your dependencies.
+Only the owner of this repository can see this message.
+
+485 lines (446 sloc)  16.4 KB
+  
+ Code navigation is available for this repository but data for this commit does not exist.
+
+Learn more or give us feedback
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, PermissionsAndroid, ToastAndroid, ActivityIndicator, ImageBackground, Dimensions } from 'react-native';
 import { Form, FormPicker } from "@99xt/first-born";
@@ -10,10 +36,9 @@ import RadioForm from 'react-native-simple-radio-button';
 import colors from "../config/colors";
 import * as api from '../config/api';
 const axios = require('axios');
-axios.defaults.timeout = 10000
 
 var radio_props = [
-    { label: 'Alone     ', value: 0 },
+    { label: 'Alone  ', value: 0 },
     { label: 'Accompanied By', value: 1 }
 ];
 const screenWidth = Dimensions.get('screen').width;
@@ -27,6 +52,14 @@ class DcrPage extends Component {
         this.state = {
             loading: true,
             reportloading: true,
+            pickerData: [{
+                label: 'Calicut',
+                value: 'clt'
+            },
+            {
+                label: 'Thalassery',
+                value: 'tly'
+            }],
             value: '',
             beltId: '',
             doctorId: null,
@@ -51,12 +84,15 @@ class DcrPage extends Component {
             currentLatitude: '',
             tokenId: '',
             //// temp values:
-            // rep: 1,
-            // userType: 'R',
-            // expense: '150',
-            // isManagerApproved: '0'
+            rep: 1,
+            userType: 'R',
+            expense: '150',
+            isManagerApproved: '0'
         };
         this.getData();
+        console.log('Here in Constructor')
+
+        //this.getData = this.getData.bind(this);
 
     }
 
@@ -69,7 +105,8 @@ class DcrPage extends Component {
             }
             )
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-
+                //To Check, If Permission is granted
+                //that.callLocation(that);
                 this.setState({ granted: true });
             } else { 
                 alert("Permission Denied");
@@ -81,6 +118,7 @@ class DcrPage extends Component {
     }
 
     getLatLng = () => {
+        ToastAndroid.show("Getting Location Please Wait..", ToastAndroid.SHORT);
         Geolocation.getCurrentPosition(
             (position) => {
                 const currentLongitude = JSON.stringify(position.coords.longitude);
@@ -107,6 +145,7 @@ class DcrPage extends Component {
 
     getData = async () => {
         this.setState({loading: true});
+        console.log('inside getdata')
         var temp = [];
         try {
             const res = await axios.post(api.BELT_API, {
@@ -138,18 +177,23 @@ class DcrPage extends Component {
         const USER = this.props.navigation.getParam('type');
         var docs = [];
         if (obj === 0) {
+            console.log('NOTHING IS SELECTED ', obj)
             return this.setState({subCategoryList: this.state.chooseBelt});
         }
         if (!this.state.completeList.length) {
             try {
                 if( USER == "D"){
                     const res = await axios.post(api.DOCTOR_API);
+                    console.log('data inside subCategory', res)
                     let response = res.data.DoctorList;
                     this.setState({ completeList: response })
+                    console.log('Moment of truth in DOCTOR ',this.state.completeList)
                 }else{
                     const res = await axios.post(api.CHEMIST_API);
+                    console.log('data inside subCategory', res.data.DoctorList)
                     let response = res.data.DoctorList;
                     this.setState({ completeList: response })
+                    console.log('Moment of truth in CHEMIST ',this.state.completeList)
                 }
             }
             catch (e) {
@@ -191,11 +235,13 @@ class DcrPage extends Component {
     }
 
     getManagerData = async () => {
+        console.log('inside ManagerData')
         var tempMGR = [];
         try {
             const res = await axios.post(api.MANAGER_API);
             let responseJSON = res.data.ManagerList;
             var len = responseJSON.length;
+            console.log('LENGTH OF MANAGER DATA ',len)
             if (len > 0) {
                 for (let i = 0; i < len; i++) {
                     var data = responseJSON[i];
@@ -206,6 +252,7 @@ class DcrPage extends Component {
             this.setState({
                 managerList: [...this.state.chooseManager, ...tempMGR]
             });
+            console.log('MANAGER LIST ',this.state.managerList)
         } catch (e) {
             console.log(e)
         }
@@ -215,6 +262,7 @@ class DcrPage extends Component {
         try {
             let token = await AsyncStorage.getItem(api.TOKEN);
             this.setState({tokenId: token});
+            console.log("token in DCR PAGE ",token)
         } catch (error) {
             console.log(error)
         }
@@ -223,14 +271,22 @@ class DcrPage extends Component {
 
 
     handleBeltChange = (value) => {
+        var docs = [];
+        console.log('value before axios in BeltChange ', value)
+        const obj = {
+            BeltID: value
+        };
         this.getSubdata(value);
         this.setState({ beltId: value });
     }
 
     handleSubChange = (value) => {
+        console.log('inside picker handleSubChange', value)
         if(this.props.navigation.getParam('type') == "D"){
+            console.log('inside DOCTOR')
         this.setState({ doctorId: value }); }
         else{
+            console.log('inside CHEMIST')
             this.setState({chemistId: value})
         }
     }
@@ -239,11 +295,12 @@ class DcrPage extends Component {
         this.setState({ feedback: value });
     }
 
-    // handleButtonClick = (value) => {
-    //     console.log(value)
-    // }
+    handleButtonClick = (value) => {
+        console.log(value)
+    }
 
     handleValueChange = (value) => {
+        console.log('alone or accompanied ', value)
         this.setState({managerId: value});
     }
     checkEmpty = () => {
@@ -268,6 +325,7 @@ class DcrPage extends Component {
     postMethod = async () => {
         const { rep, beltId, doctorId, chemistId, companion, managerId, feedback, userType, expense, isManagerApproved,currentLatitude,currentLongitude } = this.state;
         let location = currentLatitude +' '+ currentLongitude
+        
                 await axios.post(api.SUBMIT_DCR_API, {
                 APIToken: this.state.tokenId,
                 Belt: beltId,
@@ -280,6 +338,7 @@ class DcrPage extends Component {
                 isManagerApproved: isManagerApproved,
                 Location: location
             }).then(res => {
+                console.log('response ', res)
                 if (res.status == 200)
                     ToastAndroid.show(res.data.Message, ToastAndroid.LONG);
                     this.setState({ reportLoading: false })
@@ -319,13 +378,10 @@ class DcrPage extends Component {
                 onChangeText: (value) => this.handleTextChange(value)
             },
         ];
-        const Indicator = <ActivityIndicator 
-        animating = {this.state.loading} 
-        color = {colors.HEADER_BLUE} 
-        size = "large" style = {styles.activityIndicator}/>
+        const Indicator = <ActivityIndicator animating = {this.state.loading} color = {colors.HEADER_BLUE} size = "large" style = {styles.activityIndicator}/>
         const progress = <ActivityIndicator 
         animating = {this.state.reportloading} 
-        style={{marginTop: 40}}  
+        style={{marginTop: 10}}
         color = {colors.WHITE} size = "large" />
 
         return (
@@ -334,17 +390,15 @@ class DcrPage extends Component {
             style={styles.backgroundContainer}
         >
                 <ScrollView style={styles.container}>
+                {/* <View style={styles.container}> */}
                 <Header 
                 heading='DCR'
                 onPress={() => this.props.navigation.goBack()}
                 />
-                    {/* <View style={{height: 20}}></View> */}
-                    
+
                         {this.state.loading ? Indicator : 
                         <View style={styles.formContainer} > 
-                        <Form 
-                        color='white'
-                        formElements={formElements} /> 
+                        <Form formElements={formElements} /> 
                         <View style={styles.radioContainer}>
                             <RadioForm
                                 radio_props={radio_props}
@@ -379,6 +433,7 @@ class DcrPage extends Component {
                         <View style={{ width: "80%" }}>
                             {this.state.isAccompanied ? pickManager : null}
                         </View>
+                        {/* <View style={{ paddingVertical: 3 }}></View> */}
                         <View style={styles.btnContainer}>
              
                     </View>
@@ -400,21 +455,27 @@ class DcrPage extends Component {
 }
 const styles = StyleSheet.create({
     container: {
+        //justifyContent: 'center', 
         backgroundColor: colors.BG_LOGIN,
         flex: 1
-
+        //paddingTop: 15
+        //flex: 2
     },
     formContainer: {
+        //flex: 1,
         width: '95%',
         alignItems: 'center',
         padding: 10,
-        marginTop: 50,
         marginLeft: 10,
         height: '70%',
         paddingBottom: 15
+        //height: !this.state.isAccompanied ? 500 : 600
     },
     scrollView: {
         flex: 1,
+        //width: screenWidth,
+        //backgroundColor: 'pink',
+        //marginHorizontal: 20,
       },
     btnContainer: {
         flexDirection: 'row',
@@ -430,7 +491,7 @@ const styles = StyleSheet.create({
         //justifyContent: 'center',
         alignItems: 'center',
         height: 80,
-        marginTop: 30
+        marginTop: 20
      },
      backgroundContainer: {
         width: '100%',
@@ -443,8 +504,9 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         backgroundColor: colors.BT_ORANGE,
         justifyContent: 'center',
-        marginTop: 10,
+        marginTop: 20,
     },
 });
 
 export default DcrPage;
+

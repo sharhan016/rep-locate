@@ -12,7 +12,7 @@ const HeaderBack = (props) => {
         <View style={container}>
             <View style={leftIcon}>
             <TouchableOpacity onPress={props.onPress}>
-            <Ionicons style= {{paddingLeft:15}} name= "md-arrow-back" size={40} color={colors.WHITE} />
+            <Ionicons style= {{paddingLeft:15}} name= "md-arrow-back" size={30} color={colors.WHITE} />
             </TouchableOpacity>
             </View>
             <View style={{paddingHorizontal: 15}}></View>
@@ -29,25 +29,27 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.CUSTOM_HEADER,
         width: "100%",
-
+        //opacity: 1.9,
         //justifyContent: 'center',
         //alignItems: 'center',
         flexDirection: 'row',
-        height: 70,
+        height: 60,
         paddingTop: 15,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2},
-        shadowOpacity: 0.6,
+        shadowOffset: { width: 0, height: 3},
+        shadowOpacity: 0.4,
+        shadowRadius: 10,
         elevation: 2,
-        position: 'relative',
-        top: 0
+        position: 'absolute',
+        top: 0,
+        marginBottom: 10
     },
     leftIcon: {
         justifyContent: 'flex-start'
     },
     textStyle: {
-        fontSize: 28,
-        paddingBottom: 10,
+        fontSize: 20,
+        paddingBottom: 20,
         color: colors.WHITE,
         fontWeight: '600'
     },

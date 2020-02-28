@@ -6,15 +6,11 @@ import { createAppContainer, createSwitchNavigator, NavigationAction } from 'rea
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
-import LoginScreen from './screens/LoginScreen';
 import DashboardScreen from './screens/DashboardScreen';
-import DCRScreen from './screens/DCRScreen';
 import TPScreen from './screens/TPScreen';
 import MailScreen from './screens/MailScreen';
 import AuthScreen from './screens/AuthScreen';
 import EventList from '../src/components/EventList';
-//import TpPage from './screens/TpPage';
-//import DashboardPage from '../src/screens/DashboardPage';
 import DcrPage from './screens/DcrPage';
 import DisplayTP from './screens/DisplayTP';
 import LoginPage from './screens/LoginPage';
@@ -32,7 +28,6 @@ class Navigator extends Component {
     userType: 1
   }
     render() {
-      //console.log('inside navigator ', this.props.userToken)
         return (
             <View style={styles.container}>
                 <Text>Navigator</Text>
@@ -43,7 +38,6 @@ class Navigator extends Component {
 iconOpener = () => {
   console.log('Nan ethi')
 }
-//const BurgerIcon = <Ionicons style= {{paddingLeft:10}} name= "md-menu" size={30} color={colors.WHITE} /> ;
 const DashStack = createStackNavigator({
     Dashboard: DashboardScreen,
     DCR: DcrPage,
@@ -52,9 +46,6 @@ const DashStack = createStackNavigator({
     RepList: RepList,
     Report: ReportView,
     Display: DisplayTP
-    //DCR: DCRScreen,
-    //TP: TPScreen,
-    //Report: DcrPage
   
   },{
     defaultNavigationOptions: ({navigation}) => {
@@ -63,7 +54,6 @@ const DashStack = createStackNavigator({
         headerLeft: ( 
         <TouchableOpacity onPress={()=> {
           navigation.openDrawer();
-          //console.log('Entha cheyya nan etheetta ',navigation)
         }}> 
         <IconComponent style= {{paddingLeft:15}} name= "md-menu" size={30} color={colors.WHITE} />
         </TouchableOpacity> ),
@@ -75,10 +65,8 @@ const DashStack = createStackNavigator({
   );
   
   const LoginStack = createStackNavigator({
-    //SignIn: LoginScreen ,
     SignIn: LoginPage,
     SignUp: RegisterPage
-    //SignUp: RegisterScreen
   });
   
   const AppDrawer = createDrawerNavigator({
@@ -112,11 +100,6 @@ const DashStack = createStackNavigator({
        title: 'Sign Out',
        drawerIcon: ({tintColor}) => <Feather name="log-out" size= {18} color={tintColor} />
      } }
-    //Tour: { screen: TpPage },
-    //Test: { screen: AlertCheck },
-    //Report: { screen: DcrPage},
-    //Events: { screen: Events},
-    //EventList: { screen: EventList}
   }
   ,{
     contentComponent: props => <SideBar {...props} />,
@@ -132,7 +115,7 @@ const DashStack = createStackNavigator({
       },
       itemStyle: {
         borderRadius: 4
-      }       // RGB(197, 235, 184)
+      }   
     },
     initialRouteName: 'Home',
     headerMode: 'screen'
@@ -158,5 +141,4 @@ const styles = StyleSheet.create({
     }
 });
 
-//export default Navigator;
 export default createAppContainer(AppSwitchScreens);

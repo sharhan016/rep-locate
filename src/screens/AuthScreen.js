@@ -14,7 +14,6 @@ class AuthScreen extends Component {
   }
   _checkAuthenticationStatus = async () => {
     const userToken = await AsyncStorage.getItem(api.LOGGED_IN);
-    console.log('inside Auth Screen',userToken);
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
     this.props.navigation.navigate(userToken ? 'Dashboard' : 'SignIn');

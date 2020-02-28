@@ -13,7 +13,6 @@ import colors from "../config/colors";
 
 
 const DCRList = (props) => {
-    console.log('inside DCR LIST() ', props);
     const data = props.data;
     const navigation = props.nav;
     const tokenId = props["tokenID"];

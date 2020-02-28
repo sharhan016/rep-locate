@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import colors from '../config/colors';
 
 const width = Dimensions.get('screen').width - 50;
-const height = Dimensions.get('screen').height / 4;
+const height = Dimensions.get('screen').height / 3.5;
 
 class ManagerScreen extends Component {
 
@@ -38,23 +38,23 @@ class ManagerScreen extends Component {
         return (
             <View style={styles.container}>
                 <Header  onPress={() => this.props.navigation.openDrawer()} /> 
-                <View style={{height: 80}}></View>
+                <View style={{height: 20}}></View>
 
                 <View style={styles.buttonContainer}>
                 <TouchableWithoutFeedback  onPress={this.showDCR}>
-                <ImageBackground source={require('../assets/doctor-logo.jpg')} imageStyle={{ borderRadius: 20 }} style={styles.btnContainer}>
+                <ImageBackground source={require('../assets/gray-lines.png')} imageStyle={{ borderRadius: 20 }} style={styles.btnContainer}>
                     <View style={styles.textImage}>
                         <Text style={styles.imageText}>APPROVE DCR</Text>
                     </View>
                 </ImageBackground>
                 </TouchableWithoutFeedback>
                 </View>
-
-                <View style={{height: 90}}></View>
+ 
+                <View style={{height: 50}}></View>
 
                 <View style={styles.buttonContainer}>
                 <TouchableWithoutFeedback  onPress={this.showRep}>
-                <ImageBackground source={require('../assets/doctor-logo.jpg')} imageStyle={{ borderRadius: 20 }} style={styles.btnContainer}>
+                <ImageBackground source={require('../assets/gray-lines.png')} imageStyle={{ borderRadius: 20 }} style={styles.btnContainer}>
                     <View style={styles.textImage}>
                         <Text style={styles.imageText}>SHOW REPS</Text>
                     </View>
@@ -62,11 +62,11 @@ class ManagerScreen extends Component {
                 </TouchableWithoutFeedback>
                 </View>
 
-                <View style={{height: 90}}></View>
+                <View style={{height: 50}}></View>
 
                 <View style={styles.buttonContainer}>
                 <TouchableWithoutFeedback  onPress={this.showTP}>
-                <ImageBackground source={require('../assets/doctor-logo.jpg')} imageStyle={{ borderRadius: 20 }} style={styles.btnContainer}>
+                <ImageBackground source={require('../assets/gray-lines.png')} imageStyle={{ borderRadius: 20 }} style={styles.btnContainer}>
                     <View style={styles.textImage}>
                         <Text style={styles.imageText}>SET TP</Text>
                     </View>
@@ -104,13 +104,14 @@ const styles = StyleSheet.create({
     container: {
         //height: 700,
         //marginTop: 70,
-        padding:100,
+        padding:70,
         flex: 1,
         backgroundColor: colors.BG_LOGIN,
     },
     buttonContainer: {
         height: 150,
-        backgroundColor: colors.GREY_ICON,
+        //backgroundColor: colors.GREY_ICON,
+        //width: width,
         //padding:30,
         borderRadius: 15,
         alignItems: 'center',
@@ -130,12 +131,15 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     textImage: { 
-        position: 'absolute', 
-        top: "65%", 
-        left: 10, 
-        right: 20, 
-        bottom: 0,
-        paddingLeft: 10
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: height - (height / 2.5)
+        // position: 'absolute', 
+        // top: "65%", 
+        // left: 10, 
+        // right: 20, 
+        // bottom: 0,
+        // paddingLeft: 10
         //justifyContent: 'center', 
         //alignItems: 'center' 
     },
