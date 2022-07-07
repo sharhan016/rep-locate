@@ -17,7 +17,7 @@
     "@react-native-community/netinfo": "^5.3.2",
     "axios": "^0.19.0",
     "create-react-class": "^15.6.3",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "native-base": "^2.13.8",
     "react": "16.9.0",
     "react-native": "0.61.5",
