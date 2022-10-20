@@ -33,7 +33,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-material-dropdown": "^0.11.1",
     "react-native-picker-select": "^6.3.3",
-    "react-native-reanimated": "^1.4.0",
+    "react-native-reanimated": "^2.10.0",
     "react-native-screens": "^1.0.0-alpha.23",
     "react-native-simple-dialogs": "^1.2.1",
     "react-native-simple-radio-button": "^2.7.4",
